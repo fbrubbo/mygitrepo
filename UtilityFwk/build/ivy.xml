@@ -4,7 +4,7 @@
 		module="UtilityFwk"
 		revision="1.0"
 		status="integration"
-		publication="20121104103927"
+		publication="20121113214219"
 	/>
 	<configurations>
 		<conf name="archives" visibility="public" description="Configuration for archive artifacts."/>

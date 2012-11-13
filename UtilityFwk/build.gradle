@@ -5,6 +5,8 @@ apply plugin: 'maven'
 group = "br.com.datamaio"
 sourceCompatibility = 1.7
 version = '1.0'
+mavenRepo = "file://C:/Fernando/git/eclipse-juno/workspace/Gradle/maven-repo/"
+
 jar {
     manifest {
         attributes 'Implementation-Title': 'Utility Framework', 'Implementation-Version': version
@@ -14,7 +16,7 @@ jar {
 repositories {
     mavenCentral()
 	maven {
-		url "file://C:/Desenv/Siz/zaffari/Gradle/maven-repo/"
+		url mavenRepo
 	}
 }
 
@@ -32,7 +34,7 @@ test {
 uploadArchives {
 	repositories {
 		mavenDeployer {
-			repository(url: "file://C:/Desenv/Siz/zaffari/Gradle/maven-repo/")
+			repository(url: mavenRepo)
 		}
 	}
 }
