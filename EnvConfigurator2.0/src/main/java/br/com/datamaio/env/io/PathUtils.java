@@ -11,4 +11,8 @@ public class PathUtils {
 	public static Path get(Path dir, String name) {
 		return Paths.get(dir.toString(), name);
 	}
+	
+	public static Path resolve(Path file, Path srcDir, Path destDir) {
+		return destDir.resolve(srcDir.relativize(file));
+	}
 }

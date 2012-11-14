@@ -201,11 +201,41 @@ public class FileUtilsTest {
 		FileUtils.delete(tempTargetDir);
 		assertThat(exists(tempTargetDir), is(false));
 	}
+	
+	@Test
+	public void copySomeDirs() throws Exception{
+		Path parentdir = Files.createTempDirectory("DIR");		
+		Path parentdirfile = createTempFile(parentdir, "FILE", ".tmp");
+		Path subdir = Files.createTempDirectory(parentdir, "SUBDIR");		
+		Path subdirfile = createTempFile(subdir, "SUBFILE", ".tmp");
+		Path subdirToCopy = Files.createTempDirectory(parentdir, "SUBDIR_TO_COPY");
+		Path subdirfileToCopy = createTempFile(subdirToCopy, "SUBFILE_TO_COPY", ".tmp");
+		
+		Path tempTargetDir = Files.createTempDirectory("TARGET_DIR");		
+		Path targetDir = PathUtils.get(tempTargetDir, "TO_BE_CREATED");		
+		
+		FileUtils.copy(parentdir, targetDir, "*TO_COPY*"); 
+		
+		Path targetParentdirfile = PathUtils.resolve(parentdirfile, parentdir, targetDir);		
+		assertThat(exists(targetParentdirfile), is(false));
+		Path targetSubdirfile = PathUtils.resolve(subdirfile, parentdir, targetDir);		
+		assertThat(exists(targetSubdirfile), is(false));
+		Path targetSubdirfileToCopy = PathUtils.resolve(subdirfileToCopy, parentdir, targetDir);
+		assertThat(exists(targetSubdirfileToCopy), is(true));		
+		
+		// cleanup		
+		FileUtils.delete(parentdir);
+		assertThat(exists(parentdir), is(false));
+		FileUtils.delete(tempTargetDir);
+		assertThat(exists(tempTargetDir), is(false));
+	}
 //	
 //	@Test
 //	public void copyDirAndKeepExistingFileAttributes() {
 //		Assert.fail("Implementar...");
 //	}
 //	
+
+	
 }
 

@@ -1,17 +1,15 @@
 package br.com.datamaio.env.io;
 
-import static br.com.datamaio.util.SystemUtils.isLinux;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.PosixFileAttributes;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import org.apache.log4j.Logger;
@@ -19,40 +17,50 @@ import org.apache.log4j.Logger;
 public class CopyDirVisitor extends SimpleFileVisitor<Path> {
 	private static final Logger LOGGER = Logger.getLogger(CopyDirVisitor.class);
 
-	private boolean keepExistingFileAttributes;
-	private Map<Path, BasicFileAttributes> existingFileAttributes = new HashMap<Path, BasicFileAttributes>();
 	private int level = 0;
 	protected Path fromPath;
-	protected Path toPath;	
+	protected Path toPath;
+	private final PathMatcher matcher;
 	
 	public CopyDirVisitor(Path from, Path to){
-		this(from, to, false);
+		this(from, to, "*");
 	}
 	
-	public CopyDirVisitor(Path from, Path to, boolean keepExistingFileAttributes){
+    public CopyDirVisitor(Path from, Path to, String glob){
 		Objects.requireNonNull(from);
 		Objects.requireNonNull(to);
+    	Objects.requireNonNull(glob);
 		
 		this.fromPath = from;
 		this.toPath = to;
-		this.keepExistingFileAttributes = keepExistingFileAttributes;
-	}
+    	this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + glob);
+    	LOGGER.trace("VISITOR INITIALIZED (Matcher: " + glob + ")");
+    }
+    
+    public CopyDirVisitor(Path from, Path to, PathMatcher matcher) {
+    	Objects.requireNonNull(from);
+		Objects.requireNonNull(to);
+    	Objects.requireNonNull(matcher);
+		
+		this.fromPath = from;
+		this.toPath = to;
+    	this.matcher = matcher;
+    	LOGGER.trace("VISITOR INITIALIZED (Matcher: " + matcher + ")");
+    }
 	
 	@Override
 	public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
 		final Path relativize = fromPath.relativize(dir);
 		final Path resolvedTargetDir = toPath.resolve(relativize);
 		
-		boolean goingToCreate = Files.notExists(resolvedTargetDir);
+		boolean goingToCreate = Files.notExists(resolvedTargetDir) && matcher.matches(dir.getFileName());
 		if(LOGGER.isTraceEnabled()) {
 			LOGGER.trace(tabs() + "PRE VISIT DIR : " + dir + " (going to create target directory? " + goingToCreate + ")");
     	}
 		
 		if (goingToCreate) {
-			Files.createDirectory(resolvedTargetDir);
-		} else {
-			storeCurrentFileAttributes(resolvedTargetDir);
-		}
+			Files.createDirectories(resolvedTargetDir);
+		} 
 		
 		level++;
 		return FileVisitResult.CONTINUE;
@@ -63,15 +71,12 @@ public class CopyDirVisitor extends SimpleFileVisitor<Path> {
 		final Path relativize = fromPath.relativize(file);
 		final Path resolvedTargetFile = toPath.resolve(relativize);
 		
-		if(LOGGER.isTraceEnabled()) {
+		if(matcher.matches(file.getFileName())) {
 			LOGGER.trace(tabs() + "Coping FILE "+ file + " to " + resolvedTargetFile);
+			Files.copy(file, resolvedTargetFile, REPLACE_EXISTING);
+		} else {
+			LOGGER.trace(tabs() + "Ignoring FILE "+ file + " to " + resolvedTargetFile);
 		}
-		
-		if(Files.notExists(resolvedTargetFile)) {
-			storeCurrentFileAttributes(resolvedTargetFile);
-		}
-		
-		Files.copy(file, resolvedTargetFile, REPLACE_EXISTING);
 
 		return FileVisitResult.CONTINUE;
 	}
@@ -87,10 +92,6 @@ public class CopyDirVisitor extends SimpleFileVisitor<Path> {
 		return super.postVisitDirectory(dir, e);
 	}
 	
-	public Map<Path, ? extends BasicFileAttributes> getExistingFileAttributes(){
-		return existingFileAttributes;
-	}
-	
 	private String tabs() {
 		StringBuilder builder = new StringBuilder();
 		for(int i=0; i<level; i++)
@@ -98,10 +99,4 @@ public class CopyDirVisitor extends SimpleFileVisitor<Path> {
 		return builder.toString();
 	}
 	
-	private void storeCurrentFileAttributes(final Path target) throws IOException {
-		if (keepExistingFileAttributes) {
-			Class<? extends BasicFileAttributes> attClass = isLinux() ? PosixFileAttributes.class : BasicFileAttributes.class;
-			existingFileAttributes.put(target, Files.readAttributes(target, attClass));
-		}
-	}
 }

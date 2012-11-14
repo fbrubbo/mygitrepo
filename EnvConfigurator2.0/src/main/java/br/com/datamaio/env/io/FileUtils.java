@@ -7,10 +7,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Map;
 
 public final class FileUtils {
 	
@@ -40,19 +36,13 @@ public final class FileUtils {
 	}
 	
 	public static void copy(Path source, Path target) {
-		copy(source, target, false);				
+		copy(source, target, "*");						
 	}
 
-	public static void copy(Path source, Path target, boolean keepExistingPosixAttributes) {
+	public static void copy(Path source, Path target, String glob) {
 		try{
 			if(Files.isDirectory(source)) {	
-				CopyDirVisitor visitor = new CopyDirVisitor(source, target, keepExistingPosixAttributes);
-				Files.walkFileTree(source, visitor);
-				if(keepExistingPosixAttributes) {
-					Map<Path, ? extends BasicFileAttributes> existingFileAttributes = visitor.getExistingFileAttributes();
-					// TODO: iterar os existingFileAttributes
-					// CUIDADO: uma vez que eu já substituí os file atributes com os novos.. será que estes objetos não vão ter sido afetado? se for uma referência, sim..
-				}
+				Files.walkFileTree(source, new CopyDirVisitor(source, target, glob));
 			} else if (Files.isRegularFile(source)) {
 				if(Files.isDirectory(target)) {
 					Path targetFile = PathUtils.get(target, source.getFileName());
@@ -67,9 +57,9 @@ public final class FileUtils {
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}			
+		}
 	}
-	
+
 	public static Path createFile(Path dir, String name) {
 		try {
 			return Files.createFile(PathUtils.get(dir, name));
