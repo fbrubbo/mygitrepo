@@ -15,7 +15,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.hibernate.type.Type;
 
-import br.com.datamaio.fwk.util.StringUtil;
+import br.com.datamaio.fwk.util.StringUtils;
 
 /**
  * Esta classe encapsula a lógica de <code>Null Safe</code> para o {@link Restrictions} do hibernate.<br>
@@ -39,7 +39,7 @@ public class NSRestrictions {
 
 	private static boolean isValueNull(Object value) {
 		return value==null || 
-			(value instanceof String && StringUtil.isEmpty((String)value));
+			(value instanceof String && StringUtils.isEmpty((String)value));
 	}
 
 	public static SimpleExpression ne(String propertyName, Object value)

@@ -19,8 +19,8 @@ import br.com.datamaio.fwk.criteria.ann.Restriction;
 import br.com.datamaio.fwk.criteria.hibernate.NSCriteria;
 import br.com.datamaio.fwk.entity.BasicEntity;
 import br.com.datamaio.fwk.util.HibernateUtil;
-import br.com.datamaio.fwk.util.ReflectionUtil;
-import br.com.datamaio.fwk.util.StringUtil;
+import br.com.datamaio.fwk.util.ReflectionUtils;
+import br.com.datamaio.fwk.util.StringUtils;
 
 public class SearchableDao<E extends BasicEntity, C extends BasicCriteria> extends BasicDao {
 	
@@ -93,16 +93,16 @@ public class SearchableDao<E extends BasicEntity, C extends BasicCriteria> exten
 	 */
 	protected void addRestrictions(final NSCriteria<E> nsCrit, final C criteria) {
 		// default: do nothing
-		final List<Field> fields = ReflectionUtil.getDeclaredFields(criteria.getClass());
+		final List<Field> fields = ReflectionUtils.getDeclaredFields(criteria.getClass());
 		for (Field field : fields) {
-			final Object value = ReflectionUtil.getProperty(criteria, field.getName());
+			final Object value = ReflectionUtils.getProperty(criteria, field.getName());
 			if(value !=null  && field.isAnnotationPresent(Restriction.class)){
 				final Restriction rest = field.getAnnotation(Restriction.class);
-				final String prop = StringUtil.isEmpty(rest.prop()) ? field.getName() : rest.prop();
+				final String prop = StringUtils.isEmpty(rest.prop()) ? field.getName() : rest.prop();
 				final String criterion = rest.criterion();
 				
 				// TODO: tratar os casos diferentes de String, object.. por exemplo: between.. isnull, etc
-				Criterion expression = (Criterion)ReflectionUtil.invokeStaticMethod(NSCriteria.class, criterion, new Object[]{prop, value});
+				Criterion expression = (Criterion)ReflectionUtils.invokeStaticMethod(NSCriteria.class, criterion, new Object[]{prop, value});
 				nsCrit.add(expression);
 			}
 		}

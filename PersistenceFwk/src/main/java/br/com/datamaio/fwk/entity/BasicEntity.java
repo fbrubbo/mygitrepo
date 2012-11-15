@@ -14,9 +14,9 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.Hibernate;
 
-import br.com.datamaio.fwk.util.DateUtil;
+import br.com.datamaio.fwk.util.DateUtils;
 import br.com.datamaio.fwk.util.HibernateUtil;
-import br.com.datamaio.fwk.util.ReflectionUtil;
+import br.com.datamaio.fwk.util.ReflectionUtils;
 
 @MappedSuperclass
 public abstract class BasicEntity implements Serializable, Comparable<BasicEntity> {
@@ -70,7 +70,7 @@ public abstract class BasicEntity implements Serializable, Comparable<BasicEntit
 	 */
 	@Override
 	public String toString() {
-		PropertyDescriptor[] descriptors = ReflectionUtil.getPropertyDescriptors(this.getClass());
+		PropertyDescriptor[] descriptors = ReflectionUtils.getPropertyDescriptors(this.getClass());
 
 		StringBuilder buff = new StringBuilder(descriptors.length * 10);
 		buff.append(this.getClass().getSimpleName()).append(" = [id:").append(getId());
@@ -91,9 +91,9 @@ public abstract class BasicEntity implements Serializable, Comparable<BasicEntit
 				Basic basic = method.getAnnotation(Basic.class);
 				if (isManyToOneLazy(manyToOne) || isOneToOneLazy(oneToOne) || isBasicLazy(basic) || isNotInformedNeitherOfThem(manyToOne, oneToOne, basic)) {
 					buff.append(", ").append(name).append(":");
-					Object obj = ReflectionUtil.invokeMethod(method, this);
+					Object obj = ReflectionUtils.invokeMethod(method, this);
 					if (obj instanceof Calendar) {
-						buff.append(DateUtil.format((Calendar) obj));
+						buff.append(DateUtils.format((Calendar) obj));
 					} else {
 						buff.append(obj);
 					}

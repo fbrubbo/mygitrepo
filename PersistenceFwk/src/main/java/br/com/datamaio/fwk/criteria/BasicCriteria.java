@@ -10,8 +10,8 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 
-import br.com.datamaio.fwk.util.DateUtil;
-import br.com.datamaio.fwk.util.ReflectionUtil;
+import br.com.datamaio.fwk.util.DateUtils;
+import br.com.datamaio.fwk.util.ReflectionUtils;
 
 public class BasicCriteria implements Serializable {
 
@@ -122,7 +122,7 @@ public class BasicCriteria implements Serializable {
 	@Override
     public String toString()
     {
-        final PropertyDescriptor[] descriptors = ReflectionUtil.getPropertyDescriptors(this.getClass());
+        final PropertyDescriptor[] descriptors = ReflectionUtils.getPropertyDescriptors(this.getClass());
  
         final StringBuilder buff = new StringBuilder(descriptors.length * 10);
         buff.append(this.getClass().getSimpleName())
@@ -139,9 +139,9 @@ public class BasicCriteria implements Serializable {
 
             final Method method = descriptor.getReadMethod();
             buff.append(count==0 ? "" : ", ").append(name).append(":");
-            final Object obj = ReflectionUtil.invokeMethod(method, this);
+            final Object obj = ReflectionUtils.invokeMethod(method, this);
             if (obj instanceof Calendar) {
-                buff.append(DateUtil.format((Calendar) obj));
+                buff.append(DateUtils.format((Calendar) obj));
             } else {
                 buff.append(obj);
             }
@@ -159,7 +159,7 @@ public class BasicCriteria implements Serializable {
 		this.orderColumns = new HashSet<OrderCriteria>();
 		this.joins = new HashSet<Join>();
 
-		final PropertyDescriptor[] descriptors = ReflectionUtil.getPropertyDescriptors(this.getClass());
+		final PropertyDescriptor[] descriptors = ReflectionUtils.getPropertyDescriptors(this.getClass());
 		for(PropertyDescriptor descriptor : descriptors)
 		{
             String name = descriptor.getName();
@@ -170,7 +170,7 @@ public class BasicCriteria implements Serializable {
 
             Method method = descriptor.getWriteMethod();
             // TODO: TESTAR COMO ELE IRA SE COMPORTAR COM TIPOS PRIMITIVOS 
-            ReflectionUtil.invokeMethod(method, this, new Object[]{null});            
+            ReflectionUtils.invokeMethod(method, this, new Object[]{null});            
         }
 	}
 }
