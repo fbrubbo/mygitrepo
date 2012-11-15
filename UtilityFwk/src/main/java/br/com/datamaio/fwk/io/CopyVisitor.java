@@ -14,19 +14,19 @@ import java.util.Objects;
 
 import org.apache.log4j.Logger;
 
-public class CopyDirVisitor extends SimpleFileVisitor<Path> {
-	private static final Logger LOGGER = Logger.getLogger(CopyDirVisitor.class);
+public class CopyVisitor extends SimpleFileVisitor<Path> {
+	private static final Logger LOGGER = Logger.getLogger(CopyVisitor.class);
 
 	private int level = 0;
 	protected Path fromPath;
 	protected Path toPath;
 	private final PathMatcher matcher;
 	
-	public CopyDirVisitor(Path from, Path to){
+	public CopyVisitor(Path from, Path to){
 		this(from, to, "*");
 	}
 	
-    public CopyDirVisitor(Path from, Path to, String glob){
+    public CopyVisitor(Path from, Path to, String glob){
 		Objects.requireNonNull(from);
 		Objects.requireNonNull(to);
     	Objects.requireNonNull(glob);
@@ -37,7 +37,7 @@ public class CopyDirVisitor extends SimpleFileVisitor<Path> {
     	LOGGER.trace("VISITOR INITIALIZED (Matcher: " + glob + ")");
     }
     
-    public CopyDirVisitor(Path from, Path to, PathMatcher matcher) {
+    public CopyVisitor(Path from, Path to, PathMatcher matcher) {
     	Objects.requireNonNull(from);
 		Objects.requireNonNull(to);
     	Objects.requireNonNull(matcher);
@@ -50,8 +50,11 @@ public class CopyDirVisitor extends SimpleFileVisitor<Path> {
 	
 	@Override
 	public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-		final Path relativize = fromPath.relativize(dir);
-		final Path resolvedTargetDir = toPath.resolve(relativize);
+		Path resolvedTargetDir = toPath;
+		if(!fromPath.equals(dir)){
+			final Path relativize = fromPath.relativize(dir);
+			resolvedTargetDir = toPath.resolve(relativize);			
+		}
 		
 		boolean goingToCreate = Files.notExists(resolvedTargetDir) && matcher.matches(dir.getFileName());
 		if(LOGGER.isTraceEnabled()) {

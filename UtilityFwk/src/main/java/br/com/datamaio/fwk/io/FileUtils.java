@@ -8,7 +8,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 
+import org.apache.log4j.Logger;
+
 public final class FileUtils {
+	
+	private static final Logger LOGGER = Logger.getLogger(FileUtils.class);
 	
 	private FileUtils(){}
 	
@@ -17,12 +21,17 @@ public final class FileUtils {
 		delete(path, "*");
 	}
 	
-	/** Deleta um arquivo ou um diretório inteiro */
+	/** 
+	 * Deleta um arquivo ou um diretório
+	 * 
+	 * @param path caminho que se deseja apagar
+	 * @param glob padrão glob para arquivos. Ex: <code>*.txt</code> irá apagar apenas arquivos .txt 
+	 */
 	public static void delete(Path path, String glob) {
 		try{ 
 			if(Files.exists(path)) {
 				if(Files.isDirectory(path)) {
-					Files.walkFileTree(path, new DeleteDirVisitor(glob));
+					Files.walkFileTree(path, new DeleteVisitor(glob));
 				} else {
 					PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + glob);
 					if(matcher.matches(path.getFileName())) {
@@ -35,14 +44,29 @@ public final class FileUtils {
 		}
 	}
 	
+	/** 
+	 * Copia todos arquivos da fonte para o destino. <br>
+	 * Isto irá sobrescrever todo e qualquer arquivo do destino
+	 * 
+	 * @param source fonte. Pode ser aquivo ou diretório
+	 * @param target destino. Pode ser aquivo ou diretório
+	 */
 	public static void copy(Path source, Path target) {
 		copy(source, target, "*");						
 	}
 
+	/** 
+	 * Copia ALGUNS arquivos da fonte para o destino.<br>
+	 * Isto irá sobrescrever todo e qualquer arquivo do destino
+	 * 
+	 * @param source fonte. Pode ser aquivo ou diretório
+	 * @param target destino. Pode ser aquivo ou diretório
+	 * @param glob padrão glob para arquivos. Ex: <code>*.txt</code> irá copiar apenas arquivos .txt 
+	 */
 	public static void copy(Path source, Path target, String glob) {
 		try{
 			if(Files.isDirectory(source)) {	
-				Files.walkFileTree(source, new CopyDirVisitor(source, target, glob));
+				Files.walkFileTree(source, new CopyVisitor(source, target, glob));
 			} else if (Files.isRegularFile(source)) {
 				if(Files.isDirectory(target)) {
 					Path targetFile = PathUtils.get(target, source.getFileName());
@@ -60,9 +84,21 @@ public final class FileUtils {
 		}
 	}
 
+	/** Método helper para criar um arquivo em um determinado diretório com um determinado nome */
 	public static Path createFile(Path dir, String name) {
 		try {
 			return Files.createFile(PathUtils.get(dir, name));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}	
+	}
+
+	public static void createDirectories(Path dir) {
+		try {
+			if (Files.notExists(dir)) {
+				LOGGER.trace(dir + " does not exist. Creating...");
+				Files.createDirectories(dir);
+			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}	

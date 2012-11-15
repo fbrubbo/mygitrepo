@@ -13,25 +13,25 @@ import java.util.Objects;
 import org.apache.log4j.Logger;
 
 
-public class DeleteDirVisitor extends SimpleFileVisitor<Path> {
+public class DeleteVisitor extends SimpleFileVisitor<Path> {
 	private static final int NONE = Integer.MAX_VALUE;
-	private static final Logger LOGGER = Logger.getLogger(DeleteDirVisitor.class);
+	private static final Logger LOGGER = Logger.getLogger(DeleteVisitor.class);
 	
 	private int level = 0;			
     private int goingToDeleteDirAtLevel = NONE;
     private final PathMatcher matcher;
 
-	public DeleteDirVisitor(){
+	public DeleteVisitor(){
     	this("*");
     }
     
-    public DeleteDirVisitor(String glob){
+    public DeleteVisitor(String glob){
     	Objects.requireNonNull(glob);
     	this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + glob);
     	LOGGER.trace("VISITOR INITIALIZED (Matcher: " + glob + ")");
     }
     
-    public DeleteDirVisitor(PathMatcher matcher) {
+    public DeleteVisitor(PathMatcher matcher) {
     	Objects.requireNonNull(matcher);    	
     	this.matcher = matcher;
     	LOGGER.trace("VISITOR INITIALIZED (Matcher: " + matcher + ")");
