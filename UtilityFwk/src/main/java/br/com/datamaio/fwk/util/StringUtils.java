@@ -8,12 +8,12 @@ import java.util.StringTokenizer;
 
 import javax.swing.text.MaskFormatter;
 
-public final class StringUtil
+public final class StringUtils
 {
 
     private static final String EMPTY_STRING = "";
 
-    private StringUtil()
+    private StringUtils()
     {
     }
 
@@ -117,7 +117,7 @@ public final class StringUtil
         }
 
         int padLength = resultLength - str.length();
-        return padLength > 0 ? StringUtil.repeat(c, padLength) + str : str;
+        return padLength > 0 ? StringUtils.repeat(c, padLength) + str : str;
     }
 
     public static String rightPad(String str, char c, int resultLength)
@@ -138,7 +138,7 @@ public final class StringUtil
         }
 
         int padLength = resultLength - str.length();
-        return padLength > 0 ? str + StringUtil.repeat(c, padLength) : str;
+        return padLength > 0 ? str + StringUtils.repeat(c, padLength) : str;
     }
 
     public static String leftStrip(String str, char c)
@@ -379,7 +379,7 @@ public final class StringUtil
 
     public static List<String> split(String string, String regex)
     {
-        if(StringUtil.isEmpty(string))
+        if(StringUtils.isEmpty(string))
         {
             return null;
         }

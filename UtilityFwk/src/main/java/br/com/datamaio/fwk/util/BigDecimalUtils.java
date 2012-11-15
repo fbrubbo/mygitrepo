@@ -1,12 +1,12 @@
 package br.com.datamaio.fwk.util;
 
-import static br.com.datamaio.fwk.util.StringUtil.isEmpty;
+import static br.com.datamaio.fwk.util.StringUtils.isEmpty;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
-public class BigDecimalUtil {
+public class BigDecimalUtils {
 	
 	public static final String DEFAULT_MASK = "###,###,###,##0.00";
 	public static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat(DEFAULT_MASK);
@@ -64,7 +64,7 @@ public class BigDecimalUtil {
 	}
 	
 	public static String toText(BigDecimal value, Integer size) {
-		return StringUtil.leftPad(format(value).replace(",", "").replace(".", ""), '0', size);
+		return StringUtils.leftPad(format(value).replace(",", "").replace(".", ""), '0', size);
 	}
 	
 	public static BigDecimal parseText(String text) {

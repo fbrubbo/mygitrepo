@@ -1,4 +1,4 @@
-package br.com.datamaio.env.io;
+package br.com.datamaio.fwk.io;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -10,7 +10,7 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class UnZip {
+public class ZipUtils {
 
 	public static final void unZip(File file) {
 		File diretorio = file.getParentFile();

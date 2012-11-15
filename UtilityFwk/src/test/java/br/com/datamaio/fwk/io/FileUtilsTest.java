@@ -1,9 +1,9 @@
-package br.com.datamaio.env.io;
+package br.com.datamaio.fwk.io;
 
 import static java.nio.file.Files.createTempFile;
 import static java.nio.file.Files.exists;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class FileUtilsTest {

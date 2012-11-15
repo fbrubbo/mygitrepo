@@ -1,4 +1,4 @@
-package br.com.datamaio.util;
+package br.com.datamaio.fwk.util;
 
 public class SystemUtils {
 

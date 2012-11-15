@@ -25,7 +25,7 @@ import org.apache.commons.beanutils.PropertyUtilsBean;
  *
  * @author Fernando Rubbo
  */
-public final class ReflectionUtil
+public final class ReflectionUtils
 {
 
     private static final PropertyUtilsBean PROPERTY_UTILS = new PropertyUtilsBean();
@@ -34,7 +34,7 @@ public final class ReflectionUtil
     private static final Map<Class<?>, List<Field>> FIELDS = new HashMap<Class<?>, List<Field>>();
     private static final Map<Class<?>, Map<String, Field>> FIELDS_BY_NAME = new HashMap<Class<?>, Map<String, Field>>();
 
-    private ReflectionUtil()
+    private ReflectionUtils()
     {
     }
 

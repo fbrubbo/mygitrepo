@@ -1,6 +1,6 @@
 package br.com.datamaio.fwk.util;
 
-import static br.com.datamaio.fwk.util.StringUtil.isEmpty;
+import static br.com.datamaio.fwk.util.StringUtils.isEmpty;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DateUtil {
+public class DateUtils {
 
 	public static final DateFormat LONG_DATE = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.S");
 	public static final DateFormat SHORT_DATE = new SimpleDateFormat("dd/MM/yyyy");

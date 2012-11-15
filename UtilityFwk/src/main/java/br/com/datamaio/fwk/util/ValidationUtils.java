@@ -1,6 +1,6 @@
 package br.com.datamaio.fwk.util;
 
-public class ValidationUtil {
+public class ValidationUtils {
 	
 	public static final int CNPJ_UNFORMATTED_LENGTH = 14;
 	public static final int CPF_UNFORMATTED_LENGTH = 11;
@@ -124,4 +124,5 @@ public class ValidationUtil {
     	return (email.indexOf("@") != -1 && email.indexOf(".") != -1) || (email.toUpperCase().replaceAll("[Ã]","A").indexOf("NAO ") != -1);
     }
     
+    // TODO: colocar um atalho de todos os validadores aqui. ex. isValid de bigdecimal, de inteiro, etc
 }
