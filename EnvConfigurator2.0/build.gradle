@@ -2,10 +2,10 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
 
-group = "br.com.datamaio"
+group = 'br.com.datamaio'
 sourceCompatibility = 1.7
 version = '1.0'
-mavenRepo = "file://C:/Fernando/git/eclipse-juno/workspace/Gradle/maven-repo/"
+mavenRepo = 'file://C:/Fernando/git/eclipse-juno/workspace/Gradle/maven-repo/'
 
 jar {
     manifest {
@@ -21,8 +21,9 @@ repositories {
 }
 
 dependencies {
-    compile "br.com.datamaio:UtilityFwk:1+"
+    compile 'br.com.datamaio:UtilityFwk:1+'
 	compile 'log4j:log4j:1.2.+'
+	compile 'org.jasypt:jasypt:1.9.0'
 	
     testCompile 'junit:junit:4.+'
 }
