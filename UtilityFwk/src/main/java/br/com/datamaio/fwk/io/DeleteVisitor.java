@@ -60,9 +60,13 @@ public class DeleteVisitor extends SimpleFileVisitor<Path> {
 		}
 		
 		if(goingToDelete) {
-			Files.delete(file);	
+			delete(file);	
 		}
 		return FileVisitResult.CONTINUE;
+	}
+
+	protected void delete(Path file) throws IOException {
+		Files.delete(file);
 	}
 
 	@Override
@@ -80,14 +84,14 @@ public class DeleteVisitor extends SimpleFileVisitor<Path> {
     	
 		if (e == null) {
 			if(goingToDelete) {
-				Files.delete(dir);	
+				delete(dir);	
 			}			
 			return FileVisitResult.CONTINUE;
 		}
 		throw e;
 	}
 
-	private boolean mustDelete(Path path) {
+	protected boolean mustDelete(Path path) {
 		return level>goingToDeleteDirAtLevel || matcher.matches(path.getFileName());
 	}
 

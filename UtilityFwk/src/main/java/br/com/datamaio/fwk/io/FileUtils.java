@@ -44,6 +44,17 @@ public final class FileUtils {
 		}
 	}
 	
+	public static void deleteDir(Path dir, DeleteVisitor visitor) {
+		try{ 
+			if(Files.exists(dir) && Files.isDirectory(dir)) {
+				Files.walkFileTree(dir, visitor);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	
 	/** 
 	 * Copia todos arquivos da fonte para o destino. <br>
 	 * Isto irá sobrescrever todo e qualquer arquivo do destino

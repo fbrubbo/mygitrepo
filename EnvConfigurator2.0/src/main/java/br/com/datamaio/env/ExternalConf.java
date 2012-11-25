@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import br.com.datamaio.env.util.EncodingHelper;
 import br.com.datamaio.env.util.Encryptor;
 
-public class Conf extends Properties {
+public class ExternalConf extends Properties {
 	private static final EncodingHelper encodingHelper = new EncodingHelper();
 	private static Pattern p = Pattern.compile("\\$\\{([^\\$\\{])*\\}");
 	
