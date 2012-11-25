@@ -40,6 +40,7 @@ public class EnvConfigurator {
 	}
 
 	public void exec() {
+		
 //		try {
 //			final ModuleHookEmbeddedGroovy groovy = new ModuleHookEmbeddedGroovy(modulePath, props);
 //			if (groovy.pre()) {
