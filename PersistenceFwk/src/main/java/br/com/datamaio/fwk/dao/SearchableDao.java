@@ -1,87 +1,100 @@
 package br.com.datamaio.fwk.dao;
 
-import java.lang.reflect.Field;
+import static org.hibernate.criterion.CriteriaSpecification.DISTINCT_ROOT_ENTITY;
+import static org.hibernate.sql.JoinType.INNER_JOIN;
+import static org.hibernate.sql.JoinType.LEFT_OUTER_JOIN;
+
 import java.util.List;
 
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionException;
 import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.sql.JoinType;
 
 import br.com.datamaio.fwk.criteria.BasicCriteria;
 import br.com.datamaio.fwk.criteria.Join;
-import br.com.datamaio.fwk.criteria.OrderCriteria;
-import br.com.datamaio.fwk.criteria.ann.Restriction;
+import br.com.datamaio.fwk.criteria.Ordination;
 import br.com.datamaio.fwk.criteria.hibernate.NSCriteria;
 import br.com.datamaio.fwk.entity.BasicEntity;
 import br.com.datamaio.fwk.util.HibernateUtil;
-import br.com.datamaio.fwk.util.ReflectionUtils;
-import br.com.datamaio.fwk.util.StringUtils;
 
 public class SearchableDao<E extends BasicEntity, C extends BasicCriteria> extends BasicDao {
 	
+	/** Default alias para a entidade principal */
+	protected static final String ROOT_ALIAS = CriteriaSpecification.ROOT_ALIAS;
 	protected Class<E> entityClass; 
 
+	/** Construtor padrão. Infere a o <code><E></code> do DAO sendo usado */
 	public SearchableDao() {
 		this.entityClass = HibernateUtil.inferEntityClass(this, SearchableDao.class);
 	}
 	
+	/** Construtor padrão que recebe o <code><E></code> */
 	public SearchableDao(Class<E> entityClass) {
 		this.entityClass = entityClass;
 	}	
 
+	/** Cria um Null Safe Criteria para a entidade que este DAO representa*/
 	public NSCriteria<E> createNSCriteria() {
-		return createNSCriteria(entityClass);
+		return createNSCriteria(ROOT_ALIAS);
 	}
 	
+	/** Cria um Null Safe Criteria para a entidade que este DAO representa*/
+	public NSCriteria<E> createNSCriteria(String alias) {
+		return createNSCriteria(entityClass, alias);
+	}
+	
+	/** Cria um Null Safe Criteria com uma dada entidade e um alias */
 	public <T> NSCriteria<T> createNSCriteria(Class<T> persistentClass, String alias) {
 		errorIfClosed();
 		SessionImplementor session = (SessionImplementor) em.getDelegate();
 		return new NSCriteria<T>(persistentClass, alias, session);
 	}
 
-	public <T> NSCriteria<T> createNSCriteria(Class<T> persistentClass) {
-		errorIfClosed();
-		SessionImplementor session = (SessionImplementor) em.getDelegate();
-		return new NSCriteria<T>(persistentClass, session);
-	}
-	
-	public E findById(Integer id) {
+	/** Pesquisa por id */
+	public E findById(Long id) {
 		return em.find(this.entityClass, id);
 	}
 
+	/** Verifica se uma determinada entidade existe */
+	public boolean exists(Long id) {
+		return findById(id)!=null;
+	}
+	
+	/** Verifica se uma determinada consulta retornou algum resultado */
 	public boolean exists(final C criteria) {
 		return findBy(criteria).size()>0;
 	}
 	
+	/** Pesquisa por critério */
 	public List<E> findBy(final C criteria) {
 		final NSCriteria<E> nsCrit = createNSCriteria()
-				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+				.setResultTransformer(DISTINCT_ROOT_ENTITY); //TODO: deixar o distinct ou não?!?!?
 		
 		addJoins(nsCrit, criteria);
 		addRestrictions(nsCrit, criteria);
-		addOrdination(nsCrit, criteria);
+		addOrderBy(nsCrit, criteria);
 		setLimitAndOffset(nsCrit, criteria);
 
 		return nsCrit.list();
 	}
 
+	/** Executa o count */
 	public Long count(final C criteria) {
 		final NSCriteria<E> nsCrit = createNSCriteria()
-				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+				.setProjection(Projections.rowCount())
+				.setResultTransformer(DISTINCT_ROOT_ENTITY); //TODO: deixar o distinct ou não?!?!?
 
-		// TODO: aparentemente este addFetchs não está funcionando para o
-		// count..
+		// TODO: aparentemente este addFetchs não está funcionando para o count..
 		// isto pode ser um problema no futuro
 		addJoins(nsCrit, criteria);
 		addRestrictions(nsCrit, criteria);
 
-		return (Long) nsCrit.setProjection(Projections.rowCount())
-				.uniqueResult();
+		return (Long) nsCrit.uniqueResult();
 	}
 	
 	/**
@@ -92,45 +105,30 @@ public class SearchableDao<E extends BasicEntity, C extends BasicCriteria> exten
 	 * @param criteria objeto de filtro utilizado para montar o where
 	 */
 	protected void addRestrictions(final NSCriteria<E> nsCrit, final C criteria) {
-		// default: do nothing
-		final List<Field> fields = ReflectionUtils.getDeclaredFields(criteria.getClass());
-		for (Field field : fields) {
-			final Object value = ReflectionUtils.getProperty(criteria, field.getName());
-			if(value !=null  && field.isAnnotationPresent(Restriction.class)){
-				final Restriction rest = field.getAnnotation(Restriction.class);
-				final String prop = StringUtils.isEmpty(rest.prop()) ? field.getName() : rest.prop();
-				final String criterion = rest.criterion();
-				
-				// TODO: tratar os casos diferentes de String, object.. por exemplo: between.. isnull, etc
-				Criterion expression = (Criterion)ReflectionUtils.invokeStaticMethod(NSCriteria.class, criterion, new Object[]{prop, value});
-				nsCrit.add(expression);
-			}
-		}
 	}
 
 	private void addJoins(final NSCriteria<E> nsCrit, final C criteria) {
 		for (Join join : criteria.getJoins()) {
-			final String path = join.getAssociationPath();
+			final String associationPath = join.getAssociationPath();
 
 			final String alias = join.getAlias();
-			final int joinType = join.isInnerJoin() ? 0 : 1;
-			nsCrit.createAlias(path, alias, joinType);
+			final JoinType joinType = join.isInnerJoin() ? INNER_JOIN : LEFT_OUTER_JOIN;
+			nsCrit.createAlias(associationPath, alias, joinType);
 
 			// FIXME: Se eu crio um alias, o hibernate ignora o fetch mode
 			// OBS: Parece que o nHibernate tem o mesmo problema.
 			// http://stackoverflow.com/questions/5296461/nhibernate-how-to-make-criteria-inner-join-without-hydrating-objects
 			if (join.isFetch())
-				nsCrit.setFetchMode(path, FetchMode.JOIN);
+				nsCrit.setFetchMode(associationPath, FetchMode.JOIN);
 			else
-				nsCrit.setFetchMode(path, FetchMode.SELECT);
-				//nsCrit.setFetchMode(path, FetchMode.DEFAULT);
+				nsCrit.setFetchMode(associationPath, FetchMode.DEFAULT);
 		}
 	}
 
-	private void addOrdination(final NSCriteria<E> nsCrit, final C criteria) {
-		for (OrderCriteria order : criteria.getOrderColumns()) {
-			final String name = order.getPropertyName();
-			nsCrit.addOrder(order.isAscending() ? Order.asc(name) : Order.desc(name));
+	private void addOrderBy(final NSCriteria<E> nsCrit, final C criteria) {
+		for (Ordination order : criteria.getOrdinations()) {
+			final String propertyName = order.getPropertyName();
+			nsCrit.addOrder(order.isAscending() ? Order.asc(propertyName) : Order.desc(propertyName));
 		}
 	}
 
@@ -144,7 +142,7 @@ public class SearchableDao<E extends BasicEntity, C extends BasicCriteria> exten
 	}
 
 	private void errorIfClosed() {
-		Session session = (Session) em.getDelegate();
+		final Session session = (Session) em.getDelegate();
 		if (!session.isOpen())
 			throw new SessionException("Session is closed!");
 	}

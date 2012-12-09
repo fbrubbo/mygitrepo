@@ -22,11 +22,14 @@ repositories {
 	
 
 dependencies {
-	compile "br.com.datamaio:UtilityFwk:1+"
-	compile "org.hibernate:hibernate-core:4+"
-	compile "javax.inject:javax.inject:1+"
+	compile 'br.com.datamaio:UtilityFwk:1+'
+	compile 'org.hibernate:hibernate-core:4+'
+	compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1+'
+	compile 'org.hibernate:hibernate-entitymanager:4+'
+	compile 'javax.inject:javax.inject:1+'
 	
     testCompile 'junit:junit:4.+'
+	testCompile 'hsqldb:hsqldb:1.+'
 }
 
 test {

@@ -2,18 +2,18 @@ package br.com.datamaio.fwk.criteria;
 
 import java.io.Serializable;
 
-public class OrderCriteria implements Serializable {
+public class Ordination implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String propertyName;
 	private boolean ascending;
 
-	public OrderCriteria(String propertyName) {
+	public Ordination(String propertyName) {
 		this(propertyName, true);
 	}
 	
-	public OrderCriteria(String propertyName, boolean ascending) {
+	public Ordination(String propertyName, boolean ascending) {
 		super();
 		this.propertyName = propertyName;
 		this.ascending = ascending;
@@ -49,7 +49,7 @@ public class OrderCriteria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OrderCriteria other = (OrderCriteria) obj;
+		Ordination other = (Ordination) obj;
 		if (propertyName == null) {
 			if (other.propertyName != null)
 				return false;

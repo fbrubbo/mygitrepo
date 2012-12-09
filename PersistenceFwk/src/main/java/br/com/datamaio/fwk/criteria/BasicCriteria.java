@@ -19,7 +19,7 @@ public class BasicCriteria implements Serializable {
 
 	protected Integer page; 
 	protected Integer pageSize;
-	protected Set<OrderCriteria> orderColumns = new HashSet<OrderCriteria>();
+	protected Set<Ordination> ordinations = new HashSet<Ordination>();
 	protected Set<Join> joins = new HashSet<Join>();
 
 	public Integer getPage() {
@@ -38,25 +38,25 @@ public class BasicCriteria implements Serializable {
 		this.pageSize = offset;
 	}
 
-    public Set<OrderCriteria> getOrderColumns(){
-    	return orderColumns;
+    public Set<Ordination> getOrdinations(){
+    	return ordinations;
     }
 
-	public void setOrderColumns(Set<OrderCriteria> orderColumns)
+	public void setOrderColumns(Set<Ordination> orderColumns)
     {
-    	this.orderColumns = orderColumns;
+    	this.ordinations = orderColumns;
     }
     
-    public void addOrder(OrderCriteria order){
-    	orderColumns.add(order);
+    public void addOrder(Ordination order){
+    	ordinations.add(order);
     }
     
     public void addOrder(String propertyName) {
-    	addOrder(new OrderCriteria(propertyName ));
+    	addOrder(new Ordination(propertyName ));
     }
     
     public void addDescendingOrder(String propertyName){
-    	addOrder(new OrderCriteria(propertyName, false));
+    	addOrder(new Ordination(propertyName, false));
     }
 
 	public Set<Join> getJoins() {
@@ -156,7 +156,7 @@ public class BasicCriteria implements Serializable {
 	public void reset(){
 		this.page = 0;
 		this.pageSize = 0;
-		this.orderColumns = new HashSet<OrderCriteria>();
+		this.ordinations = new HashSet<Ordination>();
 		this.joins = new HashSet<Join>();
 
 		final PropertyDescriptor[] descriptors = ReflectionUtils.getPropertyDescriptors(this.getClass());
