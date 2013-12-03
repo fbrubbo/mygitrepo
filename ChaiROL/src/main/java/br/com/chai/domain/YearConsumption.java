@@ -2,6 +2,8 @@ package br.com.chai.domain;
 
 import java.math.BigDecimal;
 
+import br.com.chai.util.NumberUtil;
+
 public class YearConsumption {
     private int year;
     private BigDecimal numMonths;
@@ -32,9 +34,10 @@ public class YearConsumption {
     public void setPredictedConsumption(final BigDecimal predictedConsumption) {
         this.predictedConsumption = predictedConsumption;
     }
+
     @Override
     public String toString() {
-        return "Consumption [year=" + year + ", numMonths=" + numMonths + ", predictedConsumption=" + predictedConsumption + "]";
+        return "Ano=" + year + " | número de meses=" + numMonths + " | consumo previsto=" + NumberUtil.format(predictedConsumption, 2, "R$") + "]";
     }
 
     @Override

@@ -3,6 +3,7 @@ package br.com.chai.util;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 import static java.math.RoundingMode.CEILING;
+import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.MONTH;
 import static java.util.Objects.requireNonNull;
 
@@ -175,8 +176,17 @@ public final class DateUtil {
 
         int days = 0;
         Calendar current = (Calendar) begin.clone();
-        while(current.compareTo(end)<=0){
-            current.add(Calendar.DAY_OF_MONTH, 1);
+        do{
+            current.add(DAY_OF_MONTH, 1);
+            if(current.compareTo(end)<=0) {
+                days++;
+            }
+        }while(current.compareTo(end)<=0);
+
+        Calendar endc = (Calendar)end.clone();
+        endc.add(Calendar.MILLISECOND, 1);
+        if(current.compareTo(endc)==0) {
+            // Se falta apenas um milesegundo para fechar o dia, soma um dia
             days++;
         }
 
