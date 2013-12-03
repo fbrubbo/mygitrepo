@@ -1,0 +1,23 @@
+apply plugin: 'application'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+mainClassName = "br.com.chai.Main"
+sourceCompatibility = 1.7
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Chai\'s ROL analyser', 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.apache.poi:poi:3.10-beta2'
+    compile 'org.apache.poi:poi-ooxml:3.10-beta2'
+    testCompile 'junit:junit:4.+'
+}
+
