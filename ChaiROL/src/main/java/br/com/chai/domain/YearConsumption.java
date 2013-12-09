@@ -1,6 +1,7 @@
 package br.com.chai.domain;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 import br.com.chai.util.NumberUtil;
 
@@ -37,7 +38,10 @@ public class YearConsumption {
 
     @Override
     public String toString() {
-        return "Ano=" + year + " | número de meses=" + numMonths + " | consumo previsto=" + NumberUtil.format(predictedConsumption, 2, "R$") + "]";
+        DecimalFormat df = new DecimalFormat("00.00");
+        return "Ano=" + year
+                + " | número de meses=" + df.format(numMonths)
+                + " | consumo previsto=" + NumberUtil.format(predictedConsumption, 2, "R$") + "]";
     }
 
     @Override
