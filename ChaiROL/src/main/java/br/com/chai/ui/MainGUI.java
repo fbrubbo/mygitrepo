@@ -1,11 +1,8 @@
 package br.com.chai.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,7 +14,7 @@ import javax.swing.JMenuItem;
 public class MainGUI extends JFrame {
 
     private final JMenuBar menuBar = new JMenuBar();
-    private final JMenu mnSelecionar = new JMenu("Selecionar An\u00E1lise");
+    private final JMenu mnSelecionar = new JMenu("Selecionar");
     private final JMenuItem mntmAnalisenica = new JMenuItem("Analise \u00DAnica");
     private final JMenuItem mntmAnaliseDePlanilha = new JMenuItem("Analise de Planilha (xlsx) extra\u00EDda do SAP");
 
@@ -26,7 +23,9 @@ public class MainGUI extends JFrame {
     {
         super("Facilitador de Análise ROL");
         this.setSize(600, 200);
-        centralize(this);
+        this.setMinimumSize(new Dimension(600, 200));
+        SwingUtil.setDefaultUncaughtExceptionHandler();
+        SwingUtil.centralize(this);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         getContentPane().add(new AnaliseUnicaPanel());
@@ -52,19 +51,6 @@ public class MainGUI extends JFrame {
             }
         });
 
-    }
-
-
-    public static void centralize(final Component comp) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        int width = comp.getWidth();
-        int height = comp.getHeight();
-        int x = (screenSize.width - width) / 2;
-        int y = (screenSize.height - height) / 2;
-
-        Rectangle bounds = new Rectangle(x, y, width, height);
-        comp.setBounds(bounds);
     }
 
     public static void main(final String[] args) {

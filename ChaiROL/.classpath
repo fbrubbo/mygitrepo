@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="output" path="bin"/>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
+	<classpathentry kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer" exported="true"/>
+	<classpathentry kind="output" path="bin"/>
 	<classpathentry sourcepath="C:/Users/Fernando/.gradle/caches/artifacts-26/filestore/org.apache.poi/poi/3.10-beta2/source/90787c087d034a72b1877c080cf13329fc7714f4/poi-3.10-beta2-sources.jar" kind="lib" path="C:/Users/Fernando/.gradle/caches/artifacts-26/filestore/org.apache.poi/poi/3.10-beta2/jar/b5c83b368a241c57c60425da22e596f4ca53d998/poi-3.10-beta2.jar" exported="true"/>
 	<classpathentry sourcepath="C:/Users/Fernando/.gradle/caches/artifacts-26/filestore/org.apache.poi/poi-ooxml/3.10-beta2/source/8d3110b69398a1706ae9d83bbfe2a35ff78bcddf/poi-ooxml-3.10-beta2-sources.jar" kind="lib" path="C:/Users/Fernando/.gradle/caches/artifacts-26/filestore/org.apache.poi/poi-ooxml/3.10-beta2/jar/d3add814d320629789bd83f359cae1c8b0fa997d/poi-ooxml-3.10-beta2.jar" exported="true"/>
 	<classpathentry sourcepath="C:/Users/Fernando/.gradle/caches/artifacts-26/filestore/org.swinglabs/swingx-core/1.6.2-2/source/5897f2c5a38f02647ec9e154cb75638226ca93be/swingx-core-1.6.2-2-sources.jar" kind="lib" path="C:/Users/Fernando/.gradle/caches/artifacts-26/filestore/org.swinglabs/swingx-core/1.6.2-2/jar/4475f362eafad890321631daa3d56f0f55e04edf/swingx-core-1.6.2-2.jar" exported="true"/>

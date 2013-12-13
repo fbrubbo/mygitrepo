@@ -2,7 +2,7 @@ apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-mainClassName = "br.com.chai.Main"
+mainClassName = "br.com.chai.ui.MainGUI"
 sourceCompatibility = 1.7
 version = '1.0'
 jar {

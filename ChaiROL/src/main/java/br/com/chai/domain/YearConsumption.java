@@ -41,7 +41,7 @@ public class YearConsumption {
         DecimalFormat df = new DecimalFormat("00.00");
         return "Ano=" + year
                 + " | número de meses=" + df.format(numMonths)
-                + " | consumo previsto=" + NumberUtil.format(predictedConsumption, 2, "R$") + "]";
+                + " | consumo previsto=" + NumberUtil.format(predictedConsumption, 2, "R$") ;
     }
 
     @Override

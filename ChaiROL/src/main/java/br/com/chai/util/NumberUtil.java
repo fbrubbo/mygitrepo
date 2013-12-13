@@ -22,7 +22,7 @@ public final class NumberUtil {
                     bigDecimal = BigDecimal.valueOf(number.doubleValue());
                 }
             } catch (Exception e) {
-                throw new RuntimeException("Não foi possível converver o texto " + str + " para valor numérico. Causa: " + e.getMessage());
+                throw new RuntimeException("Não foi possível converver o texto '" + str + "' para valor numérico. Motivo: " + e.getMessage(), e);
             }
 
         }

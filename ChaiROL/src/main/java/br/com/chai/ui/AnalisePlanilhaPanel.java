@@ -12,6 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class AnalisePlanilhaPanel extends JPanel
@@ -28,6 +29,7 @@ public class AnalisePlanilhaPanel extends JPanel
 
     public AnalisePlanilhaPanel()
     {
+        setBorder(new TitledBorder(null, "Analise de Planilha (xlsx) extra\u00EDda do SAP", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[] {5, 358, 0, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0};

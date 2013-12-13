@@ -1,5 +1,9 @@
 package br.com.chai.ui;
 
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,10 +15,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 import javax.swing.text.NumberFormatter;
 
 import org.jdesktop.swingx.JXDatePicker;
@@ -48,8 +53,7 @@ public class AnaliseUnicaPanel extends JPanel
 
     public AnaliseUnicaPanel()
     {
-        this.setSize(600, 213);
-
+        setBorder(new TitledBorder(null, "Analise \u00DAnica", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{88, 154, 0};
@@ -116,9 +120,12 @@ public class AnaliseUnicaPanel extends JPanel
         analisar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-
-                // TODO: validar
-                // TODO: não permitir preencher data maior - limitar caracteres
+                if(beginDatePicker.getDate()==null){
+                    throw new RuntimeException("O valor da data inicial é inválido!");
+                }
+                if(endDatePicker.getDate()==null){
+                    throw new RuntimeException("O valor da data final é inválido!");
+                }
 
                 Contract c = new Contract();
                 c.setInicioConsumoROL(DateUtil.toCalendarBegin(beginDatePicker.getDate()));
@@ -126,11 +133,21 @@ public class AnaliseUnicaPanel extends JPanel
                 c.setVlrFixo(filePathTextField.getText());
 
                 List<YearConsumption> years = c.getYearConsumption();
-                StringBuilder builder = new StringBuilder();
-                for(YearConsumption year : years) {
-                    builder.append(year).append("\n");
-                }
-                JOptionPane.showMessageDialog(AnaliseUnicaPanel.this, builder.toString());
+//                StringBuilder builder = new StringBuilder();
+//                for(YearConsumption year : years) {
+//                    builder.append(year).append("\n");
+//                }
+//                JOptionPane.showMessageDialog(AnaliseUnicaPanel.this, builder.toString());
+
+                JDialog d = new JDialog();
+                d.setModal(true);
+                d.setSize(new Dimension(580, 250));
+                d.getContentPane().setLayout(new BorderLayout(0, 0));
+                d.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                d.add(new ResultPanel(years));
+                d.setLocationRelativeTo(AnaliseUnicaPanel.this);
+                d.setVisible(true);
+
             }
         });
     }
