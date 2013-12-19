@@ -127,7 +127,6 @@ public class ResultPanel extends JPanel {
             public boolean stopCellEditing() {
                 boolean result = false;
                 try {
-                    BigDecimal value = NumberUtil.parse((String) super.getCellEditorValue());
                     result = super.stopCellEditing();
                     ((JTextField) getComponent()).setBackground(Color.WHITE);
                 } catch (Exception e) {

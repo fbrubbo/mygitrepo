@@ -141,7 +141,7 @@ public class AnaliseUnicaPanel extends JPanel
 
                 JDialog d = new JDialog();
                 d.setModal(true);
-                d.setSize(new Dimension(580, 250));
+                d.setSize(new Dimension(593, 250));
                 d.getContentPane().setLayout(new BorderLayout(0, 0));
                 d.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 d.add(new ResultPanel(years));

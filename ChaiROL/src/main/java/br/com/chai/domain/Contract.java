@@ -108,7 +108,7 @@ public class Contract implements Comparable<Contract>{
         return this.vlrFixo.divide(getQuantidadeTotalMeses(), 2, CEILING);
     }
     public List<YearConsumption> getYearConsumption(){
-        List<YearConsumption> years = new ArrayList<>();
+        List<YearConsumption> years = new ArrayList<YearConsumption>();
 
         int year = this.inicioConsumoROL.get(Calendar.YEAR);
         int endYear = this.fimConsumoROL.get(Calendar.YEAR);
