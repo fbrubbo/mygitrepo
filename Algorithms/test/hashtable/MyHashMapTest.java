@@ -38,6 +38,16 @@ public class MyHashMapTest {
 	}
 
 	@Test
+	public void putTwoElementsWithSameKey() {
+		hash.put(1, 10);
+		assertThat(hash.size(), is(1));
+		
+		hash.put(1, 11);
+		assertThat(hash.size(), is(1));
+		assertThat(hash.get(1), is(11));
+	}
+	
+	@Test
 	public void putElementsWithColision() {
 		hash.put(1, 10);
 		assertThat(hash.size(), is(1));

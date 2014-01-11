@@ -13,6 +13,10 @@ public class MyHashMap<K, V> {
 		if (key == null || value == null)
 			return;
 
+		V existingValue = get(key);
+		if(existingValue!=null)
+			remove(key);
+		
 		Entry<K, V> newEntry = new Entry<K, V>(key, value);
 		int posi = key.hashCode() % table.length;
 
