@@ -1,7 +1,9 @@
 package trees;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class BTree<E extends Comparable<E>> {
 
@@ -52,6 +54,21 @@ public class BTree<E extends Comparable<E>> {
 		return steps(value) > 0 ? true : false;
 	}
 
+	public List<E> breadthFirstSteps() {
+		List<E> result = new ArrayList<>();
+		Queue<Node<E>> queue = new LinkedList<>();
+		queue.add(root);
+		while(!queue.isEmpty()) {
+			Node<E> node = queue.poll();
+			result.add(node.value);
+			if(node.left!=null)
+				queue.add(node.left);
+			if(node.right!=null)
+				queue.add(node.right);
+		}
+		return result;
+	}
+	
 	public E minimum() {
 		if (root == null)
 			return null;

@@ -199,6 +199,12 @@ public class BTreeTest {
 		assertThat(list, is(equalTo(expected)));
 	}
 
+	@Test
+	public void breadthFirstSteps(){
+		List<Integer> list = tree.breadthFirstSteps();
+		List<Integer> expected = Arrays.asList(2, 1, 4, 3, 5, 6);
+		assertThat(list, is(equalTo(expected)));
+	}
 	
 
 }
