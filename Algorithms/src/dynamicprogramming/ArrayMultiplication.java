@@ -8,6 +8,7 @@ package dynamicprogramming;
  * 
  * Solve it without division operator and in O(n).
  * 
+ * a
  */
 public class ArrayMultiplication {
 
