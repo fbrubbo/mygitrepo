@@ -7,8 +7,6 @@ package dynamicprogramming;
  * and Output[1] will be multiplication of A[0] and from A[2] to A[N-1]. 
  * 
  * Solve it without division operator and in O(n).
- * 
- * a
  */
 public class ArrayMultiplication {
 
