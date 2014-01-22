@@ -14,6 +14,22 @@ public class BTree<E extends Comparable<E>> {
 		return size;
 	}
 
+	// outra opção.. mas esta, apesar de ser mais elegante, navega 2x no grafo
+	public boolean isBalanced2(){
+		return maxDepth(root) - minDepth(root) <= 1;
+	}
+	int maxDepth(Node<E> n) {
+		if(n==null)
+			return 0;
+		return 1 + Math.max(maxDepth(n.left), maxDepth(n.right)); 
+	}
+	int minDepth(Node<E> n) {
+		if(n==null)
+			return 0;
+		return 1 + Math.min(maxDepth(n.left), maxDepth(n.right)); 
+	}
+
+	
 	int min;
 	int max;
 	public boolean isBalanced(){
