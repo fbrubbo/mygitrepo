@@ -14,6 +14,32 @@ public class BTree<E extends Comparable<E>> {
 		return size;
 	}
 
+	int min;
+	int max;
+	public boolean isBalanced(){
+		if(root==null)
+			return true;
+		
+		min = Integer.MAX_VALUE;
+		max = 0;
+		checkIfItIsBalanced(root, 1);
+		return max - min <=1;
+	}
+
+	void checkIfItIsBalanced(Node<E> n, int h){
+		if(n.left==null || n.right==null) {
+			if (h<min) min = h;
+			if (h>max) max = h;
+		}
+		
+		h++;
+		if(n.left!=null)
+			checkIfItIsBalanced(n.left, h);
+		if(n.right!=null)
+			checkIfItIsBalanced(n.right, h);
+	}
+
+	
 	public void add(E value) {
 		Node<E> n = new Node<>(value);
 		if (root == null) {

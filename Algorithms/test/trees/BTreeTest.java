@@ -26,6 +26,36 @@ public class BTreeTest {
 	}
 
 	@Test
+	public void checkcheckIfItIsBalanced() {
+		assertThat(tree.isBalanced(), is(false));
+		
+		BTree<Integer> tree2 = new BTree<Integer>();
+		assertThat(tree2.isBalanced(), is(true));
+
+		tree2 = new BTree<Integer>();
+		tree2.add(2);
+		assertThat(tree2.isBalanced(), is(true));
+		
+		tree2 = new BTree<Integer>();
+		tree2.add(2);
+		tree2.add(4);
+		assertThat(tree2.isBalanced(), is(true));
+		
+		tree2 = new BTree<Integer>();
+		tree2.add(2);
+		tree2.add(4);
+		tree2.add(3);
+		assertThat(tree2.isBalanced(), is(false));
+		
+		tree2 = new BTree<Integer>();
+		tree2.add(2);
+		tree2.add(4);
+		tree2.add(3);
+		tree2.add(1);
+		assertThat(tree2.isBalanced(), is(true));
+	}
+	
+	@Test
 	public void checkAddElements() {
 		assertThat(tree.size(), is(6));
 
