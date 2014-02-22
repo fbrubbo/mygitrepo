@@ -26,7 +26,7 @@ Based upon DFS, there are O(V + E)-time algorithms for the following problems:
  *
  */
 
-public class Visitor {
+public class AdjacentListGraphVisitor {
 	public static final int WHITE = 0;
 	public static final int GRAY = 1;
 	public static final int BLACK = 2;
@@ -39,7 +39,7 @@ public class Visitor {
 	int[] vertices; 
 	int[][] edges;
 
-	public Visitor(int[] vertices, int[][] edges){
+	public AdjacentListGraphVisitor(int[] vertices, int[][] edges){
 		this.vertices = vertices;
 		this.edges = edges;
 		
@@ -61,7 +61,7 @@ public class Visitor {
 			if(color[i]==WHITE){			
 				queue.add(vertices[i]);
 			}
-			while(queue.size()>0) {
+			while(!queue.isEmpty()) {
 				Integer v = queue.poll();
 				breadthFirstSearchVisit(queue, v);
 			}
