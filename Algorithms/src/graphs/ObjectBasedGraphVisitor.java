@@ -42,7 +42,7 @@ public class ObjectBasedGraphVisitor {
 	
 	private void depthFirst(List<Integer> ret, Node n) {
 		if(n==null)
-			return;
+			return; 
 		
 		System.out.println(n.value);
 		ret.add(n.value);
