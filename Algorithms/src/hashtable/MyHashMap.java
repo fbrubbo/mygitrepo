@@ -58,6 +58,7 @@ public class MyHashMap<K, V> {
 				Entry<K, V> next = current.next;
 				if (prev == null) {
 					table[posi] = next;
+					next.prev = null;
 				} else {
 					prev.next = next;
 					if(next!=null)

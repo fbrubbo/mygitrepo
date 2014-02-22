@@ -17,11 +17,15 @@ public class MergeSortWithForkJoin extends MergeSort {
 		@Override
 		protected void compute() {
 			print("to divide", arr);
-			if (arr == null || arr.length <= 1) {
+			if (arr == null)
+				throw new IllegalArgumentException();
+			
+			if (arr.length <= 1){
 				result = arr.clone();
 				return;
 			}
-
+			
+			
 			int len = arr.length;
 			int half = len / 2;
 			Sorter left = new Sorter(Arrays.copyOfRange(arr, 0, half));

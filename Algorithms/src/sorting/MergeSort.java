@@ -5,7 +5,10 @@ public class MergeSort extends Sort{
 
 	public int[] sort(int[] arr) {
 		print("to divide", arr);
-		if (arr == null || arr.length <= 1)
+		if (arr == null)
+			throw new IllegalArgumentException();
+		
+		if (arr.length <= 1)
 			return arr.clone();
 
 		int len = arr.length;
