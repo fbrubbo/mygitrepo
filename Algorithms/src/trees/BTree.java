@@ -119,11 +119,18 @@ public class BTree<E extends Comparable<E>> {
 	}
 
 	public E maximum() {
-		Node<E> current = root;
+		if(root==null)
+				return null;
+		
+		return maximum(root).value;
+	}
+
+	private Node<E> maximum(Node<E> node) {
+		Node<E> current = node;
 		while (current.right != null) {
 			current = current.right;
 		}
-		return current.value;
+		return current;
 	}
 
 	public List<E> inorder() {
