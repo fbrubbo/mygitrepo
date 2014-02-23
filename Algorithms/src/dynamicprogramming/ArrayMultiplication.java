@@ -17,14 +17,14 @@ public class ArrayMultiplication {
  		int[] output = new int[a.length];
 		
 		output[0] = 1;
-		for(int i=1; i<a.length; i++) {
-			output[i] = a[i-1] * output[i-1];
+		for(int i=0; i<a.length-1; i++) {
+			output[i+1] = a[i] * output[i];
 		}
 		
 		int total = 1;
-		for(int i=a.length-2; i>=0; i--) {
-			total *= a[i+1];
+		for(int i=a.length-1; i>=0; i--) {
 			output[i] = total * output[i];
+			total *= a[i];			
 		}
 		
 		return output;
