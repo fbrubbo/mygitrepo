@@ -1,5 +1,7 @@
 package problems;
 
+import static java.lang.Integer.MAX_VALUE;
+
 /**
  * Given an array whose elements are sorted, 
  * return the index of a the first occurrence of a specific integer. 
@@ -8,12 +10,22 @@ package problems;
 public class SearchIndexInOrderedArray {
 
 	public static int searchIndex(int[] arr, int x){
-		return searchIndex(arr, x, 0, arr.length-1);
+		if(arr==null || arr.length<1)
+			return -1;
+
+		int found = searchIndex(arr, x, 0, arr.length-1); 
+		return found == MAX_VALUE ? -1 : found;
 	}
 	
 	static int searchIndex(int[] arr, int x, int begin, int end){
-		if(begin==end && x==arr[begin])
-			return begin;
+		if(begin==end) {
+			if(x==arr[begin])
+				return begin;
+			else
+				return MAX_VALUE;
+		} else if(end<begin) {
+			return MAX_VALUE;
+		}
 		
 		int m = begin + ((end-begin)/2);
 		if(x==arr[m]) {
