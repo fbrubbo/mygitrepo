@@ -5,10 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -23,8 +20,8 @@ public class Divide {
 		BigDecimal _y = new BigDecimal(y);
 		return _x.multiply(_y.pow(-1, DECIMAL128))
 				.doubleValue();
-		
-//		return x * Math.pow(y, -1);
+				
+//		return x * Math.pow(y, -1); // Teste divide(6,  5) == 1.2 falha pois o resultado dá 1.2000000000000002
 	}
 	
 
@@ -41,8 +38,7 @@ public class Divide {
 		assertThat(divide(6,  4), is(1.5));
 		assertThat(divide(6,  3), is(2.0));
 		assertThat(divide(6,  2), is(3.0));
-		assertThat(divide(6,  1), is(6.0));
-
+		assertThat(divide(6,  1), is(6.0));	
 	}
 	
 }
