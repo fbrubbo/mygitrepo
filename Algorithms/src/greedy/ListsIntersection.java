@@ -5,7 +5,10 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class IntercalateLists {
+/**
+ * Intercalar as listas (que já chegam ordenadas) utilizando a menor quantidade de comparações possíveis..
+ */
+public class ListsIntersection {
 	public int[] intercalate(int[]... lists) {
 		return _intercalate(lists).arr;
 	}
