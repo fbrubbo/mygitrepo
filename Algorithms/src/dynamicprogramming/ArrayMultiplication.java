@@ -16,15 +16,18 @@ public class ArrayMultiplication {
 		
  		int[] output = new int[a.length];
 		
+ 		// --------------------> multiply to find the last
 		output[0] = 1;
 		for(int i=0; i<a.length-1; i++) {
 			output[i+1] = a[i] * output[i];
 		}
 		
-		int total = 1;
+		// <-------------------- multiply to find the first
+		// ---->  posi x   <---- pega os multiplicados antes e os depois para achar o valor da posição x
+		int inversedMultiply = 1;
 		for(int i=a.length-1; i>=0; i--) {
-			output[i] = total * output[i];
-			total *= a[i];			
+			output[i] = inversedMultiply * output[i];
+			inversedMultiply *= a[i];			
 		}
 		
 		return output;
