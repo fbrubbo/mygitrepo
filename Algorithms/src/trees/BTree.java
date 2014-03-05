@@ -169,10 +169,16 @@ public class BTree<E extends Comparable<E>> {
 			return minimum(node.right);
 
 		Node<E> parent = node.parent;
-		if (parent == null || parent.value.compareTo(node.value) <= 0)
+		if (parent == null) {
 			return null;
-		else
-			return parent;
+		} else if (parent.value.compareTo(node.value) <= 0) {
+			if(parent.parent==null || parent.parent.value.compareTo(node.value) <= 0) {
+				return null;
+			} else {
+				return parent.parent;
+			}
+		}
+		return parent;
 	}
 	
 	Node<E> minimum(Node<E> node) {

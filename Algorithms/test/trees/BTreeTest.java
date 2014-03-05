@@ -123,6 +123,21 @@ public class BTreeTest {
 	}
 	
 	@Test
+	public void sucessorElement_() {
+		BTree<Integer> t = new BTree<Integer>();
+		t.add(5);
+		t.add(3);
+		t.add(7);
+		t.add(2);
+		t.add(4);
+		t.add(6);
+
+		Integer suc = t.sucessor(4);
+		assertThat(suc, is(5));
+	}
+
+	
+	@Test
 	public void checkInorder() {
 		List<Integer> list = tree.inorder();
 		List<Integer> expected = Arrays.asList(1, 2, 3, 4, 5, 6);
