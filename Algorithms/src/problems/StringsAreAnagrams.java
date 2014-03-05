@@ -1,9 +1,13 @@
 package problems;
 
 /**
- * Write a method to decide if two strings are anagrams or not
+ * Write a method to decide if two strings are anagrams or not Para cada
+ * caracter que eu encontro somo mais um.. depois percorro a string 2 e vou
+ * decrementando os valores.. se atingiu um valor menor que zero, não é anagrama
  * 
- * Estou assumindo que a codificação é ASCII pois ai usa apenas um byte (256 bits)
+ * Estou assumindo que a codificação é ASCII pois ai usa apenas um byte (256
+ * bits)
+ * 
  */
 public class StringsAreAnagrams {
 	public static boolean anagrams(String s1, String s2) {

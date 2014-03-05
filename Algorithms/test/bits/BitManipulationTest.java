@@ -32,6 +32,7 @@ public class BitManipulationTest {
 	
 	@Test
 	public void testShiftLeft(){
+		assertThat(0b001 << 0, is(0b001));
 		assertThat(0b001 << 1, is(0b010));
 		assertThat(0b001 << 2, is(0b100));
 		assertThat(0b001 << 3, is(0b1000));
