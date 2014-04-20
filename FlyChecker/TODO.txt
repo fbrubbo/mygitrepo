@@ -1,0 +1,26 @@
+- Implementar testes para garantir os refactorings abaixo..
+
+- Criar classe Itinerário
+    Esta classe deve conter toda a lógica de escolha das schedules e das options de ida e volta
+    Talvez seja melhor ter duas classes
+        RoundTrip   -> IDA e VOLTA
+        OneWay      -> APENAS IDA
+    No botão buy.. ele cria uma página específica (SelectRoundTripPage ou SelectOneWayPage) que irá retornar o objeto específico
+
+- Extrair as interfaces para poder consultar voos da Azul também usando a mesma lógica
+
+- Criar um agendador do quartz para rodar duas vezes ao dia
+
+- Permitir ordenar por preço e data (também permitir ordenar primeiro por preço e depois por data)
+
+- Permiitr filtrar por preço máximo da consulta
+
+- Mandar e-mail quando tiver uma coisa MUITO BOA
+
+- Verificar previsão do tempo de caxias para ver se é uma boa opção de compra
+
+====================================================================================================
+DONE:
+
+- colocar hora de chegada
+    

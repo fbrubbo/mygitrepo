@@ -10,7 +10,9 @@ import java.time.LocalTime;
 public enum DayPeriod {
     MORNING (MIN, NOON),
     AFTERNOON (NOON, of(16, 0)),
-    NIGHT (of(16, 0), MAX);
+    NIGHT (of(16, 0), MAX),
+    AFTERNOON_OR_NIGHT (NOON, MAX),
+    ANY(MIN, MAX);
 
     public LocalTime begin;
     public LocalTime end;

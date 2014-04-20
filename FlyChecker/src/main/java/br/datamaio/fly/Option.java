@@ -1,8 +1,13 @@
 package br.datamaio.fly;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class Option implements Comparable<Option>{
+    private static final NumberFormat REAIS = DecimalFormat.getCurrencyInstance();
+
+    private Schedule schedule;
     private final String type;
     private final BigDecimal value;
 
@@ -10,16 +15,28 @@ public class Option implements Comparable<Option>{
         this(null, value);
     }
 
-    public Option(final String type, final BigDecimal value) {
+    public Option(final Schedule schedule, final BigDecimal value) {
+        this(schedule, null, value);
+    }
+
+    public Option(final Schedule schedule, final String type, final BigDecimal value) {
         super();
+        this.schedule = schedule;
         this.type = type;
         this.value = value;
+    }
+
+    public Schedule getSchedule(){
+        return schedule;
+    }
+
+    void setSchedule(final Schedule schedule){
+        this.schedule = schedule;
     }
 
     public String getType() {
         return type;
     }
-
 
     public BigDecimal getValue() {
         return value;
@@ -35,7 +52,7 @@ public class Option implements Comparable<Option>{
 
     @Override
     public String toString() {
-        return "Option [type=" + type + ", value=" + value + "]";
+        return "Option [type=" + type + ", value=" + (value!=null ? REAIS.format(value) : null) + "]";
     }
 
 }

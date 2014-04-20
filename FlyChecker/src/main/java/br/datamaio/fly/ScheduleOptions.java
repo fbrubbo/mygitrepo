@@ -42,6 +42,20 @@ public class ScheduleOptions {
         }
     }
 
+    public Option getBestOption(){
+        try {
+            Schedule schedule = schedules.stream()
+                    .min((s1, s2)-> s1.compareTo(s2))
+                    .get();
+            if (schedule.getBestOption()==null) {
+                return null;
+            }
+            return schedule.getBestOption();
+        } catch (NoSuchElementException e) {
+            return null;
+        }
+    }
+
     public Option getBestOption(final LocalTime at){
         try {
             Schedule schedule = schedules.stream()

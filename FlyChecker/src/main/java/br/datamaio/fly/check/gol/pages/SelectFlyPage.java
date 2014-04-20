@@ -41,14 +41,14 @@ public class SelectFlyPage {
 
     // ---- departure methods -----
 
-    public Schedule getBestDepartureSchedule(){
+    public Option getBestDepartureOption(){
         buildDeparture();
-        return departureSchedules.getBestSchedule();
+        return departureSchedules.getBestOption();
     }
 
     public Option getBestDeparturegOption(final LocalTime at){
         buildDeparture();
-        return departureSchedules.getBestOption(at);
+        return departureSchedules.getBestOption();
     }
 
     public Option getBestDepartureOption(final DayPeriod period){
@@ -110,8 +110,9 @@ public class SelectFlyPage {
         lines.forEach(line -> {
             WebElement leftHeader = line.findElement(By.xpath("./div[contains(@class,'status')]"));
             String flyNumber = leftHeader.findElement(By.xpath("./span[@class='titleAirplane']/div[@class='operatedBy']")).getText();
-            String time = leftHeader.findElement(By.xpath("./div[@class='scale']/div[@class='infoScale']/span[@class='timeGoing']")).getText();
-            Schedule s = new Schedule(flyNumber, date, LocalTime.parse(time));
+            String takeofTime = leftHeader.findElement(By.xpath("./div[@class='scale']/div[@class='infoScale']/span[@class='timeGoing']")).getText();
+            String landingTime = leftHeader.findElement(By.xpath("./div[@class='scale']/div[@class='infoScale']/span[@class='timeoutGoing']")).getText();
+            Schedule s = new Schedule(flyNumber, date, LocalTime.parse(takeofTime), LocalTime.parse(landingTime));
             schedules.add(s);
             List<WebElement> ops = line.findElements(By.xpath("./div[contains(@class,'taxa ')]"));
             ops.forEach(op -> {
@@ -120,7 +121,7 @@ public class SelectFlyPage {
                     WebElement el = op.findElement(By.xpath("./div/strong[@class='fareValue']"));
                     try {
                         Number value = NumberFormat.getCurrencyInstance().parse(el.getText());
-                        s.addOption(new Option(type, new BigDecimal(value.toString())));
+                        s.addOption(new Option(s, type, new BigDecimal(value.toString())));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
