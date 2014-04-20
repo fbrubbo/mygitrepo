@@ -1,83 +1,157 @@
 package br.datamaio.fly.check.gol;
 
-import static java.time.LocalTime.MAX;
-import static java.time.LocalTime.NOON;
+import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.time.temporal.TemporalAdjusters.next;
 
+import static br.datamaio.fly.DayPeriod.AFTERNOON;
+import static br.datamaio.fly.DayPeriod.MORNING;
+import static br.datamaio.fly.DayPeriod.NIGHT;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import br.datamaio.fly.DayPeriod;
 import br.datamaio.fly.Option;
-import br.datamaio.fly.Schedule;
 import br.datamaio.fly.check.gol.pages.SearchPage;
 import br.datamaio.fly.check.gol.pages.SelectFlyPage;
 
 public class VoeGolCheck {
 
-    @Test
-    public void testdate(){
-        Period period = Period.ofMonths(6);
-        LocalDate fromDate = LocalDate.now();
-        LocalDate untilDate = fromDate.plus(period);
-        System.out.println(String.format("from %s to %s ", fromDate, untilDate ));
+    private static final int PERIOD_IN_MONTH = 6;
+    private static final String CONGONHAS = "Congonhas";
+    private static final String CAXIAS = "Caxias do Sul";
+    private static final DateTimeFormatter DFbr = ofPattern("dd/MM/yyyy");
 
-        LocalDate next = fromDate;
-        do {
-            next = next.with(next(DayOfWeek.FRIDAY));
-            print(next);
+    private static WebDriver driver;
 
-            next = next.with(next(DayOfWeek.SATURDAY));
-            print(next);
-
-            System.out.println("=================");
-        } while(next.compareTo(untilDate)<0);
-
-    }
-
-    private void print(final LocalDate next) {
-        LocalDate op1 = next.with(next(DayOfWeek.SUNDAY));
-        LocalDate op2 = next.with(next(DayOfWeek.MONDAY));
-        System.out.println(String.format("%s (%s, %s)", next, op1, op2));
-    }
-
-    @Test
-    public void test(){
+    @BeforeClass
+    public static void setUp(){
         Path f = Paths.get("chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",f.toAbsolutePath().toString());
-        WebDriver driver = new ChromeDriver();
+        driver = new ChromeDriver();
+    }
 
-//        WebDriver driver = new FirefoxDriver();
+    @AfterClass
+    public static void tearDown(){
+        driver.quit();
+    }
 
-//        File f2 = new File("IEDriverServer_x86.exe");
-//        System.setProperty("webdriver.ie.driver",f2.getAbsolutePath());
-//        WebDriver driver = new InternetExplorerDriver();
+    @Test
+    public void sp2caxias() throws Exception {
+        String repName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        Path logFile = Paths.get("reports", "sp2caxias" + repName + ".txt");
+        try (BufferedWriter writter = Files.newBufferedWriter(logFile)) {
+            Period period = Period.ofMonths(PERIOD_IN_MONTH);
+            LocalDate fromDate = LocalDate.now();
+            LocalDate untilDate = fromDate.plus(period);
 
+            write(writter, String.format("Searching Flyies from '%s' to '%s' ", fromDate.format(DFbr), untilDate.format(DFbr)));
+
+            LocalDate next = fromDate;
+            do {
+                LocalDate friday    = next.with(next(DayOfWeek.FRIDAY));
+                LocalDate saturday  = friday.with(next(DayOfWeek.SATURDAY));
+                LocalDate sunday    = friday.with(next(DayOfWeek.SUNDAY));
+                LocalDate monday    = friday.with(next(DayOfWeek.MONDAY));
+
+                check(writter, friday, AFTERNOON, sunday, NIGHT);
+                check(writter, friday, AFTERNOON, monday, MORNING);
+
+                check(writter, saturday, MORNING, sunday, NIGHT);
+                check(writter, saturday, MORNING, monday, MORNING);
+
+                next = monday;
+            } while(next.compareTo(untilDate)<0);
+        }
+    }
+
+    @Test
+    public void caxias2sp() throws Exception {
+        String repName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        Path logFile = Paths.get("reports", "caxias2sp" + repName + ".txt");
+        try (BufferedWriter writter = Files.newBufferedWriter(logFile)) {
+            Period period = Period.ofMonths(PERIOD_IN_MONTH);
+            LocalDate fromDate = LocalDate.now();
+            LocalDate untilDate = fromDate.plus(period);
+
+            write(writter, String.format("Searching Flyies from '%s' to '%s' ", fromDate.format(DFbr), untilDate.format(DFbr)));
+
+            LocalDate next = fromDate;
+            do {
+                LocalDate friday    = next.with(next(DayOfWeek.FRIDAY));
+                LocalDate saturday  = friday.with(next(DayOfWeek.SATURDAY));
+                LocalDate sunday    = friday.with(next(DayOfWeek.SUNDAY));
+                LocalDate monday    = friday.with(next(DayOfWeek.MONDAY));
+
+                check2(writter, friday, NIGHT, sunday, NIGHT);
+                check2(writter, friday, NIGHT, monday, MORNING);
+
+                check2(writter, saturday, MORNING, sunday, NIGHT);
+                check2(writter, saturday, MORNING, monday, MORNING);
+
+                next = monday;
+            } while(next.compareTo(untilDate)<0);
+        }
+    }
+
+    private void check(final BufferedWriter writter,
+            final LocalDate ddep, final DayPeriod pdep,
+            final LocalDate dret, final DayPeriod pret) throws Exception {
 
         SearchPage search = new SearchPage(driver).navigate()
-            .selectRoundTrip().from("Caxias do Sul").to("Congonhas")
-            .departure(LocalDate.now().plus(Period.ofDays(1))).returning(LocalDate.now().plus(Period.ofDays(2)));
+                .selectRoundTrip().from(CONGONHAS).to(CAXIAS)
+                .departure(ddep).returning(dret);
         SelectFlyPage selectFly = search.buy();
-        Schedule sd = selectFly.getBestDepartureSchedule();
-        System.out.println(sd);
-        Option od = sd.getBestOption();
-        System.out.println(od);
-        Option or = selectFly.getBestReturningOption(NOON, MAX);
-        System.out.println(or);
+        Option od = selectFly.getBestDepartureOption(pdep);
+        Option or = selectFly.getBestReturningOption(pret);
+        if (od == null || or == null) {
+            return;
+        }
+        write(writter, "==============================================================================================");
+        write(writter, String.format("%s -> %s", CONGONHAS, CAXIAS));
+        write(writter, String.format("\tIDA     : %s dia %s (%s): %s", ddep.getDayOfWeek(), ddep.format(DFbr), pdep, od.getValue()));
+        write(writter, String.format("\tVOLTA   : %s dia %s (%s): %s", dret.getDayOfWeek(), dret.format(DFbr), pret, or.getValue()));
+        write(writter, String.format("\t** TOTAL ** : %s", od.getValue().add(or.getValue()) ));
+    }
 
+    private void check2(final BufferedWriter writter,
+            final LocalDate ddep, final DayPeriod pdep,
+            final LocalDate dret, final DayPeriod pret) throws Exception {
 
+        SearchPage search = new SearchPage(driver).navigate()
+                .selectRoundTrip().from(CAXIAS).to(CONGONHAS)
+                .departure(ddep).returning(dret);
+        SelectFlyPage selectFly = search.buy();
+        Option od = selectFly.getBestDepartureOption(pdep);
+        Option or = selectFly.getBestReturningOption(pret);
+        if (od == null || or == null) {
+            return;
+        }
+        write(writter, "==============================================================================================");
+        write(writter, String.format("%s -> %s", CAXIAS, CONGONHAS));
+        write(writter, String.format("\tIDA     : %s dia %s (%s): %s", ddep.getDayOfWeek(), ddep.format(DFbr), pdep, od.getValue()));
+        write(writter, String.format("\tVOLTA   : %s dia %s (%s): %s", dret.getDayOfWeek(), dret.format(DFbr), pret, or.getValue()));
+        write(writter, String.format("\t** TOTAL ** : %s", od.getValue().add(or.getValue()) ));
+    }
 
-//        SearchPage search2 = new SearchPage(driver).navigate()
-//            .selectOneWay().from("Caxias do Sul").to("Congonhas")
-//            .departure(LocalDate.now());
-//        SelectFlyPage selectFly2 = search2.buy();
-
-        driver.quit();
+    private void write(final BufferedWriter writter, final String msg) throws IOException {
+        System.out.println(msg);
+        writter.write(msg);
+        writter.newLine();
+        writter.flush();
     }
 }

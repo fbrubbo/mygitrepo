@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
+import br.datamaio.fly.DayPeriod;
 import br.datamaio.fly.Option;
 import br.datamaio.fly.Schedule;
 import br.datamaio.fly.ScheduleOptions;
@@ -49,9 +51,9 @@ public class SelectFlyPage {
         return departureSchedules.getBestOption(at);
     }
 
-    public Option getBestDepartureOption(final LocalTime begin, final LocalTime end){
+    public Option getBestDepartureOption(final DayPeriod period){
         buildDeparture();
-        return departureSchedules.getBestOption(begin, end);
+        return departureSchedules.getBestOption(period);
     }
 
     public List<Schedule> getDepartureSchedules() {
@@ -71,9 +73,9 @@ public class SelectFlyPage {
         return returningSchedules.getBestOption(at);
     }
 
-    public Option getBestReturningOption(final LocalTime begin, final LocalTime end){
+    public Option getBestReturningOption(final DayPeriod period){
         buildReturning();
-        return returningSchedules.getBestOption(begin, end);
+        return returningSchedules.getBestOption(period);
     }
 
     public List<Schedule> getReturningSchedules() {
@@ -108,21 +110,22 @@ public class SelectFlyPage {
         lines.forEach(line -> {
             WebElement leftHeader = line.findElement(By.xpath("./div[contains(@class,'status')]"));
             String flyNumber = leftHeader.findElement(By.xpath("./span[@class='titleAirplane']/div[@class='operatedBy']")).getText();
-            System.out.println(flyNumber);
             String time = leftHeader.findElement(By.xpath("./div[@class='scale']/div[@class='infoScale']/span[@class='timeGoing']")).getText();
-            System.out.println(time);
             Schedule s = new Schedule(flyNumber, date, LocalTime.parse(time));
             schedules.add(s);
             List<WebElement> ops = line.findElements(By.xpath("./div[contains(@class,'taxa ')]"));
             ops.forEach(op -> {
-                String type = op.getAttribute("class").substring(5);
-                WebElement el = op.findElement(By.xpath("./div/strong[@class='fareValue']"));
-                String value = el.getText();
-                System.out.println(value);
                 try {
-                    Number parse = NumberFormat.getCurrencyInstance().parse(value);
-                    s.addOption(new Option(type, new BigDecimal(parse.toString())));
-                } catch (Exception e) {
+                    String type = op.getAttribute("class").substring(5);
+                    WebElement el = op.findElement(By.xpath("./div/strong[@class='fareValue']"));
+                    try {
+                        Number value = NumberFormat.getCurrencyInstance().parse(el.getText());
+                        s.addOption(new Option(type, new BigDecimal(value.toString())));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (NoSuchElementException e) {
+                    // ignora a opção porque ela está indisponínvel
                 }
             });
         });

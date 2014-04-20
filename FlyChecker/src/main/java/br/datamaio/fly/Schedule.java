@@ -33,7 +33,9 @@ public class Schedule implements Comparable<Schedule> {
         return date;
     }
 
-    public boolean isTakeoffBetween(final LocalTime begin, final LocalTime end) {
+    public boolean isTakeoffBetween(final DayPeriod period) {
+        final LocalTime begin = period.begin;
+        final LocalTime end = period.end;
         return (takeoffTime.equals(begin) || takeoffTime.isAfter(begin))
                 && (takeoffTime.isBefore(end) || takeoffTime.equals(end));
     }

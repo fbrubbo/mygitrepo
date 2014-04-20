@@ -57,10 +57,10 @@ public class ScheduleOptions {
         }
     }
 
-    public Option getBestOption(final LocalTime begin, final LocalTime end){
+    public Option getBestOption(final DayPeriod period){
         try {
             Schedule schedule = schedules.stream()
-                    .filter(s-> s.isTakeoffBetween(begin, end))
+                    .filter(s-> s.isTakeoffBetween(period))
                     .min((s1, s2)-> s1.compareTo(s2))
                     .get();
             if (schedule.getBestOption()==null) {

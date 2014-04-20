@@ -19,7 +19,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import br.datamaio.fly.TripType;
 
 public class SearchPage {
-    private static final DateTimeFormatter DF = ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter DFday = ofPattern("dd");
+    private static final DateTimeFormatter DFmonth = ofPattern("yyyy-MM");
+    private static final DateTimeFormatter DFus = ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DFbr = ofPattern("dd/MM/yyyy");
 
     private TripType trip;
 
@@ -91,9 +94,14 @@ public class SearchPage {
 
     public SearchPage departure(final LocalDate date) {
         departure = date;
-        String d = date.format(DF);
         String js = String.format("document.getElementById('hidden-field-ida-day').value='%s';"
-                                + "document.getElementById('field-ida').value='%s';", d, d);
+                                + "document.getElementById('hidden-field-ida-month').value='%s';"
+                                + "document.getElementById('hidden-field-DepartureDate').value='%s';"
+                                + "document.getElementById('field-ida').value='%s';",
+                                date.format(DFday),
+                                date.format(DFmonth),
+                                date.format(DFus),
+                                date.format(DFbr));
         executeScript(js);
         return this;
     }
@@ -104,9 +112,14 @@ public class SearchPage {
         }
 
         returning = date;
-        String d = date.format(DF);
         String js = String.format("document.getElementById('hidden-field-volta-day').value='%s';"
-                                + "document.getElementById('field-volta').value='%s';", d, d);
+                + "document.getElementById('hidden-field-volta-month').value='%s';"
+                + "document.getElementById('hidden-field-ReturnDate').value='%s';"
+                + "document.getElementById('field-volta').value='%s';",
+                date.format(DFday),
+                date.format(DFmonth),
+                date.format(DFus),
+                date.format(DFbr));
         executeScript(js);
         return this;
     }
