@@ -146,8 +146,9 @@ public class VoeGolCheck {
                 if (o != null ) {
                     write(writter, "==============================================================================================");
                     write(writter, String.format("%s -> %s", CAXIAS, CONGONHAS));
-                    write(writter, String.format("\tIDA     : %s dia %s (%s): %s", next.getDayOfWeek(), next.format(DATE), o.getSchedule().getTakeoffTime(), o.getValue()));
-                    write(writter, String.format("\t** TOTAL ** : %s", o.getValue()));
+                    Schedule s = o.getSchedule();
+                    write(writter, String.format("\tIDA     : %s dia %s (%s - %s): %s", next.getDayOfWeek(), next.format(DATE), s.getTakeoffTime(), s.getLandingTime(), o));
+                    write(writter, String.format("\t** TOTAL ** : %s", REAIS.format(o.getValue())));
                 }
 
                 next = next.plus(1, DAYS);

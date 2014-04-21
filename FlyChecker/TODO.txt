@@ -1,5 +1,8 @@
 - Implementar testes para garantir os refactorings abaixo..
 
+- Salvar tudo em banco de dados para poder extrair estatísticas históricas.
+    de preferência embedded
+    
 - Criar classe Itinerário
     Esta classe deve conter toda a lógica de escolha das schedules e das options de ida e volta
     Talvez seja melhor ter duas classes
@@ -9,6 +12,17 @@
 
 - Extrair as interfaces para poder consultar voos da Azul também usando a mesma lógica
 
+- Fazer a ferramenta realizar consultas saindo de porto alegre
+    - Neste caso deve-se computar o custo da passagem de ônibus, taxi do aeroporto até a rodoviária e o tempo..
+        Pensar como fazer isto
+
+- Criar uma ferramenta que permita comparar preços dos mesmos finais de semana entre a Azul e a Gol. 
+    - Esta ferramenta deve ser inteligente suficiente para:
+        1. calcular o tempo da viagem e dar um peso para isto.
+            Por exemplo, a azul tem que ser mais barato porque vou ter viagem de ônibus do Viracopos até congonhas
+        2. deve dar pesos maiores quanto mais perto das horas preferidas..
+            PENSAR COMO FAZER ISTO 
+
 - Criar um agendador do quartz para rodar duas vezes ao dia
 
 - Permitir ordenar por preço e data (também permitir ordenar primeiro por preço e depois por data)
@@ -17,8 +31,18 @@
 
 - Mandar e-mail quando tiver uma coisa MUITO BOA
 
+- Criar um aplicativo do android para receber os melhores valores
+    http://developer.android.com/google/gcm/index.html
+    Podia também informar que rodou, dizer quanto tempo demorou e quais foram as melhores ofertas.
+- colocar em um embedded Jetty ou citytown, assim o android poderia fazer chamadas rest 
+
 - Verificar previsão do tempo de caxias para ver se é uma boa opção de compra
 
+- Contabilizar tempo
+
+- Gerar reports para saber os melhores dias e horas para comprar passagens
+
+- Os finds que eu já comprei passagens ele deveria desconsiderar. 
 ====================================================================================================
 DONE:
 
