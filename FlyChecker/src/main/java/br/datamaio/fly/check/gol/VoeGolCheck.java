@@ -1,13 +1,12 @@
 package br.datamaio.fly.check.gol;
 
-import static java.time.format.DateTimeFormatter.ofPattern;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.TemporalAdjusters.next;
-
 import static br.datamaio.fly.DayPeriod.AFTERNOON;
 import static br.datamaio.fly.DayPeriod.AFTERNOON_OR_NIGHT;
 import static br.datamaio.fly.DayPeriod.MORNING;
 import static br.datamaio.fly.DayPeriod.NIGHT;
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.TemporalAdjusters.next;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -22,9 +21,6 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -47,19 +43,22 @@ public class VoeGolCheck {
 
     private static WebDriver driver;
 
-    @BeforeClass
-    public static void setUp(){
+//    @BeforeClass
+//    public static void setUp(){
+    public void setUp(){
         Path f = Paths.get("chromedriver.exe");
+        //TODO: tirar o chrome driver do bin do wildfly e colocar dentro do jar. depois jogar em um temp na hora de executar
         System.setProperty("webdriver.chrome.driver",f.toAbsolutePath().toString());
         driver = new ChromeDriver();
     }
 
-    @AfterClass
-    public static void tearDown(){
+//    @AfterClass
+//    public static void tearDown(){
+    public void tearDown(){
         driver.quit();
     }
 
-    @Test
+//    @Test
     public void congonhas2caxias() throws Exception {
         Period period = Period.ofMonths(PERIOD_IN_MONTH);
         LocalDate fromDate = START_DATE;
@@ -91,8 +90,7 @@ public class VoeGolCheck {
         }
     }
 
-
-    @Test
+//    @Test
     public void caxias2congonhas() throws Exception {
         Period period = Period.ofMonths(PERIOD_IN_MONTH);
         LocalDate fromDate = START_DATE;
@@ -124,7 +122,7 @@ public class VoeGolCheck {
         }
     }
 
-    @Test
+//    @Test
     public void caxias2congonhas_apenasida() throws Exception {
         Period period = Period.ofDays(8);
         LocalDate fromDate = LocalDate.of(2014,06,01);
