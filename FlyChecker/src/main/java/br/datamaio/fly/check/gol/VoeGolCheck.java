@@ -10,6 +10,7 @@ import static java.time.temporal.TemporalAdjusters.next;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -31,7 +33,8 @@ import br.datamaio.fly.check.gol.pages.SearchPage;
 import br.datamaio.fly.check.gol.pages.SelectFlyPage;
 
 public class VoeGolCheck {
-
+	private static final Logger LOGGER = Logger.getLogger(VoeGolCheck.class);
+	
     //private static final LocalDate START_DATE = LocalDate.now();
     private static final LocalDate START_DATE = LocalDate.of(2014, 6, 25);
     private static final int PERIOD_IN_MONTH = 3;
@@ -43,8 +46,6 @@ public class VoeGolCheck {
 
     private static WebDriver driver;
 
-//    @BeforeClass
-//    public static void setUp(){
     public void setUp(){
         Path f = Paths.get("chromedriver.exe");
         //TODO: tirar o chrome driver do bin do wildfly e colocar dentro do jar. depois jogar em um temp na hora de executar
@@ -52,14 +53,13 @@ public class VoeGolCheck {
         driver = new ChromeDriver();
     }
 
-//    @AfterClass
-//    public static void tearDown(){
     public void tearDown(){
         driver.quit();
     }
 
-//    @Test
-    public void congonhas2caxias() throws Exception {
+    public boolean congonhas2caxias(BigDecimal threshold) throws Exception {
+    	boolean hasGoodPrice = false;
+    	
         Period period = Period.ofMonths(PERIOD_IN_MONTH);
         LocalDate fromDate = START_DATE;
         LocalDate untilDate = fromDate.plus(period);
@@ -76,11 +76,11 @@ public class VoeGolCheck {
                 LocalDate sunday    = friday.with(next(DayOfWeek.SUNDAY));
                 LocalDate monday    = friday.with(next(DayOfWeek.MONDAY));
 
-                check(writter, CONGONHAS, CAXIAS, friday, AFTERNOON, sunday, NIGHT);
-                check(writter, CONGONHAS, CAXIAS, friday, AFTERNOON, monday, MORNING);
+                hasGoodPrice |= check(writter, threshold, CONGONHAS, CAXIAS, friday, AFTERNOON, sunday, NIGHT);
+                hasGoodPrice |= check(writter, threshold, CONGONHAS, CAXIAS, friday, AFTERNOON, monday, MORNING);
 
-                check(writter, CONGONHAS, CAXIAS, saturday, MORNING, sunday, NIGHT);
-                check(writter, CONGONHAS, CAXIAS, saturday, MORNING, monday, MORNING);
+                hasGoodPrice |= check(writter, threshold, CONGONHAS, CAXIAS, saturday, MORNING, sunday, NIGHT);
+                hasGoodPrice |= check(writter, threshold, CONGONHAS, CAXIAS, saturday, MORNING, monday, MORNING);
 
                 write(writter, "");
                 write(writter, "");
@@ -88,10 +88,13 @@ public class VoeGolCheck {
                 next = monday;
             } while(next.compareTo(untilDate)<0);
         }
+        
+        return hasGoodPrice;
     }
 
-//    @Test
-    public void caxias2congonhas() throws Exception {
+    public boolean caxias2congonhas(BigDecimal threshold) throws Exception {
+    	boolean hasGoodPrice = false;
+    	
         Period period = Period.ofMonths(PERIOD_IN_MONTH);
         LocalDate fromDate = START_DATE;
         LocalDate untilDate = fromDate.plus(period);
@@ -108,11 +111,11 @@ public class VoeGolCheck {
                 LocalDate sunday    = friday.with(next(DayOfWeek.SUNDAY));
                 LocalDate monday    = friday.with(next(DayOfWeek.MONDAY));
 
-                check(writter, CAXIAS, CONGONHAS, friday, NIGHT, sunday, AFTERNOON_OR_NIGHT);
-                check(writter, CAXIAS, CONGONHAS, friday, NIGHT, monday, MORNING);
+                hasGoodPrice |= check(writter, threshold, CAXIAS, CONGONHAS, friday, NIGHT, sunday, AFTERNOON_OR_NIGHT);
+                hasGoodPrice |= check(writter, threshold, CAXIAS, CONGONHAS, friday, NIGHT, monday, MORNING);
 
-                check(writter, CAXIAS, CONGONHAS, saturday, MORNING, sunday, AFTERNOON_OR_NIGHT);
-                check(writter, CAXIAS, CONGONHAS, saturday, MORNING, monday, MORNING);
+                hasGoodPrice |= check(writter, threshold, CAXIAS, CONGONHAS, saturday, MORNING, sunday, AFTERNOON_OR_NIGHT);
+                hasGoodPrice |= check(writter, threshold, CAXIAS, CONGONHAS, saturday, MORNING, monday, MORNING);
 
                 write(writter, "");
                 write(writter, "");
@@ -120,9 +123,10 @@ public class VoeGolCheck {
                 next = monday;
             } while(next.compareTo(untilDate)<0);
         }
+        
+        return hasGoodPrice;
     }
 
-//    @Test
     public void caxias2congonhas_apenasida() throws Exception {
         Period period = Period.ofDays(8);
         LocalDate fromDate = LocalDate.of(2014,06,01);
@@ -162,8 +166,9 @@ public class VoeGolCheck {
         Files.createDirectories(dir);
         return Paths.get(dir.toString(), filePrefix + now.format(ofPattern("HHmm")) + ".txt");
     }
-
-    private void check(final BufferedWriter writter, final String from, final String to,
+    
+    private boolean check(final BufferedWriter writter, BigDecimal threshold, 
+    		final String from, final String to,
             final LocalDate ddep, final DayPeriod pdep,
             final LocalDate dret, final DayPeriod pret) throws Exception {
 
@@ -174,7 +179,7 @@ public class VoeGolCheck {
         Option od = selectFly.getBestDepartureOption(pdep);
         Option or = selectFly.getBestReturningOption(pret);
         if (od == null || or == null) {
-            return;
+            return false;
         }
 
         write(writter, "==============================================================================================");
@@ -183,12 +188,14 @@ public class VoeGolCheck {
         Schedule sr = or.getSchedule();
         write(writter, String.format("\tIDA     : %s dia %s (%s - %s): %s", ddep.getDayOfWeek(), ddep.format(DATE), sd.getTakeoffTime(), sd.getLandingTime(), od));
         write(writter, String.format("\tVOLTA   : %s dia %s (%s - %s): %s", dret.getDayOfWeek(), dret.format(DATE), sr.getTakeoffTime(), sr.getLandingTime(), or));
-        write(writter, String.format("\t** TOTAL ** : %s", REAIS.format(od.getValue().add(or.getValue())) ));
+        BigDecimal totalValue = od.getValue().add(or.getValue());
+		write(writter, String.format("\t** TOTAL ** : %s", REAIS.format(totalValue) ));
+		
+		return totalValue.compareTo(threshold) <= 0;
     }
 
-
     private void write(final BufferedWriter writter, final String msg) throws IOException {
-        System.out.println(msg);
+    	LOGGER.info(msg);
         writter.write(msg);
         writter.newLine();
         writter.flush();

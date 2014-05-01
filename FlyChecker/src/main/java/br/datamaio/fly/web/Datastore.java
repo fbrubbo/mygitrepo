@@ -15,67 +15,86 @@
  */
 package br.datamaio.fly.web;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
-/**
- * Simple implementation of a data store using standard Java collections.
- * <p>
- * This class is thread-safe but not persistent (it will lost the data when the
- * app is restarted) - it is meant just as an example.
- */
+import org.apache.log4j.Logger;
+
 public final class Datastore {
 
-  private static final List<String> regIds = new ArrayList<String>();
-//  static {
-//	  regIds.add("APA91bFk1YwPmC5JdIpTyOwc1hrkb1cdklJgrez8AiMJjyKI_k9jmYnJK4LVlAn0SlkJoVP3QCO1zEFPki0YVsSiA7an1yF3nSqz7IIY8kuk_kGuZdv-32IQcDrUlGQ_hectskICXHhcbqHzMvATXb2CcKJS2vtp4O3V4v-IrVgDXI_f8gr6Z3Q");
-//  }
-  private static final Logger logger =
-      Logger.getLogger(Datastore.class.getName());
+	private static final List<String> IDS = new ArrayList<String>();
+	private static final Logger LOGGER = Logger.getLogger(Datastore.class);
+	static {
+		load();
+	}
 
-  private Datastore() {
-    throw new UnsupportedOperationException();
-  }
+	private Datastore() {
+		throw new UnsupportedOperationException();
+	}
 
-  /**
-   * Registers a device.
-   */
-  public static void register(String regId) {
-    logger.info("Registering " + regId);
-    synchronized (regIds) {
-      regIds.add(regId);
-    }
-  }
+	public static void register(String regId) {
+		LOGGER.info("Registering " + regId);
+		synchronized (IDS) {
+			IDS.add(regId);
+			save();
+		}
+	}
 
-  /**
-   * Unregisters a device.
-   */
-  public static void unregister(String regId) {
-    logger.info("Unregistering " + regId);
-    synchronized (regIds) {
-      regIds.remove(regId);
-    }
-  }
+	public static void unregister(String regId) {
+		LOGGER.info("Unregistering " + regId);
+		synchronized (IDS) {
+			IDS.remove(regId);
+			save();
+		}
+	}
 
-  /**
-   * Updates the registration id of a device.
-   */
-  public static void updateRegistration(String oldId, String newId) {
-    logger.info("Updating " + oldId + " to " + newId);
-    synchronized (regIds) {
-      regIds.remove(oldId);
-      regIds.add(newId);
-    }
-  }
+	public static void updateRegistration(String oldId, String newId) {
+		LOGGER.info("Updating " + oldId + " to " + newId);
+		synchronized (IDS) {
+			IDS.remove(oldId);
+			IDS.add(newId);
+			save();
+		}
+	}
 
-  /**
-   * Gets all registered devices.
-   */
-  public static List<String> getDevices() {
-    synchronized (regIds) {
-      return new ArrayList<String>(regIds);
-    }
-  }
+	public static List<String> getDevices() {
+		synchronized (IDS) {
+			return new ArrayList<String>(IDS);
+		}
+	}
+
+	public static void save() {
+		synchronized (IDS) {
+			Path path = Paths.get("ids.data");
+			try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(path))) {			
+				oos.writeObject(IDS);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static void load() {
+		synchronized (IDS) {
+			Path path = Paths.get("ids.data");
+			if(Files.exists(path)) {
+				try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(path))) {
+					@SuppressWarnings("unchecked")
+					List<String> ids = (List<String>) ois.readObject();
+					IDS.clear();
+					IDS.addAll(ids);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
 }
