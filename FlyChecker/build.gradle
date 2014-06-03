@@ -23,7 +23,3 @@ dependencies {
 task wrapper (type: Wrapper) {
     gradleVersion = '1.11'
 }
-
-configurations.each {
-	println it
-}

@@ -35,9 +35,7 @@ import br.datamaio.fly.check.gol.pages.SelectFlyPage;
 public class VoeGolCheck {
 	private static final Logger LOGGER = Logger.getLogger(VoeGolCheck.class);
 	
-    //private static final LocalDate START_DATE = LocalDate.now();
-    private static final LocalDate START_DATE = LocalDate.of(2014, 6, 25);
-    private static final int PERIOD_IN_MONTH = 3;
+    private static final int PERIOD_IN_MONTH = 4;
 
     private static final String CONGONHAS = "Congonhas";
     private static final String CAXIAS = "Caxias do Sul";
@@ -45,12 +43,14 @@ public class VoeGolCheck {
     private static final NumberFormat REAIS = DecimalFormat.getCurrencyInstance();
 
     private static WebDriver driver;
+    private LocalDate startDate;
 
     public void setUp(){
         Path f = Paths.get("chromedriver.exe");
         //TODO: tirar o chrome driver do bin do wildfly e colocar dentro do jar. depois jogar em um temp na hora de executar
         System.setProperty("webdriver.chrome.driver",f.toAbsolutePath().toString());
         driver = new ChromeDriver();
+        startDate = LocalDate.now().plus(Period.ofDays(5));
     }
 
     public void tearDown(){
@@ -61,7 +61,7 @@ public class VoeGolCheck {
     	boolean hasGoodPrice = false;
     	
         Period period = Period.ofMonths(PERIOD_IN_MONTH);
-        LocalDate fromDate = START_DATE;
+        LocalDate fromDate = startDate;
         LocalDate untilDate = fromDate.plus(period);
 
         Path logFile = buildLogFile("congonhas2caxias_");
@@ -96,7 +96,7 @@ public class VoeGolCheck {
     	boolean hasGoodPrice = false;
     	
         Period period = Period.ofMonths(PERIOD_IN_MONTH);
-        LocalDate fromDate = START_DATE;
+        LocalDate fromDate = startDate;
         LocalDate untilDate = fromDate.plus(period);
 
         Path logFile = buildLogFile("caxias2congonhas_");

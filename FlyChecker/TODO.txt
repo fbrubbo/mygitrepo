@@ -1,3 +1,7 @@
+- quando notifica o celular ele sobreescreve a ultima notificacao
+
+- colocar a lista ou um resumo das datas e valores na notificacao ou na app
+
 - Implementar testes para garantir os refactorings abaixo..
 
 - Salvar tudo em banco de dados para poder extrair estatísticas históricas.
