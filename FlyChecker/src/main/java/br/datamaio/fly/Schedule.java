@@ -12,9 +12,9 @@ public class Schedule implements Comparable<Schedule> {
     private final LocalDate date;
     private final LocalTime takeoffTime;
     private final LocalTime landingTime;
-    private final List<Option> options = new ArrayList<>();
+    private final List<TripOption> options = new ArrayList<>();
 
-    public Schedule(final String flyNumber, final LocalDate date, final LocalTime takeoffTime, final LocalTime landingTime, final Option... ops) {
+    public Schedule(final String flyNumber, final LocalDate date, final LocalTime takeoffTime, final LocalTime landingTime, final TripOption... ops) {
         this(flyNumber, date, takeoffTime, landingTime);
         addOptions(ops);
     }
@@ -50,7 +50,7 @@ public class Schedule implements Comparable<Schedule> {
         return landingTime;
     }
 
-    public Option getBestOption() {
+    public TripOption getBestOption() {
         try {
             return options.stream().min( (o1, o2) -> o1.compareTo(o2) ).get();
         } catch (NoSuchElementException e) {
@@ -58,18 +58,18 @@ public class Schedule implements Comparable<Schedule> {
         }
     }
 
-    public List<Option> getOptions() {
+    public List<TripOption> getOptions() {
         return options;
     }
 
-    public void addOption(final Option op){
+    public void addOption(final TripOption op){
         this.options.add(op);
         op.setSchedule(this);
     }
 
-    public void addOptions(final Option... op){
+    public void addOptions(final TripOption... op){
         this.options.addAll(Arrays.asList(op));
-        for (Option option : op) {
+        for (TripOption option : op) {
             option.setSchedule(this);
         }
     }

@@ -14,9 +14,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 import br.datamaio.fly.DayPeriod;
-import br.datamaio.fly.Option;
+import br.datamaio.fly.RoundTrip;
 import br.datamaio.fly.Schedule;
 import br.datamaio.fly.ScheduleOptions;
+import br.datamaio.fly.TripOption;
 import br.datamaio.fly.TripType;
 
 public class SelectFlyPage {
@@ -41,17 +42,17 @@ public class SelectFlyPage {
 
     // ---- departure methods -----
 
-    public Option getBestDepartureOption(){
+    public TripOption getBestDepartureOption(){
         buildDeparture();
         return departureSchedules.getBestOption();
     }
 
-    public Option getBestDeparturegOption(final LocalTime at){
+    public TripOption getBestDeparturegOption(final LocalTime at){
         buildDeparture();
-        return departureSchedules.getBestOption();
+        return departureSchedules.getBestOption(at);
     }
 
-    public Option getBestDepartureOption(final DayPeriod period){
+    public TripOption getBestDepartureOption(final DayPeriod period){
         buildDeparture();
         return departureSchedules.getBestOption(period);
     }
@@ -59,6 +60,15 @@ public class SelectFlyPage {
     public List<Schedule> getDepartureSchedules() {
         buildDeparture();
         return departureSchedules.getSchedules();
+    }
+    
+    public RoundTrip getBestRoundTripOption(final DayPeriod pdep, final DayPeriod pret){
+        TripOption bestDeparture = getBestDepartureOption(pdep);
+        TripOption bestReturn = getBestReturningOption(pret);
+        if (bestDeparture == null || bestReturn == null) {
+            return null;
+        }
+        return new RoundTrip(bestDeparture, bestReturn);
     }
 
     // ---- returning methods -----
@@ -68,12 +78,12 @@ public class SelectFlyPage {
         return returningSchedules.getBestSchedule();
     }
 
-    public Option getBestReturningOption(final LocalTime at){
+    public TripOption getBestReturningOption(final LocalTime at){
         buildReturning();
         return returningSchedules.getBestOption(at);
     }
 
-    public Option getBestReturningOption(final DayPeriod period){
+    public TripOption getBestReturningOption(final DayPeriod period){
         buildReturning();
         return returningSchedules.getBestOption(period);
     }
@@ -121,7 +131,7 @@ public class SelectFlyPage {
                     WebElement el = op.findElement(By.xpath("./div/strong[@class='fareValue']"));
                     try {
                         Number value = NumberFormat.getCurrencyInstance().parse(el.getText());
-                        s.addOption(new Option(s, type, new BigDecimal(value.toString())));
+                        s.addOption(new TripOption(s, type, new BigDecimal(value.toString())));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

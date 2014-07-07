@@ -42,7 +42,7 @@ public class ScheduleOptions {
         }
     }
 
-    public Option getBestOption(){
+    public TripOption getBestOption(){
         try {
             Schedule schedule = schedules.stream()
                     .min((s1, s2)-> s1.compareTo(s2))
@@ -56,7 +56,7 @@ public class ScheduleOptions {
         }
     }
 
-    public Option getBestOption(final LocalTime at){
+    public TripOption getBestOption(final LocalTime at){
         try {
             Schedule schedule = schedules.stream()
                     .filter(s->s.getTakeoffTime().equals(at))
@@ -71,7 +71,7 @@ public class ScheduleOptions {
         }
     }
 
-    public Option getBestOption(final DayPeriod period){
+    public TripOption getBestOption(final DayPeriod period){
         try {
             Schedule schedule = schedules.stream()
                     .filter(s-> s.isTakeoffBetween(period))

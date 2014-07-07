@@ -4,22 +4,22 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class Option implements Comparable<Option>{
+public class TripOption implements Comparable<TripOption>{
     private static final NumberFormat REAIS = DecimalFormat.getCurrencyInstance();
 
     private Schedule schedule;
     private final String type;
     private final BigDecimal value;
 
-    public Option(final BigDecimal value) {
+    public TripOption(final BigDecimal value) {
         this(null, value);
     }
 
-    public Option(final Schedule schedule, final BigDecimal value) {
+    public TripOption(final Schedule schedule, final BigDecimal value) {
         this(schedule, null, value);
     }
 
-    public Option(final Schedule schedule, final String type, final BigDecimal value) {
+    public TripOption(final Schedule schedule, final String type, final BigDecimal value) {
         super();
         this.schedule = schedule;
         this.type = type;
@@ -43,7 +43,7 @@ public class Option implements Comparable<Option>{
     }
 
     @Override
-    public int compareTo(final Option o) {
+    public int compareTo(final TripOption o) {
         if(o==null) {
             return -1;
         }

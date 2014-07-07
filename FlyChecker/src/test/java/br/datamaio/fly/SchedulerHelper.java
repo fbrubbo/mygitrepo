@@ -8,9 +8,9 @@ import java.time.LocalTime;
 
 
 public final class SchedulerHelper {
-    public static final Option OP1 = new Option(new BigDecimal("283.90"));
-    public static final Option OP2 = new Option(new BigDecimal("343.90"));
-    public static final Option OP3 = new Option(new BigDecimal("512.30"));
+    public static final TripOption OP1 = new TripOption(new BigDecimal("283.90"));
+    public static final TripOption OP2 = new TripOption(new BigDecimal("343.90"));
+    public static final TripOption OP3 = new TripOption(new BigDecimal("512.30"));
 
     private SchedulerHelper(){}
 
