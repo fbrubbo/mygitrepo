@@ -57,8 +57,7 @@ public class VoeGolCheck {
         //TODO: tirar o chrome driver do bin do wildfly e colocar dentro do jar. depois jogar em um temp na hora de executar
         System.setProperty("webdriver.chrome.driver",f.toAbsolutePath().toString());
         driver = new ChromeDriver();
-//        startDate = LocalDate.now().plus(Period.ofDays(5));
-        startDate = LocalDate.of(2014, 9, 8);
+        startDate = LocalDate.now().plus(Period.ofDays(5));
     }
 
     public void tearDown(){
@@ -215,4 +214,14 @@ public class VoeGolCheck {
         writter.newLine();
         writter.flush();
     }
+    
+	public static void main(String[] args) throws Exception {
+		BigDecimal threshold = new BigDecimal("350");
+		VoeGolCheck check = new VoeGolCheck();
+		check.setUp(threshold);
+
+		List<RoundTrip> trips = check.caxias2congonhas();
+		check.tearDown();
+	}
+
 }

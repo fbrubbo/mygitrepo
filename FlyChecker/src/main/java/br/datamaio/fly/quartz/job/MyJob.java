@@ -40,18 +40,18 @@ public class MyJob implements Job {
 	    try {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
 
-			BigDecimal threshold = new BigDecimal("315");
+			BigDecimal threshold = new BigDecimal("350");
 			VoeGolCheck check = new VoeGolCheck();
 			check.setUp(threshold);
 			
 			List<RoundTrip> trips = check.caxias2congonhas();
 			if(trips.size()>0) {
-				sendToAndroid(trips, "* Cx -> Cong");
+				sendToAndroid(trips, "Caxias -> Congonhas");
 			}
 			
 			trips = check.congonhas2caxias(); 
 			if(trips.size()>0) {
-				sendToAndroid(trips, "* Cong -> Cx");
+				sendToAndroid(trips, "Congonhas -> Caxias");
 			}
 			
 			check.tearDown();
@@ -74,10 +74,14 @@ public class MyJob implements Job {
 		    LocalDate dDate = sd.getDate();
 			LocalDate rDate = sr.getDate();
 			BigDecimal totalValue = t.getDeparture().getValue().add(t.getReturning().getValue());
-			builder.append(String.format("\n- Dia %s (%s - %s): %s", dDate.format(DATE), dDate.getDayOfWeek(), rDate.getDayOfWeek(), REAIS.format(totalValue))); 
-
+			builder.append(builder.length()>0 ? "\n" : "")
+					.append(String.format("- Dia %s (%s - %s): %s", 
+						dDate.format(DATE), 
+						dDate.getDayOfWeek().toString().substring(0, 2), 
+						rDate.getDayOfWeek().toString().substring(0, 2), 
+						REAIS.format(totalValue))); 
 		}
-		SendAllMessagesServlet.send(sender, prefix + builder.toString());
+		SendAllMessagesServlet.send(sender, prefix, builder.toString());
 	}	
 	
 }

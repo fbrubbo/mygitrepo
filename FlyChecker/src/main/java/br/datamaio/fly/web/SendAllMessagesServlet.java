@@ -57,12 +57,12 @@ public class SendAllMessagesServlet extends BaseServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		String status = send(sender, "Teste");
+		String status = send(sender, "Title Test", "Body Test");
 		req.setAttribute(HomeServlet.ATTRIBUTE_STATUS, status.toString());
 		getServletContext().getRequestDispatcher("/home").forward(req, resp);
 	}
 
-	public static String send(Sender sender, String title) throws IOException {
+	public static String send(Sender sender, String title, String body) throws IOException {
 		List<String> devices = Datastore.getDevices();
 		String status;
 		if (devices.isEmpty()) {
@@ -74,7 +74,9 @@ public class SendAllMessagesServlet extends BaseServlet {
 			if (devices.size() == 1) {
 				// send a single message using plain post
 				String registrationId = devices.get(0);
-				Message message = new Message.Builder().addData("title", title).build();
+				Message message = new Message.Builder()
+						.addData("title", title)
+						.addData("body", body).build();
 				Result result = sender.send(message, registrationId, 5);
 				status = "Sent message to one device: " + result;
 			} else {
@@ -89,7 +91,7 @@ public class SendAllMessagesServlet extends BaseServlet {
 					partialDevices.add(device);
 					int partialSize = partialDevices.size();
 					if (partialSize == MULTICAST_SIZE || counter == total) {
-						asyncSend(sender, partialDevices, title);
+						asyncSend(sender, partialDevices, title, body);
 						partialDevices.clear();
 						tasks++;
 					}
@@ -100,13 +102,16 @@ public class SendAllMessagesServlet extends BaseServlet {
 		return status;
 	}
 
-	private static void asyncSend(Sender sender, List<String> partialDevices, String title) {
+	private static void asyncSend(Sender sender, List<String> partialDevices, String title, String body) {
 		// make a copy
 		final List<String> devices = new ArrayList<String>(partialDevices);
 		threadPool.execute(new Runnable() {
 
 			public void run() {
-				Message message = new Message.Builder().addData("title", title).build();
+				Message message = new Message.Builder()
+						.addData("title", title)
+						.addData("body", body)
+						.build();
 				MulticastResult multicastResult;
 				try {
 					multicastResult = sender.send(message, devices, 5);
