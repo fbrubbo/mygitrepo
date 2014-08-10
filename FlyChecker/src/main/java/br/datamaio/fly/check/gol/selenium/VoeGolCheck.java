@@ -1,4 +1,4 @@
-package br.datamaio.fly.check.gol;
+package br.datamaio.fly.check.gol.selenium;
 
 import static br.datamaio.fly.DayPeriod.AFTERNOON;
 import static br.datamaio.fly.DayPeriod.AFTERNOON_OR_NIGHT;
@@ -34,8 +34,8 @@ import br.datamaio.fly.DayPeriod;
 import br.datamaio.fly.RoundTrip;
 import br.datamaio.fly.Schedule;
 import br.datamaio.fly.TripOption;
-import br.datamaio.fly.check.gol.pages.SearchPage;
-import br.datamaio.fly.check.gol.pages.SelectFlyPage;
+import br.datamaio.fly.check.gol.selenium.pages.SearchPage;
+import br.datamaio.fly.check.gol.selenium.pages.SelectFlyPage;
 
 public class VoeGolCheck {
 	private static final Logger LOGGER = Logger.getLogger(VoeGolCheck.class);
@@ -57,7 +57,8 @@ public class VoeGolCheck {
         //TODO: tirar o chrome driver do bin do wildfly e colocar dentro do jar. depois jogar em um temp na hora de executar
         System.setProperty("webdriver.chrome.driver",f.toAbsolutePath().toString());
         driver = new ChromeDriver();
-        startDate = LocalDate.now().plus(Period.ofDays(5));
+        //startDate = LocalDate.now().plus(Period.ofDays(5));
+        startDate = LocalDate.of(2014, 11, 1);
     }
 
     public void tearDown(){

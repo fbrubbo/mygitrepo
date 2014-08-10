@@ -21,7 +21,7 @@ import com.google.android.gcm.server.Sender;
 
 import br.datamaio.fly.RoundTrip;
 import br.datamaio.fly.Schedule;
-import br.datamaio.fly.check.gol.VoeGolCheck;
+import br.datamaio.fly.check.gol.selenium.VoeGolCheck;
 import br.datamaio.fly.web.ApiKey;
 import br.datamaio.fly.web.SendAllMessagesServlet;
 

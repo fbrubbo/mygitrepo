@@ -1,4 +1,4 @@
-package br.datamaio.fly.check.gol.pages;
+package br.datamaio.fly.check.gol.selenium.pages;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;

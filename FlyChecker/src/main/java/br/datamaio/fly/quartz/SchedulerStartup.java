@@ -27,7 +27,7 @@ public class SchedulerStartup implements ServletContextListener {
 		agen.setFrequency(Schedule.Frequency.PERIODIC);
 		agen.setName("Teste");
 		agen.setJobClass(MyJob.class);
-		agen.setCron("0 14 9,19,23 * * ? *");
+		agen.setCron("0 29 9,21 * * ? *");
 		agen.setFrom(LocalDateTime.now());
 		agen.setTo(LocalDateTime.now().plus(3, DAYS));
 		wrapper.rescheduleJob(agen);		

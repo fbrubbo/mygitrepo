@@ -1,4 +1,4 @@
-package br.datamaio.fly.check.gol.pages;
+package br.datamaio.fly.check.gol.selenium.pages;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;

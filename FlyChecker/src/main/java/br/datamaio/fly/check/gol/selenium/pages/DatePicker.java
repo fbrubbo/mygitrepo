@@ -1,15 +1,10 @@
-package br.datamaio.fly.check.gol.pages;
+package br.datamaio.fly.check.gol.selenium.pages;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -28,15 +23,15 @@ public class DatePicker {
         new WebDriverWait(driver, 30, 10).until(elementToBeClickable(By.id("ui-datepicker-div")));
     }
 
-    @Test
-    public void test(){
-        Path f = Paths.get("chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver",f.toAbsolutePath().toString());
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://compre2.voegol.com.br/Search.aspx");
-
-        WebElement ida = driver.findElement(By.id("field-ida"));
-    }
+//    @Test
+//    public void test(){
+//        Path f = Paths.get("chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver",f.toAbsolutePath().toString());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get("https://compre2.voegol.com.br/Search.aspx");
+//
+//        WebElement ida = driver.findElement(By.id("field-ida"));
+//    }
 
 
 //    /div[@class='ui-datepicker-group ui-datepicker-group-first']
