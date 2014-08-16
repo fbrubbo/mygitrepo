@@ -7,11 +7,14 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Locale;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+
 
 import br.datamaio.fly.DayPeriod;
 import br.datamaio.fly.RoundTrip;
@@ -105,7 +108,7 @@ public class SelectFlyPage {
     private void buildReturning() {
         if(TripType.ONE_WAY.equals(trip)){
             // TODO: o ideal seria construir objetos diferente de acordo com o trip
-            throw new IllegalStateException("Você não pode chamar o método de retorno de viagem se ecolheu apenas one tryp");
+            throw new IllegalStateException("Vocï¿½ nï¿½o pode chamar o mï¿½todo de retorno de viagem se ecolheu apenas one tryp");
         }
 
         if(buildReturning) {
@@ -130,17 +133,21 @@ public class SelectFlyPage {
                     String type = op.getAttribute("class").substring(5);
                     WebElement el = op.findElement(By.xpath("./div/strong[@class='fareValue']"));
                     try {
-                        Number value = NumberFormat.getCurrencyInstance().parse(el.getText());
+                        Number value = NumberFormat.getCurrencyInstance(new Locale( "pt", "BR" )).parse(el.getText());
                         s.addOption(new TripOption(s, type, new BigDecimal(value.toString())));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } catch (NoSuchElementException e) {
-                    // ignora a opção porque ela está indisponínvel
+                    // ignora a opï¿½ï¿½o porque ela estï¿½ indisponï¿½nvel
                 }
             });
         });
         return schedules;
     }
 
+    public static void main(String[] args) throws Exception {
+    	Number value = NumberFormat.getCurrencyInstance(new Locale( "pt", "BR" )).parse("R$ 469,90");
+		System.out.println(value);
+	}
 }

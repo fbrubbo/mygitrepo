@@ -17,13 +17,14 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.google.android.gcm.server.Sender;
-
 import br.datamaio.fly.RoundTrip;
 import br.datamaio.fly.Schedule;
-import br.datamaio.fly.check.gol.selenium.VoeGolCheck;
+import br.datamaio.fly.check.gol.VoeGolCheck;
+import br.datamaio.fly.check.gol.urlconn.UrlConnVoeGolCheck;
 import br.datamaio.fly.web.ApiKey;
 import br.datamaio.fly.web.SendAllMessagesServlet;
+
+import com.google.android.gcm.server.Sender;
 
 @DisallowConcurrentExecution
 public class MyJob implements Job {
@@ -41,7 +42,8 @@ public class MyJob implements Job {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
 
 			BigDecimal threshold = new BigDecimal("350");
-			VoeGolCheck check = new VoeGolCheck();
+			//VoeGolCheck check = new SeleniumVoeGolCheck();
+			VoeGolCheck check = new UrlConnVoeGolCheck();
 			check.setUp(threshold);
 			
 			List<RoundTrip> trips = check.caxias2congonhas();
@@ -63,7 +65,7 @@ public class MyJob implements Job {
 	}
 
 	public void sendToAndroid(List<RoundTrip> trips, String prefix) throws IOException {
-		// FIXME: melhorar isto.. agora é so para testar
+		// FIXME: melhorar isto.. agora ï¿½ so para testar
 		Sender sender = new Sender(new ApiKey().getKey());
 
 		StringBuilder builder = new StringBuilder();
