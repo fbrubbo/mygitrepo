@@ -3,6 +3,8 @@ package br.datamaio.fly.quartz.job;
 import static java.time.format.DateTimeFormatter.ofPattern;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -20,7 +22,7 @@ import org.quartz.JobExecutionException;
 import br.datamaio.fly.RoundTrip;
 import br.datamaio.fly.Schedule;
 import br.datamaio.fly.check.gol.VoeGolCheck;
-import br.datamaio.fly.check.gol.urlconn.UrlConnVoeGolCheck;
+import br.datamaio.fly.check.gol.selenium.SeleniumVoeGolCheck;
 import br.datamaio.fly.web.ApiKey;
 import br.datamaio.fly.web.SendAllMessagesServlet;
 
@@ -40,10 +42,10 @@ public class MyJob implements Job {
 
 	    try {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
-
+			
 			BigDecimal threshold = new BigDecimal("350");
-			//VoeGolCheck check = new SeleniumVoeGolCheck();
-			VoeGolCheck check = new UrlConnVoeGolCheck();
+			VoeGolCheck check = new SeleniumVoeGolCheck();
+//			VoeGolCheck check = new UrlConnVoeGolCheck();
 			check.setUp(threshold);
 			
 			List<RoundTrip> trips = check.caxias2congonhas();
@@ -59,15 +61,24 @@ public class MyJob implements Job {
 			check.tearDown();
 			LOGGER.info(String.format("Finalizado com sucesso Agendamento '%s-%s' ..", id, nome));
 		} catch (final Exception cause) {
+			sendToAndroid(cause);
 			throw new JobExecutionException(cause, false);
 		}
 		
 	}
 
+	public void sendToAndroid(Exception e)  {
+		StringWriter w = new StringWriter();
+		PrintWriter pw = new PrintWriter(w);
+		e.printStackTrace(pw);
+		try {
+			SendAllMessagesServlet.send(getSender(), "Error Checking Tip: ", w.getBuffer().toString());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
 	public void sendToAndroid(List<RoundTrip> trips, String prefix) throws IOException {
-		// FIXME: melhorar isto.. agora � so para testar
-		Sender sender = new Sender(new ApiKey().getKey());
-
 		StringBuilder builder = new StringBuilder();
 		for (RoundTrip t : trips) {
 		    Schedule sd = t.getDeparture().getSchedule();
@@ -83,7 +94,12 @@ public class MyJob implements Job {
 						rDate.getDayOfWeek().toString().substring(0, 2), 
 						REAIS.format(totalValue))); 
 		}
-		SendAllMessagesServlet.send(sender, prefix, builder.toString());
+		SendAllMessagesServlet.send(getSender(), prefix, builder.toString());
+	}	
+	
+	private Sender getSender() {
+		// FIXME: melhorar isto.. agora � so para testar
+		return new Sender(new ApiKey().getKey());
 	}	
 	
 }
