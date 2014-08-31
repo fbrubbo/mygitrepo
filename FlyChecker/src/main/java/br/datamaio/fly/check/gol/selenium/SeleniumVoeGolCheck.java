@@ -1,15 +1,23 @@
 package br.datamaio.fly.check.gol.selenium;
 
+import static java.time.format.DateTimeFormatter.ofPattern;
+
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import br.datamaio.fly.DayPeriod;
 import br.datamaio.fly.RoundTrip;
+import br.datamaio.fly.Schedule;
 import br.datamaio.fly.check.gol.VoeGolCheck;
 import br.datamaio.fly.check.gol.selenium.pages.SearchPage;
 import br.datamaio.fly.check.gol.selenium.pages.SelectFlyPage;
@@ -18,8 +26,8 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
 
     private static WebDriver driver;
 
-    public void setUp(BigDecimal threshold){
-    	super.setUp(threshold);
+    public void setUp(BigDecimal threshold, LocalDate startDate, Period period){
+    	super.setUp(threshold, startDate, period);
         
     	//TODO: tirar o chrome driver do bin do wildfly e colocar dentro do jar. depois jogar em um temp na hora de executar
     	Path f = Paths.get("chromedriver");
@@ -40,6 +48,35 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
 		
 		SelectFlyPage selectFly = search.buy();
 		return selectFly.getBestRoundTripOption(pdep, pret);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		BigDecimal threshold = new BigDecimal("350");
+		LocalDate startDate = LocalDate.of(2014, 10, 9);
+		Period period = Period.ofMonths(3);
+		
+		VoeGolCheck check = new SeleniumVoeGolCheck();  
+		check.setUp(threshold, startDate, period);
+		List<RoundTrip> trips = check.congonhas2caxias();
+		
+		DateTimeFormatter DATE = ofPattern("dd/MM/yyyy");
+		NumberFormat REAIS = DecimalFormat.getCurrencyInstance();
+		StringBuilder builder = new StringBuilder();
+		for (RoundTrip t : trips) {
+		    Schedule sd = t.getDeparture().getSchedule();
+		    Schedule sr = t.getReturning().getSchedule();
+		    
+		    LocalDate dDate = sd.getDate();
+			LocalDate rDate = sr.getDate();
+			BigDecimal totalValue = t.getDeparture().getValue().add(t.getReturning().getValue());
+			builder.append(builder.length()>0 ? "\n" : "")
+					.append(String.format("- Dia %s (%s - %s): %s", 
+						dDate.format(DATE), 
+						dDate.getDayOfWeek().toString().substring(0, 2), 
+						rDate.getDayOfWeek().toString().substring(0, 2), 
+						REAIS.format(totalValue))); 
+		}
+		System.out.println(builder.toString());
 	}
     
 //    private static final String CONGONHAS = "Congonhas";

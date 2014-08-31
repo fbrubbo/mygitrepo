@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -44,11 +45,14 @@ public class MyJob implements Job {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
 			
 			BigDecimal threshold = new BigDecimal("350");
-			VoeGolCheck check = new SeleniumVoeGolCheck();
-//			VoeGolCheck check = new UrlConnVoeGolCheck();
-			check.setUp(threshold);
+			LocalDate startDate = LocalDate.of(2014, 12, 12);
+			Period period = Period.ofMonths(3);
 			
-			List<RoundTrip> trips = check.caxias2congonhas();
+			VoeGolCheck check = new SeleniumVoeGolCheck();  // new UrlConnVoeGolCheck();
+			check.setUp(threshold, startDate, period);
+			
+			List<RoundTrip> trips = null;
+			trips = check.caxias2congonhas();
 			if(trips.size()>0) {
 				sendToAndroid(trips, "Caxias -> Congonhas");
 			}

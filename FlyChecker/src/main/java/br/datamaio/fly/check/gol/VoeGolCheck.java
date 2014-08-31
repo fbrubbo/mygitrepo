@@ -38,15 +38,16 @@ public abstract class VoeGolCheck {
 	private static final String CONGONHAS = "Congonhas";
 	private static final String CAXIAS = "Caxias do Sul";
 	private static final DateTimeFormatter DATE = ofPattern("dd/MM/yyyy");
-
 	private static final NumberFormat REAIS = DecimalFormat.getCurrencyInstance();
-	private static final int PERIOD_IN_MONTH = 4;
-	protected LocalDate startDate;
-	protected BigDecimal threshold;
 	
-    public void setUp(BigDecimal threshold){
+	protected BigDecimal threshold;
+	protected LocalDate startDate;
+	protected LocalDate endDate;
+	
+    public void setUp(BigDecimal threshold, LocalDate startDate, Period period){
     	this.threshold = threshold;
-        startDate = LocalDate.of(2014, 11, 1);
+        this.startDate = startDate;
+		this.endDate = startDate.plus(period);
     }
 
     public void tearDown(){
@@ -55,17 +56,12 @@ public abstract class VoeGolCheck {
 	public List<RoundTrip> congonhas2caxias() throws Exception {
 		List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
 
-		Period period = Period.ofMonths(PERIOD_IN_MONTH);
-		LocalDate fromDate = startDate;
-		LocalDate untilDate = fromDate.plus(period);
-
 		Path logFile = buildLogFile("congonhas2caxias_");
 		try (BufferedWriter report = Files.newBufferedWriter(logFile)) {
 
-			write(report,
-					String.format("Searching Flyies from '%s' to '%s' ", fromDate.format(DATE), untilDate.format(DATE)));
+			write(report, String.format("Searching Flyies from '%s' to '%s' ", startDate.format(DATE), endDate.format(DATE)));
 
-			LocalDate next = fromDate;
+			LocalDate next = startDate;
 			do {
 				LocalDate friday = next.with(next(DayOfWeek.FRIDAY));
 				LocalDate saturday = friday.with(next(DayOfWeek.SATURDAY));
@@ -78,11 +74,10 @@ public abstract class VoeGolCheck {
 				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, sunday, NIGHT));
 				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, monday, MORNING));
 
-				write(report, "");
-				write(report, "");
+				write(report, "\n");
 
 				next = monday;
-			} while (next.compareTo(untilDate) < 0);
+			} while (next.compareTo(endDate) < 0);
 		}
 
 		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
@@ -91,16 +86,12 @@ public abstract class VoeGolCheck {
     public List<RoundTrip> caxias2congonhas() throws Exception {
     	List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
     	
-        Period period = Period.ofMonths(PERIOD_IN_MONTH);
-        LocalDate fromDate = startDate;
-        LocalDate untilDate = fromDate.plus(period);
-
         Path logFile = buildLogFile("caxias2congonhas_");
         try (BufferedWriter writter = Files.newBufferedWriter(logFile)) {
 
-            write(writter, String.format("Searching Flyies from '%s' to '%s' ", fromDate.format(DATE), untilDate.format(DATE)));
+            write(writter, String.format("Searching Flyies from '%s' to '%s' ", startDate.format(DATE), endDate.format(DATE)));
 
-            LocalDate next = fromDate;
+            LocalDate next = startDate;
             do {
                 LocalDate friday    = next.with(next(DayOfWeek.FRIDAY));
                 LocalDate saturday  = friday.with(next(DayOfWeek.SATURDAY));
@@ -113,11 +104,10 @@ public abstract class VoeGolCheck {
                 tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, saturday, MORNING, sunday, AFTERNOON_OR_NIGHT));
                 tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, saturday, MORNING, monday, MORNING));
 
-                write(writter, "");
-                write(writter, "");
+                write(writter, "\n");
 
                 next = monday;
-            } while(next.compareTo(untilDate)<0);
+            } while(next.compareTo(endDate)<0);
         }
         
         return tripsWithGoodPrice.stream()
