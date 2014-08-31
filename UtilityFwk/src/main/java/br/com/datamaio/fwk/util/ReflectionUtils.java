@@ -18,7 +18,7 @@ import org.apache.commons.beanutils.PropertyUtilsBean;
 
 /** 
  *
- * Classe utilit·ria para operaÁıes que envolvem reflex„o.
+ * Classe utilit√°ria para opera√ß√µes que envolvem reflex√£o.
  *
  * @author Fernando Rubbo
  */
@@ -38,8 +38,8 @@ public final class ReflectionUtils
     
     /**
      * Retorna todos os fields de uma classe. Inclusive os fields das super classes.<br>
-	 * CUIDADO: MantÈm cache dos fields. Isto È, pode gerar problema de
-	 * concorr ncia se chamar o mÈtodo
+	 * CUIDADO: Mant√©m cache dos fields. Isto √©, pode gerar problema de
+	 * concorr√™ncia se chamar o m√©todo
 	 * {@link #setValueInField(Object, Field, Object)} ou
 	 * {@link #getValueFromObject(Object, Field)} 
      *
@@ -60,8 +60,8 @@ public final class ReflectionUtils
     /**
 	 * 
 	 * Retorna o "field'. <br>
-	 * CUIDADO: MantÈm cache dos fields. Isto È, pode gerar problema de
-	 * concorr ncia se chamar o mÈtodo
+	 * CUIDADO: Mant√©m cache dos fields. Isto √©, pode gerar problema de
+	 * concorr√äncia se chamar o m√©todo
 	 * {@link #setValueInField(Object, Field, Object)} ou
 	 * {@link #getValueFromObject(Object, Field)}
 	 * 
@@ -89,7 +89,7 @@ public final class ReflectionUtils
     }
 
     /**
-     * Cria uma nova inst‚ncia de uma classe
+     * Cria uma nova inst√¢ncia de uma classe
      *
      * @param className nome da Classe a ser instanciada
      * @param <E> Tipo do objeto retornado.
@@ -105,13 +105,13 @@ public final class ReflectionUtils
         }
         catch(ClassNotFoundException ignore)
         {
-            throw new RuntimeException("N„o foi possÌvel criar a classe com nome " + className);
+            throw new RuntimeException("N√£o foi poss√≠vel criar a classe com nome " + className);
         }
 
     }
 
     /**
-     * Cria uma nova inst‚ncia de uma classe
+     * Cria uma nova inst√¢ncia de uma classe
      *
      * @param c Classe a ser instanciada
      * @param <E> Tipo do objeto retornado.
@@ -121,7 +121,7 @@ public final class ReflectionUtils
     {
         if(c == null)
         {
-            throw new RuntimeException("N„o foi possÌvel instanciar pois a classe n„o foi informada.");
+            throw new RuntimeException("N√£o foi poss√≠vel instanciar pois a classe N√£o foi informada.");
         }
         try
         {
@@ -129,23 +129,23 @@ public final class ReflectionUtils
         }
         catch(Exception e)
         {
-            throw new RuntimeException("N„o foi possÌvel instanciar ou acessar classe '" + c.getName() + "'", e);
+            throw new RuntimeException("N√£o foi poss√≠vel instanciar ou acessar classe '" + c.getName() + "'", e);
         }
     }
 
     /**
-     * Cria uma nova inst‚ncia de uma classe
+     * Cria uma nova inst√¢ncia de uma classe
      * @param <E> Tipo do objeto retornado.
      *
      * @param c Classe a ser instanciada
-     * @param params os parametros que ser„o passados para o construtor
+     * @param params os parametros que ser√£o passados para o construtor
      * @return Nova instancia de "E"
      */
     public static <E> E newInstance(Class<E> c, final Object... params)
     {
         if(c == null)
         {
-            throw new RuntimeException("N„o foi possÌvel instanciar pois a classe n„o foi informada.");
+            throw new RuntimeException("N√£o foi poss√≠vel instanciar pois a classe N√£o foi informada.");
         }
 
         // pega tipo dos parametros
@@ -154,8 +154,8 @@ public final class ReflectionUtils
         {
             if(params[i]==null)
             {
-                throw new IllegalArgumentException("Par‚metro n„o pode ser null quando se "
-                        + "chama um construtor com par‚metros por reflection");
+                throw new IllegalArgumentException("Par√¢metro N√£o pode ser null quando se "
+                        + "chama um construtor com par√¢metros por reflection");
             }
 
             classes[i] = params[i].getClass();
@@ -170,9 +170,9 @@ public final class ReflectionUtils
         catch(Exception e)
         {
             StringBuilder msg = new StringBuilder(200);
-            msg.append("N„o foi possÌvel instanciar ou acessar classe '")
+            msg.append("N√£o foi poss√≠vel instanciar ou acessar classe '")
                 .append(c.getName())
-                .append("' com os par‚metros : ");
+                .append("' com os par√¢metros : ");
             int i = 0;
             for(Object param : params)
             {
@@ -187,8 +187,8 @@ public final class ReflectionUtils
      * Seta um valor diretamente em um field.
      *
      * <p>
-     * <b>NOTA:</b> Este mÈtodo n„o deve ser utilizado para setar propriedades. Para setar propriedades, favor dar
-     * preferÍncia a mÈtodos getteres e setters
+     * <b>NOTA:</b> Este m√©todo N√£o deve ser utilizado para setar propriedades. Para setar propriedades, favor dar
+     * prefer√™ncia a m√©todos getteres e setters
      * </p>
      *
      * @param objectInstance Objeto
@@ -207,7 +207,7 @@ public final class ReflectionUtils
         }
         catch(IllegalAccessException e)
         {
-            throw new RuntimeException("N„o foi possÌvel acessar o field '" + field.getName() + "'", e);
+            throw new RuntimeException("N√£o foi poss√≠vel acessar o field '" + field.getName() + "'", e);
         }
         finally
         {
@@ -218,8 +218,8 @@ public final class ReflectionUtils
     /**
      * Pega um valor diretamente de um field.
      * <p>
-     * <b>NOTA:</b> Este mÈtodo n„o deve ser utilizado para ler propriedades. Para ler propriedades, favor dar
-     * preferÍncia a mÈtodos getteres e setters.
+     * <b>NOTA:</b> Este m√©todo N√£o deve ser utilizado para ler propriedades. Para ler propriedades, favor dar
+     * prefer√™ncia a m√©todos getteres e setters.
      * </p>
      *
      * @param objectInstance Objeto
@@ -236,7 +236,7 @@ public final class ReflectionUtils
         }
         catch(IllegalAccessException e)
         {
-            throw new RuntimeException("N„o foi possÌvel acessar o field '" + field.getName() + "'", e);
+            throw new RuntimeException("N√£o foi poss√≠vel acessar o field '" + field.getName() + "'", e);
         }
         finally
         {
@@ -276,19 +276,19 @@ public final class ReflectionUtils
         }
         catch(IntrospectionException e)
         {
-            throw new RuntimeException("N„o foi possÌvel encontrar o mÈtodo getter do atributo " + fieldName);
+            throw new RuntimeException("N√£o foi poss√≠vel encontrar o m√©todo getter do atributo " + fieldName);
         }
         catch(Exception e)
         {
-            throw new RuntimeException("Houve um erro ao acessar o mÈtodo " + method.getName(), e);
+            throw new RuntimeException("Houve um erro ao acessar o m√©todo " + method.getName(), e);
         }
     }
 
     /**
      *
-     * Chama um mÈtodo
+     * Chama um m√©todo
      *
-     * @param method MÈtodo
+     * @param method m√©todo
      * @param bean Bean
      * @return Objeto
      */
@@ -299,9 +299,9 @@ public final class ReflectionUtils
 
     /**
      *
-     * Chama um mÈtodo
+     * Chama um m√©todo
      *
-     * @param method MÈtodo
+     * @param method m√©todo
      * @param bean Bean
      * @param values Valores
      * @return Objeto
@@ -353,8 +353,8 @@ public final class ReflectionUtils
     /**
      * Wrapper para {@link PropertyUtilsBean#getPropertyDescriptors(Object)}.
      *
-     * @param bean o objeto que se deseja saber as informaÁıes das propriedades
-     * @return um array com as informaÁıes das propriedades
+     * @param bean o objeto que se deseja saber as informa√ß√µes das propriedades
+     * @return um array com as informa√ß√µes das propriedades
      */
     public static PropertyDescriptor[] getPropertyDescriptors(Object bean)
     {
@@ -365,8 +365,8 @@ public final class ReflectionUtils
     /**
      * Wrapper para {@link PropertyUtilsBean#getPropertyDescriptors(Class)}.
      *
-     * @param beanClass a classe que se deseja saber as informaÁıes das propriedades
-     * @return um array com as informaÁıes das propriedades
+     * @param beanClass a classe que se deseja saber as informa√ß√µes das propriedades
+     * @return um array com as informa√ß√µes das propriedades
      */
     public static PropertyDescriptor[] getPropertyDescriptors(Class<?> beanClass)
     {
@@ -376,12 +376,12 @@ public final class ReflectionUtils
     /**
      * Wrapper para {@link PropertyUtilsBean#describe(Object)}.
      *
-     * @param bean o objeto que se deseja ler as informaÁıes
+     * @param bean o objeto que se deseja ler as informa√ß√µes
      * @return um mapa contendo chave o nome da propriedade e, como valor, o valor da propriedade.
      *
-     * @throws IllegalAccessException ilegal acesso aos mÈtodos das propriedades
-     * @throws InvocationTargetException empacota a exceÁ„o lanÁada pelo mÈtodo invocado via reflection
-     * @throws NoSuchMethodException se algum mÈtodo n„o existir
+     * @throws IllegalAccessException ilegal acesso aos m√©todos das propriedades
+     * @throws InvocationTargetException empacota a exce√ß√£o lan√ßada pelo m√©todo invocado via reflection
+     * @throws NoSuchMethodException se algum m√©todo N√£o existir
      */
     public static Map<String, Object> describe(Object bean)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
@@ -413,9 +413,9 @@ public final class ReflectionUtils
      * @param name O nome da propriedade
      * @return o valor lido da propriedade
      *
-     * @throws IllegalAccessException ilegal acesso aos mÈtodos da propriedade
-     * @throws InvocationTargetException empacota a exceÁ„o lanÁada pelo mÈtodo invocado via reflection
-     * @throws NoSuchMethodException se o mÈtodo n„o existe
+     * @throws IllegalAccessException ilegal acesso aos m√©todos da propriedade
+     * @throws InvocationTargetException empacota a exce√ß√£o lan√ßada pelo m√©todo invocado via reflection
+     * @throws NoSuchMethodException se o m√©todo N√£o existe
      */
     public static Object getSimpleProperty(Object bean, String name)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
@@ -440,9 +440,9 @@ public final class ReflectionUtils
      * @param name O nome da propriedade
      * @param value o valor a ser setado
      *
-     * @throws IllegalAccessException ilegal acesso aos mÈtodos da propriedade
-     * @throws InvocationTargetException empacota a exceÁ„o lanÁada pelo mÈtodo invocado via reflection
-     * @throws NoSuchMethodException se o mÈtodo n„o existe
+     * @throws IllegalAccessException ilegal acesso aos m√©todos da propriedade
+     * @throws InvocationTargetException empacota a exce√ß√£o lan√ßada pelo m√©todo invocado via reflection
+     * @throws NoSuchMethodException se o m√©todo N√£o existe
      */
     public static void setSimpleProperty(Object bean, String name, Object value)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
@@ -457,9 +457,9 @@ public final class ReflectionUtils
      * @param name O nome da propriedade
      * @return o tipo declarado da propriedade
      *
-     * @throws IllegalAccessException ilegal acesso aos mÈtodos da propriedade
-     * @throws InvocationTargetException empacota a exceÁ„o lanÁada pelo mÈtodo invocado via reflection
-     * @throws NoSuchMethodException se o mÈtodo n„o existe
+     * @throws IllegalAccessException ilegal acesso aos m√©todos da propriedade
+     * @throws InvocationTargetException empacota a exce√ß√£o lan√ßada pelo m√©todo invocado via reflection
+     * @throws NoSuchMethodException se o m√©todo N√£o existe
      */
     public static Class<?> getPropertyType(Object bean, String name)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
@@ -468,16 +468,16 @@ public final class ReflectionUtils
     }
 
     /**
-     * Verifica se a dada propriedade possui o seu respectivo mÈtodo get.
+     * Verifica se a dada propriedade possui o seu respectivo m√©todo get.
      *
      * @param bean O bean que se deseja verificar
      * @param name O nome da propriedade
-     * @return true se existe um mÈtodo leitor da propriedade, falso caso contr·rio
+     * @return true se existe um m√©todo leitor da propriedade, falso caso contr√°rio
      */
     public static boolean isReadable(Object bean, String name)
     {
-        // --- InÌcio do cÛdigo experimental --
-        // se alguÈm tiver usando isXxx().. este cara n„o funciona e ai n„o vale a pena.
+        // --- In√≠cio do c√≥digo experimental --
+        // se algu√©m tiver usando isXxx().. este cara N√£o funciona e ai N√£o vale a pena.
         try
         {
             Method method = findGetter(bean.getClass(), name);
@@ -487,9 +487,9 @@ public final class ReflectionUtils
         {
             // ignora e usa o default
         }
-        // --- Fim do cÛdigo experimental --
+        // --- Fim do c√≥digo experimental --
 
-        // este cara foi deixado para evitar problemas, mas o cÛdigo acima È ligeiramente mais r·pido.
+        // este cara foi deixado para evitar problemas, mas o c√≥digo acima ÔøΩ ligeiramente mais rÔøΩpido.
         return PROPERTY_UTILS.isReadable(bean, name);
     }
 
@@ -550,11 +550,11 @@ public final class ReflectionUtils
     }
 
     /**
-     * Verifica se a dada propriedade possui o seu respectivo mÈtodo set.
+     * Verifica se a dada propriedade possui o seu respectivo m√©todo set.
      *
      * @param bean O bean que se deseja verificar
      * @param name O nome da propriedade
-     * @return true se existe um mÈtodo modificador da propriedade, falso caso contr·rio
+     * @return true se existe um m√©todo modificador da propriedade, falso caso contr√°rio
      */
     public static boolean isWriteable(Object bean, String name)
     {
@@ -567,11 +567,11 @@ public final class ReflectionUtils
      * @param origem objeto para ler as propriedades
      * @param destino objeto para setar as propriedades
      * @param name o nome da propriedade
-     * @return true se conseguiu setar o valor, false caso contr·rio
+     * @return true se conseguiu setar o valor, false caso contr√°rio
      *
-     * @throws IllegalAccessException ilegal acesso aos mÈtodos de alguma propriedade
-     * @throws InvocationTargetException empacota a exceÁ„o lanÁada por um mÈtodo invocado via reflection
-     * @throws NoSuchMethodException MÈtodo n„o existe
+     * @throws IllegalAccessException ilegal acesso aos m√©todos de alguma propriedade
+     * @throws InvocationTargetException empacota a exce√ß√£o lan√ßada por um m√©todo invocado via reflection
+     * @throws NoSuchMethodException m√©todo N√£o existe
      */
     public static boolean copyProperty(Object origem, Object destino, String name)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
@@ -599,9 +599,9 @@ public final class ReflectionUtils
      * @param origem objeto para ler as propriedades
      * @param destino objeto para setar as propriedades
      *
-     * @throws IllegalAccessException ilegal acesso aos mÈtodos de alguma propriedade
-     * @throws InvocationTargetException empacota a exceÁ„o lanÁada por um mÈtodo invocado via reflection
-     * @throws NoSuchMethodException MÈtodo n„o existe
+     * @throws IllegalAccessException ilegal acesso aos m√©todos de alguma propriedade
+     * @throws InvocationTargetException empacota a exce√ß√£o lan√ßada por um m√©todo invocado via reflection
+     * @throws NoSuchMethodException m√©todo N√£o existe
      */
     public static void copyProperties(Object origem, Object destino)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException

@@ -121,7 +121,7 @@ public class SearchPage {
 
 	public SearchPage returning(final LocalDate date) {
 		if (trip == TripType.ONE_WAY) {
-			throw new IllegalStateException("N„o pode chamar o mÈtodo returning(..) se È oneway trip");
+			throw new IllegalStateException("nÃ£o pode chamar o mï¿½todo returning(..) se ï¿½ oneway trip");
 		}
 
 		returning = date;
@@ -141,7 +141,7 @@ public class SearchPage {
 			java.util.List<WebElement> els = driver.findElements(By.id("ControlGroupSearchView_ButtonSubmit"));
 			WebElement buy = els.get(1);
 			waitUntil(elementToBeClickable(buy));
-			Thread.sleep(700);						// TODO: por algum motivo, o waituntil acima não é suficiente.. verificar porque
+			Thread.sleep(700);						// TODO: por algum motivo, o waituntil acima nÃ£o ï¿½ suficiente.. verificar porque
 			buy.click();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -165,7 +165,7 @@ public class SearchPage {
 		}
 	}
 
-	// ------------ mÈtodos privados ---------
+	// ------------ mï¿½todos privados ---------
 
 	private void executeScript(final String js) {
 		((JavascriptExecutor) driver).executeScript(js);

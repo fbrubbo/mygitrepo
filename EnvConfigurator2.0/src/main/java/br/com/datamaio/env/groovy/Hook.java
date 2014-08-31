@@ -91,7 +91,7 @@ public class Hook {
 			final InetAddress addr = InetAddress.getLocalHost();
 	        String ip = addr.getHostAddress();
 	        if("127.0.0.1".equals(ip)){ 
-	        	// Cai aqui quando tem no /etc/hosts a identificação do nome com 127.0.0.1
+	        	// Cai aqui quando tem no /etc/hosts a identificaÃ§Ã£o do nome com 127.0.0.1
 	        	ip = getIpFromDNS(addr.getHostName());
 	        }
 			return ip;
@@ -155,11 +155,11 @@ public class Hook {
 	 /**
      * Rertorna todos os registros do DNS para um dado dominio
      *
-     * @param domain domínio, e.g. xyz.dbserver.com.br, no qual você deseja conhecer os registros do DNS.
+     * @param domain domÃ­nio, e.g. xyz.dbserver.com.br, no qual vocÃª deseja conhecer os registros do DNS.
      * @param types  e.g."MX","A" para descrever quais registros vc deseja.
      * 			<ul>
-     * 				<li> MX: o resultado contém a prioridade (lower better) seguido pelo mailserver
-     * 				<li> A: o resultado contém apenas o IP
+     * 				<li> MX: o resultado contÃ©m a prioridade (lower better) seguido pelo mailserver
+     * 				<li> A: o resultado contÃ©m apenas o IP
      * 			</ul>
      *
      * @return lista de resultados
@@ -185,7 +185,7 @@ public class Hook {
 		}
 		
 		if (results.size() == 0) {
-			System.err.println("Falha para encontrar um registro no DNS para o domínio " + domain);
+			System.err.println("Falha para encontrar um registro no DNS para o domÃ­nio " + domain);
 		}
 		return results;
 	}

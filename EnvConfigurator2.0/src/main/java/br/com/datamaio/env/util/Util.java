@@ -120,7 +120,7 @@ public class Util {
 	}
 
 	public static String useradd(final String user, final String opt) {
-		throw new RuntimeException("TODO: Não conseguimos fazer funcionar ainda porque o java quer que rode um comando e estamos tentando rodar um if");
+		throw new RuntimeException("TODO: nÃ£o conseguimos fazer funcionar ainda porque o java quer que rode um comando e estamos tentando rodar um if");
 		//return run("if (! getent passwd hacluster >/dev/null); then useradd " + user + (opt!=null ? " " + opt : "") + " 2>/dev/null ; fi");
 	}
 

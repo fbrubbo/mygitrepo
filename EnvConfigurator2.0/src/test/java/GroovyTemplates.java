@@ -17,6 +17,7 @@ public class GroovyTemplates {
 		File fle = new File("groovy.tmpl");
 	    Map binding = new HashMap();
 		binding.put("favlang", "Groovy");
+		binding.put("favlang2", "Groovy2");
 	    SimpleTemplateEngine engine = new SimpleTemplateEngine();
 	    Writable template = engine.createTemplate(fle).make(binding);
 	    System.out.println(template.toString());

@@ -179,7 +179,7 @@ public class ZipUtils {
 				
 				@Override
 				public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-					// o diretÛrio raiz n„o deve entrar na listagem
+					// o diret√≥rio raiz n√£o deve entrar na listagem
 					if(!dir.toString().equals("/")) {
 						addToListAndPrint(dir);
 					}

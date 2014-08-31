@@ -37,7 +37,7 @@ public class SchedulerWrapper {
 
 	private static SchedulerWrapper INSTANCE;
 
-	/** Retorna a instância deste objeto */
+	/** Retorna a instÃ¢ncia deste objeto */
 	public static synchronized SchedulerWrapper get() {
 		if (INSTANCE == null) {
 			INSTANCE = new SchedulerWrapper();
@@ -67,7 +67,7 @@ public class SchedulerWrapper {
 		}
 	}
 
-	/** Retorna as execuções que irão inicar nos próximos 5 mimutos	 */
+	/** Retorna as execuï¿½ï¿½es que irï¿½o inicar nos prï¿½ximos 5 mimutos	 */
 	public synchronized List<ProximaExecucao> buscarProximasExecucoes() {
 
 		final Calendar now = Calendar.getInstance();
@@ -106,9 +106,9 @@ public class SchedulerWrapper {
 
 
 	/**
-	 * Agenda o job. Se já existe, remove o velho e recria o agendamento.
+	 * Agenda o job. Se jï¿½ existe, remove o velho e recria o agendamento.
 	 *
-	 * @param sched os dados necessários para o agendamento
+	 * @param sched os dados necessï¿½rios para o agendamento
 	 */
 	public synchronized void rescheduleJob(final Schedule sched) {
 		Objects.requireNonNull(sched.getId());
@@ -117,12 +117,12 @@ public class SchedulerWrapper {
 			unscheduleJob(sched);
 			scheduleJob(sched);
 		} else {
-			LOGGER.warn(String.format("Agendamento '%d-%s' não foi realizado pois o QUARTZ não foi iniciado!", sched.getId(), sched.getName()));
+			LOGGER.warn(String.format("Agendamento '%d-%s' nÃ£o foi realizado pois o QUARTZ nÃ£o foi iniciado!", sched.getId(), sched.getName()));
 		}
 	}
 
 	/**
-	 * Se o job já existe, deleta ele e as triggers relacionadas
+	 * Se o job jï¿½ existe, deleta ele e as triggers relacionadas
 	 *
 	 * @param sched o agendamento
 	 */
@@ -142,8 +142,8 @@ public class SchedulerWrapper {
 						+ "removendo job '%d-%s' do agendamento!", sched.getId(), sched.getName()), e);
 			}
 		} else {
-			LOGGER.warn(String.format("Cancelamento do agentamento '%d-%s' não "
-					+ "foi executado pois o QUARTZ não foi iniciado!", sched.getId(), sched.getName()));
+			LOGGER.warn(String.format("Cancelamento do agentamento '%d-%s' nÃ£o "
+					+ "foi executado pois o QUARTZ nÃ£o foi iniciado!", sched.getId(), sched.getName()));
 		}
 	}
 	
@@ -191,12 +191,12 @@ public class SchedulerWrapper {
 		return builder.build();
 	}
 
-	/** Indica se o quartz está ativo */
+	/** Indica se o quartz estï¿½ ativo */
 	public boolean isSchedulerStarted() {
 		return scheduler != null;
 	}
 
-    /** Busca arquivo de configuração dos serviços Quartz 2 */
+    /** Busca arquivo de configuraï¿½ï¿½o dos serviï¿½os Quartz 2 */
 	private Properties loadQuartzProperties() {
 		try (InputStream is = getClass().getClassLoader().getResourceAsStream(QUARTZ_PROPERTIES)) {
 			Properties properties = new Properties();

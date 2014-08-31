@@ -190,7 +190,7 @@ public class FileUtilsTest {
 		
 		Path tempTargetDir = Files.createTempDirectory("TARGET_DIR");		
 		Path targetDir = PathUtils.get(tempTargetDir, "TO_BE_CREATED");		
-		FileUtils.copy(sourceDir, targetDir); // deve também criar o diretório targetDir
+		FileUtils.copy(sourceDir, targetDir); // deve tambÃ©m criar o diretÃ³rio targetDir
 		Path targetFile = PathUtils.get(targetDir, file.getFileName());
 		assertThat(exists(targetFile), is(true));
 		

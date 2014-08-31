@@ -16,14 +16,14 @@ public class ModuleHook extends Hook {
 	        System.out.println("Entre com o password para executar os comandos com sudo. (OBS: o comando abaixo eh apenas para verificar a permissao de sudo)");
 	        final String result = Util.ls("/root/");
 
-	        // o if abaixo é apenas por garantia. Vai que não dê erro e apenas aparece permissão negada no output
+	        // o if abaixo ï¿½ apenas por garantia. Vai que nÃ£o dï¿½ erro e apenas aparece permissï¿½o negada no output
 	        if(result==null
 	                || result.contains("Permission denied")
 	                || result.contains("PermissÃ£o negada")
-	                || result.contains("Permissão negada")
-	                || result.contains("não permitida")
+	                || result.contains("Permissï¿½o negada")
+	                || result.contains("nÃ£o permitida")
 	                || result.contains("nÃ£o permitida")) {
-	            throw new RuntimeException("Permissão negada!");
+	            throw new RuntimeException("Permissï¿½o negada!");
 	        }
     	}
     }

@@ -61,18 +61,18 @@ public class EnvConfigurator {
 	private void deleteFiles() {
  
 		// TODO: TESTAR
-		/** Este visitor navega no module e, caso precise apagar, tenta apagar do target -- caminho que o módulo está apontando */
+		/** Este visitor navega no module e, caso precise apagar, tenta apagar do target -- caminho que o mï¿½dulo estï¿½ apontando */
 		DeleteVisitor visitor = new DeleteVisitor("*.delete"){
 			VariablePathUtils vpu = new VariablePathUtils(conf, module);
 			
-			// TODO: testar e revisar logs.. uma vez que os logs irão ficar estranhos no caso que existir o arquivo.txt.delete no module e o arquivo.txt já tenha sido deletado
+			// TODO: testar e revisar logs.. uma vez que os logs irï¿½o ficar estranhos no caso que existir o arquivo.txt.delete no module e o arquivo.txt jï¿½ tenha sido deletado
 			// talvez este must delete abaixo resolva o probelma
 			@Override
 			protected boolean mustDelete(Path path) {				
 				return super.mustDelete(path) ? exists(vpu.getTargetWithoutSuffix(path, ".delete")) : false;
 			}
 			
-			/** sobreescrito para deletar o target e não apenas o path sendo navegado */ 
+			/** sobreescrito para deletar o target e nÃ£o apenas o path sendo navegado */ 
 			protected void delete(Path path) throws IOException {
 				Path toDelete = vpu.getTargetWithoutSuffix(path, ".delete");
 				Files.deleteIfExists(toDelete);

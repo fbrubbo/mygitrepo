@@ -16,16 +16,16 @@ public final class FileUtils {
 	
 	private FileUtils(){}
 	
-	/** Deleta um arquivo ou um diretÛrio inteiro */
+	/** Deleta um arquivo ou um diretorio inteiro */
 	public static void delete(Path path) {
 		delete(path, "*");
 	}
 	
 	/** 
-	 * Deleta um arquivo ou um diretÛrio
+	 * Deleta um arquivo ou um diretorio
 	 * 
 	 * @param path caminho que se deseja apagar
-	 * @param glob padr„o glob para arquivos. Ex: <code>*.txt</code> ir· apagar apenas arquivos .txt 
+	 * @param glob padrao glob para arquivos. Ex: <code>*.txt</code> ira apagar apenas arquivos .txt 
 	 */
 	public static void delete(Path path, String glob) {
 		try{ 
@@ -57,10 +57,10 @@ public final class FileUtils {
 	
 	/** 
 	 * Copia todos arquivos da fonte para o destino. <br>
-	 * Isto ir· sobrescrever todo e qualquer arquivo do destino
+	 * Isto ir√° sobrescrever todo e qualquer arquivo do destino
 	 * 
-	 * @param source fonte. Pode ser aquivo ou diretÛrio
-	 * @param target destino. Pode ser aquivo ou diretÛrio
+	 * @param source fonte. Pode ser aquivo ou diret√≥rio
+	 * @param target destino. Pode ser aquivo ou diret√≥rio
 	 */
 	public static void copy(Path source, Path target) {
 		copy(source, target, "*");						
@@ -68,11 +68,11 @@ public final class FileUtils {
 
 	/** 
 	 * Copia ALGUNS arquivos da fonte para o destino.<br>
-	 * Isto ir· sobrescrever todo e qualquer arquivo do destino
+	 * Isto ir√° sobrescrever todo e qualquer arquivo do destino
 	 * 
-	 * @param source fonte. Pode ser aquivo ou diretÛrio
-	 * @param target destino. Pode ser aquivo ou diretÛrio
-	 * @param glob padr„o glob para arquivos. Ex: <code>*.txt</code> ir· copiar apenas arquivos .txt 
+	 * @param source fonte. Pode ser aquivo ou diret√≥rio
+	 * @param target destino. Pode ser aquivo ou diret√≥rio
+	 * @param glob padr√£o glob para arquivos. Ex: <code>*.txt</code> ir√° copiar apenas arquivos .txt 
 	 */
 	public static void copy(Path source, Path target, String glob) {
 		try{
@@ -83,19 +83,19 @@ public final class FileUtils {
 					Path targetFile = PathUtils.get(target, source.getFileName());
 					Files.copy(source, targetFile, REPLACE_EXISTING);
 				} else {
-					// Se o diretÛrio onde estamos querendo colocar o arquivo n„o existir, lanÁa uma NoSuchFileException
-					// Motivo: eu n„o tenho como inferir se o target È um dir ou um file
+					// Se o diret√≥rio onde estamos querendo colocar o arquivo N√£o existir, lan√ßa uma NoSuchFileException
+					// Motivo: eu N√£o tenho como inferir se o target √© um dir ou um file
 					Files.copy(source, target, REPLACE_EXISTING);
 				}
 			} else {
-				throw new RuntimeException("N„o implementado!");
+				throw new RuntimeException("N√£o implementado!");
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	/** MÈtodo helper para criar um arquivo em um determinado diretÛrio com um determinado nome */
+	/** M√©todo helper para criar um arquivo em um determinado diret√≥rio com um determinado nome */
 	public static Path createFile(Path dir, String name) {
 		try {
 			return Files.createFile(PathUtils.get(dir, name));

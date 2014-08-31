@@ -255,9 +255,9 @@ public final class StringUtils
         for(int i = 0; i < str.length(); i++)
         {
             char ch = str.charAt(i);
-            // Está sendo adicionado mais dois testes para retirar
-            // os caracter 'º'(186) e 'ª'(170) que são considerados letras
-            // pelo método "Character.isLetter".
+            // EstÃ¡ sendo adicionado mais dois testes para retirar
+            // os caracter 'Âº'(186) e 'Âª'(170) que sÃ£o considerados letras
+            // pelo mÃ©todo "Character.isLetter".
             if((ch != 186) && (ch != 170) && (Character.isLetter(ch) || Character.isDigit(ch)))
             {
                 buffer.append(ch);
@@ -279,89 +279,89 @@ public final class StringUtils
             char ch = str.charAt(i);
             switch(ch)
             {
-                case 'á' :
-                case 'â' :
-                case 'à' :
-                case 'ã' :
-                case 'ä' :
-                case 'å' :
+                case 'Ã¡' :
+                case 'Ã¢' :
+                case 'Ã ' :
+                case 'Ã£' :
+                case 'Ã¤' :
+                case 'Ã¥' :
                     buffer[i] = 'a';
                     break;
-                case 'Á' :
-                case 'Â' :
-                case 'À' :
-                case 'Ã' :
-                case 'Ä' :
-                case 'Å' :
+                case 'Ã' :
+                case 'Ã‚' :
+                case 'Ã€' :
+                case 'Ãƒ' :
+                case 'Ã„' :
+                case 'Ã…' :
                     buffer[i] = 'A';
                     break;
-                case 'é' :
-                case 'ê' :
-                case 'è' :
-                case 'ë' :
+                case 'Ã©' :
+                case 'Ãª' :
+                case 'Ã¨' :
+                case 'Ã«' :
                     buffer[i] = 'e';
                     break;
-                case 'É' :
-                case 'Ê' :
-                case 'È' :
-                case 'Ë' :
+                case 'Ã‰' :
+                case 'ÃŠ' :
+                case 'Ãˆ' :
+                case 'Ã‹' :
                     buffer[i] = 'E';
                     break;
-                case 'í' :
-                case 'î' :
-                case 'ì' :
-                case 'ï' :
+                case 'Ã­' :
+                case 'Ã®' :
+                case 'Ã¬' :
+                case 'Ã¯' :
                     buffer[i] = 'i';
                     break;
-                case 'Í' :
-                case 'Î' :
-                case 'Ì' :
-                case 'Ï' :
+                case 'Ã' :
+                case 'ÃŽ' :
+                case 'ÃŒ' :
+                case 'Ã' :
                     buffer[i] = 'I';
                     break;
-                case 'ó' :
-                case 'ô' :
-                case 'ò' :
-                case 'õ' :
-                case 'ö' :
+                case 'Ã³' :
+                case 'Ã´' :
+                case 'Ã²' :
+                case 'Ãµ' :
+                case 'Ã¶' :
                     buffer[i] = 'o';
                     break;
-                case 'Ó' :
-                case 'Ô' :
-                case 'Ò' :
-                case 'Õ' :
-                case 'Ö' :
+                case 'Ã“' :
+                case 'Ã”' :
+                case 'Ã’' :
+                case 'Ã•' :
+                case 'Ã–' :
                     buffer[i] = 'O';
                     break;
-                case 'ú' :
-                case 'û' :
-                case 'ù' :
-                case 'ü' :
+                case 'Ãº' :
+                case 'Ã»' :
+                case 'Ã¹' :
+                case 'Ã¼' :
                     buffer[i] = 'u';
                     break;
-                case 'Ú' :
-                case 'Û' :
-                case 'Ù' :
-                case 'Ü' :
+                case 'Ãš' :
+                case 'Ã›' :
+                case 'Ã™' :
+                case 'Ãœ' :
                     buffer[i] = 'U';
                     break;
-                case 'ý' :
-                case 'ÿ' :
+                case 'Ã½' :
+                case 'Ã¿' :
                     buffer[i] = 'y';
                     break;
-                case 'Ý' :
+                case 'Ã' :
                     buffer[i] = 'Y';
                     break;
-                case 'ç' :
+                case 'Ã§' :
                     buffer[i] = 'c';
                     break;
-                case 'Ç' :
+                case 'Ã‡' :
                     buffer[i] = 'C';
                     break;
-                case 'ñ' :
+                case 'Ã±' :
                     buffer[i] = 'n';
                     break;
-                case 'Ñ' :
+                case 'Ã‘' :
                     buffer[i] = 'N';
                     break;
                 default :

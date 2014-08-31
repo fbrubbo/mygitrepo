@@ -120,9 +120,5 @@ public class ValidationUtils {
     	return (email.indexOf("@") != -1 && email.indexOf(".") != -1);
     }
     
-    public static Boolean isValidEmailLoja(String email) {
-    	return (email.indexOf("@") != -1 && email.indexOf(".") != -1) || (email.toUpperCase().replaceAll("[Ã]","A").indexOf("NAO ") != -1);
-    }
-    
     // TODO: colocar um atalho de todos os validadores aqui. ex. isValid de bigdecimal, de inteiro, etc
 }

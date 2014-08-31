@@ -5,7 +5,6 @@ apply plugin: 'maven'
 group = "br.com.datamaio"
 sourceCompatibility = 1.7
 version = '1.0'
-mavenRepo = "file://C:/Fernando/git/eclipse-juno/workspace/Gradle/maven-repo/"
 
 jar {
     manifest {
@@ -16,7 +15,7 @@ jar {
 repositories {
     mavenCentral()
 	maven {
-		url mavenRepo
+		url "file:///opt/gradle-repo/maven-repo/"
 	}
 }
 
@@ -27,14 +26,14 @@ dependencies {
 	testCompile 'junit:junit:4.+'
 }
 
-test {
-    systemProperties 'property': 'value'
-}
-
 uploadArchives {
 	repositories {
 		mavenDeployer {
-			repository(url: mavenRepo)
+			repository(url: "file:///opt/gradle-repo/maven-repo/")
 		}
 	}
+}
+
+task wrapper (type: Wrapper) {
+    gradleVersion = '2.0'
 }

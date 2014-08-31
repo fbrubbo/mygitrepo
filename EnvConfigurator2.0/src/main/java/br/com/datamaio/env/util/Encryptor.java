@@ -27,7 +27,7 @@ public class Encryptor {
 	}
 	
 	public static final Encryptor get(String pass){
-		//TODO: se o cara pegar por este método.. não deveria fazer o retry e, consequentemente, não deveria ler do console
+		//TODO: se o cara pegar por este mï¿½todo.. nÃ£o deveria fazer o retry e, consequentemente, nÃ£o deveria ler do console
 		return new Encryptor(pass, false);
 	}
 

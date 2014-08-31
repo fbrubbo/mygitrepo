@@ -29,7 +29,7 @@ public final class VariablePathUtils {
 		final Path relativized = this.module.relativize(path);
 		final Path resolved = Paths.get("/").resolve(relativized);
 
-		// resolve as variaveis de diretÛrio
+		// resolve as variaveis de diret√≥rio
     	String str = replacePathVars(resolved.toString());
     	return Paths.get(str);
     }
@@ -43,7 +43,7 @@ public final class VariablePathUtils {
 			if(value!=null)
 				srcPath = srcPath.replace(key, value);
 			else 
-				throw new IllegalStateException("Variavel " + key + " n„o foi declarada nas configuracoes. " +
+				throw new IllegalStateException("Variavel " + key + " n√£o foi declarada nas configuracoes. " +
 						"Utilize ExternalConf ou System.properties");
     	}
 		return srcPath;

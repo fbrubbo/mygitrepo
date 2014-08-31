@@ -54,7 +54,7 @@ public class ExternalConf extends Properties {
 
 	private void merge() {
 		// faz este loop apenas para garantir que, se tiver alguma propriedade criptografada, ela sera descriptografada
-		// também resolve as variáveis
+		// tambÃ©m resolve as variï¿½veis
 		final Set<Object> propsKeySet = keySet();
 		for (final Object key : propsKeySet) {
 			final String value = (String) get(key);

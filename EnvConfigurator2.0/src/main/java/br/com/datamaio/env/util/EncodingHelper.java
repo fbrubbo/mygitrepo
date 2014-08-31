@@ -10,8 +10,8 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 /**
- * Classe que visita dentro das configurações do eclipse para saber exatamente o encoding configurado para cada arquivo. <br>
- * Se não exisitr um encoding configura, esta classe considera o encoding padrão do SO.
+ * Classe que visita dentro das configuraï¿½ï¿½es do eclipse para saber exatamente o encoding configurado para cada arquivo. <br>
+ * Se nÃ£o exisitr um encoding configura, esta classe considera o encoding padrï¿½o do SO.
  * 
  * @author Fernando Rubbo
  */
@@ -46,7 +46,7 @@ public class EncodingHelper {
 				}
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("Não foi possível ler o arquivo de encode dos arquivos", e);
+			throw new RuntimeException("nÃ£o foi possÃ­vel ler o arquivo de encode dos arquivos", e);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class EncodingHelper {
 				props.load(in);
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("Não foi possível ler o arquivo de encode dos arquivos", e);
+			throw new RuntimeException("nÃ£o foi possÃ­vel ler o arquivo de encode dos arquivos", e);
 		}
 	}
 

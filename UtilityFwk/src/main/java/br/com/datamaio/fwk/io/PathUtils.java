@@ -12,17 +12,17 @@ public final class PathUtils {
 		return Paths.get(first, more);
 	}
 	
-	/** Método helper para pegar o caminho de um arquivo */
+	/** MÃ©todo helper para pegar o caminho de um arquivo */
 	public static Path get(Path dir, Path name) {
 		return get(dir, name.toString());
 	}
 	
-	/** Método helper para pegar o caminho de um arquivo */
+	/** MÃ©todo helper para pegar o caminho de um arquivo */
 	public static Path get(Path dir, String name) {
 		return Paths.get(dir.toString(), name);
 	}
 	
-	/** Método helper para resolver o caminho de um arquivo em um destino */
+	/** MÃ©todo helper para resolver o caminho de um arquivo em um destino */
 	public static Path resolve(Path file, Path srcDir, Path destDir) {
 		return destDir.resolve(srcDir.relativize(file));
 	}
