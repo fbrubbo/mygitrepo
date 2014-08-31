@@ -98,6 +98,7 @@ public class MyJob implements Job {
 						rDate.getDayOfWeek().toString().substring(0, 2), 
 						REAIS.format(totalValue))); 
 		}
+		LOGGER.info("Sending to androids: " + builder.toString());
 		SendAllMessagesServlet.send(getSender(), prefix, builder.toString());
 	}	
 	

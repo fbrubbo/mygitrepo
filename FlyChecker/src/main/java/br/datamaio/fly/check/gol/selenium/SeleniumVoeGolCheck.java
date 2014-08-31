@@ -53,7 +53,7 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
 	public static void main(String[] args) throws Exception {
 		BigDecimal threshold = new BigDecimal("350");
 		LocalDate startDate = LocalDate.of(2014, 10, 9);
-		Period period = Period.ofMonths(3);
+		Period period = Period.ofWeeks(1);
 		
 		VoeGolCheck check = new SeleniumVoeGolCheck();  
 		check.setUp(threshold, startDate, period);
