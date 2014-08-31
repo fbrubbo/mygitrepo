@@ -319,7 +319,7 @@ public final class ReflectionUtils
         }
     }
     
-    public static Object invokeStaticMethod(Class clazz, String methodName, Object[] values)
+    public static Object invokeStaticMethod(Class<?> clazz, String methodName, Object[] values)
     {
         try
         {

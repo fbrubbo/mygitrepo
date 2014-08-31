@@ -12,10 +12,10 @@ import org.junit.Test;
 
 public class GroovyTemplates {
 
-	@Test
+	@Test 
 	public void test() throws CompilationFailedException, ClassNotFoundException, IOException{
 		File fle = new File("groovy.tmpl");
-	    Map binding = new HashMap();
+	    Map<String, String> binding = new HashMap<String, String>();
 		binding.put("favlang", "Groovy");
 		binding.put("favlang2", "Groovy2");
 	    SimpleTemplateEngine engine = new SimpleTemplateEngine();
