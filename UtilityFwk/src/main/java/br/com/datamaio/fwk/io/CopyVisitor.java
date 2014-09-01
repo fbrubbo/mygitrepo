@@ -20,7 +20,7 @@ public class CopyVisitor extends SimpleFileVisitor<Path> {
 	private int level = 0;
 	protected Path fromPath;
 	protected Path toPath;
-	private final PathMatcher matcher;
+	protected final PathMatcher matcher;
 	
 	public CopyVisitor(Path from, Path to){
 		this(from, to, "*");
@@ -56,7 +56,7 @@ public class CopyVisitor extends SimpleFileVisitor<Path> {
 			resolvedTargetDir = toPath.resolve(relativize);			
 		}
 		
-		boolean goingToCreate = Files.notExists(resolvedTargetDir) && matcher.matches(dir.getFileName());
+		boolean goingToCreate = Files.notExists(resolvedTargetDir) && mustCopy(dir);
 		if(LOGGER.isTraceEnabled()) {
 			LOGGER.trace(tabs() + "PRE VISIT DIR : " + dir + " (going to create target directory? " + goingToCreate + ")");
     	}
@@ -74,14 +74,22 @@ public class CopyVisitor extends SimpleFileVisitor<Path> {
 		final Path relativize = fromPath.relativize(file);
 		final Path resolvedTargetFile = toPath.resolve(relativize);
 		
-		if(matcher.matches(file.getFileName())) {
+		if(mustCopy(file)) {
 			LOGGER.trace(tabs() + "Coping FILE "+ file + " to " + resolvedTargetFile);
-			Files.copy(file, resolvedTargetFile, REPLACE_EXISTING);
+			copy(file, resolvedTargetFile);
 		} else {
 			LOGGER.trace(tabs() + "Ignoring FILE "+ file + " to " + resolvedTargetFile);
 		}
 
 		return FileVisitResult.CONTINUE;
+	}
+	
+	protected boolean mustCopy(Path file) {
+		return matcher.matches(file.getFileName());
+	}
+
+	protected void copy(Path file, final Path resolvedTargetFile) throws IOException {
+		Files.copy(file, resolvedTargetFile, REPLACE_EXISTING);
 	}
 	
 	@Override

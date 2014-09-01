@@ -1,18 +1,30 @@
 package br.com.datamaio.envconfig;
 
 import static java.nio.file.Files.exists;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static java.util.stream.Collectors.toMap;
+import groovy.lang.Writable;
+import groovy.text.SimpleTemplateEngine;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
 import br.com.datamaio.envconfig.util.VariablePathUtils;
+import br.com.datamaio.fwk.io.CopyVisitor;
 import br.com.datamaio.fwk.io.DeleteVisitor;
 import br.com.datamaio.fwk.io.FileUtils;
 
 public class EnvConf {
 	private static final String DELETE_SUFFIX = ".del";
+	private static final String TEMPLATE_SUFFIX = ".tmpl";
 
 	private static final Logger LOGGER = Logger .getLogger(EnvConf.class);
 
@@ -71,10 +83,35 @@ public class EnvConf {
 		FileUtils.deleteDir(module, visitor);
 	}
 	
-	private void copyAndMergeFiles() {
-		// TODO Auto-generated method stub
+	protected void copyAndMergeFiles() {
+		final Map<String, String> bindings = conf.entrySet().stream()
+				.collect(toMap(e -> e.getKey().toString()
+							  ,e -> e.getValue().toString()));
+		final SimpleTemplateEngine engine = new SimpleTemplateEngine();
+		
+		VariablePathUtils vpu = new VariablePathUtils(conf, module);
+		Path target = vpu.getTarget(module);
+		FileUtils.copy(new CopyVisitor(module, target, "*" + DELETE_SUFFIX){
+			protected boolean mustCopy(Path file) {
+				return !matcher.matches(file.getFileName());
+			}
+
+			protected void copy(Path fileToCopy, final Path resolvedTargetPath) throws IOException {
+				if(fileToCopy.toString().endsWith(TEMPLATE_SUFFIX)) {
+					File resolvedTargetFile = new File(resolvedTargetPath.toString().replace(TEMPLATE_SUFFIX, ""));
+				    try (Writer out = new BufferedWriter(new FileWriter(resolvedTargetFile))) {
+						Writable tmplt = engine.createTemplate(fileToCopy.toFile()).make(bindings);
+						tmplt.writeTo(out);
+					} catch (Exception e) {
+						throw new IOException(e);
+					}				
+				    LOGGER.info("MERGED: " + resolvedTargetFile);
+				} else {
+					Files.copy(fileToCopy, resolvedTargetPath, REPLACE_EXISTING);
+					LOGGER.info("COPYED: " + resolvedTargetPath);
+				}
+			}
+		});
 		
 	}
-
-
 }

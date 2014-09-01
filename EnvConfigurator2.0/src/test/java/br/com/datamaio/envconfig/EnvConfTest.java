@@ -20,7 +20,7 @@ public class EnvConfTest {
 	@Test
 	public void testDelete() throws Exception {
 		String fsResource = "/fs/fs1";
-		String moduleResource = "/modules/del1";
+		String moduleResource = "/modules/m1";
 		
 		Path[] paths = createEnv(fsResource, moduleResource);
 		Path root = paths[0];
@@ -47,6 +47,69 @@ public class EnvConfTest {
 		FileUtils.delete(root);
 	}
 
+	@Test
+	public void testSimpleCopy() throws Exception {
+		String fsResource = "/fs/fs2";
+		String moduleResource = "/modules/m2";
+		
+		Path[] paths = createEnv(fsResource, moduleResource);
+		Path root = paths[0];
+		Path fs = paths[1];
+		Path module = paths[2];
+		
+		assertThat(exists(PathUtils.get(fs, "dir2/dir21/f21.txt")), is(false));
+		assertThat(exists(PathUtils.get(fs, "dir2/f2.txt")), is(true));
+		assertThat(exists(PathUtils.get(fs, "dir1/f1.txt")), is(false));
+		assertThat(exists(PathUtils.get(fs, "f.txt")), is(false));
+		assertThat(exists(PathUtils.get(fs, "ff.txt")), is(true));
+		
+		EnvConf conf = new EnvConf(new ExternalConf(), module);		
+		conf.copyAndMergeFiles();
+
+		assertThat(exists(PathUtils.get(fs, "dir2/dir21/f21.txt")), is(true));
+		assertThat(exists(PathUtils.get(fs, "dir1/f1.txt")), is(true));
+		assertThat(exists(PathUtils.get(fs, "f.txt")), is(true));
+		assertThat(exists(PathUtils.get(fs, "ff.txt")), is(true));
+		
+		assertThat(exists(PathUtils.get(fs, "dir3/f3.txt")), is(true));
+
+		
+		FileUtils.delete(root);
+	}
+	
+	@Test
+	public void testMerge() throws Exception {
+		String fsResource = "/fs/fs3";
+		String moduleResource = "/modules/m3";
+		
+		Path[] paths = createEnv(fsResource, moduleResource);
+		Path root = paths[0];
+		Path fs = paths[1];
+		Path module = paths[2];
+		
+		assertThat(exists(PathUtils.get(fs, "dir2/dir21/f21.txt")), is(false));
+		assertThat(exists(PathUtils.get(fs, "dir2/f2.txt")), is(true));
+		assertThat(exists(PathUtils.get(fs, "dir1/f1.txt")), is(false));
+		assertThat(exists(PathUtils.get(fs, "f.txt")), is(false));
+		assertThat(exists(PathUtils.get(fs, "ff.txt")), is(true));
+		
+		ExternalConf ext = new ExternalConf();
+		ext.put("favlang", "aaaaaa");
+		ext.put("favlang2", "bbbbbb");
+		EnvConf conf = new EnvConf(ext, module);		
+		conf.copyAndMergeFiles();
+
+		assertThat(exists(PathUtils.get(fs, "dir2/dir21/f21.txt")), is(true));
+		assertThat(exists(PathUtils.get(fs, "dir1/f1.txt")), is(true));
+		assertThat(exists(PathUtils.get(fs, "f.txt")), is(true));
+		assertThat(exists(PathUtils.get(fs, "ff.txt")), is(true));
+		
+		assertThat(exists(PathUtils.get(fs, "dir3/f3.txt")), is(true));
+
+		
+		FileUtils.delete(root);
+	}
+	
 	private Path[] createEnv(String fsResource, String moduleResource) throws IOException, URISyntaxException {
 		Path root = Files.createTempDirectory("root");		
 		Path fs = FileUtils.createDirectories(PathUtils.get(root, "fs"));

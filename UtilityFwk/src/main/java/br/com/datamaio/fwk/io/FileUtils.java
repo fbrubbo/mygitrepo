@@ -94,6 +94,14 @@ public final class FileUtils {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public static void copy(CopyVisitor visitor) {
+		try {
+			Files.walkFileTree(visitor.fromPath, visitor);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	/** Método helper para criar um arquivo em um determinado diretório com um determinado nome */
 	public static Path createFile(Path dir, String name) {
