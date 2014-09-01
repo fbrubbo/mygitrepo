@@ -104,12 +104,13 @@ public final class FileUtils {
 		}	
 	}
 
-	public static void createDirectories(Path dir) {
+	public static Path createDirectories(Path dir) {
 		try {
 			if (Files.notExists(dir)) {
 				LOGGER.trace(dir + " does not exist. Creating...");
 				Files.createDirectories(dir);
 			}
+			return dir;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}	
