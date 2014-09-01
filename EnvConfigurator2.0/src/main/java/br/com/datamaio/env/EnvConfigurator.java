@@ -22,21 +22,20 @@ import br.com.datamaio.fwk.io.FileUtils;
 import br.com.datamaio.fwk.io.PathUtils;
 
 public class EnvConfigurator {
-	private static final Logger LOGGER = Logger
-			.getLogger(EnvConfigurator.class);
+	private static final Logger LOGGER = Logger .getLogger(EnvConfigurator.class);
 
 	private ExternalConf conf;
 	private Path module;
 
-	public EnvConfigurator(Path conf, Path module) {
+	public EnvConfigurator(Path config, Path module2Install) {
 		this.conf = new ExternalConf();
-		this.conf.load(conf);
-		this.module = module;
+		this.conf.load(config);
+		this.module = module2Install;
 	}
 
-	public EnvConfigurator(ExternalConf conf, Path module) {
+	public EnvConfigurator(ExternalConf conf, Path module2Install) {
 		this.conf = conf;
-		this.module = module;
+		this.module = module2Install;
 	}
 
 	public void exec() {
@@ -61,11 +60,11 @@ public class EnvConfigurator {
 	private void deleteFiles() {
  
 		// TODO: TESTAR
-		/** Este visitor navega no module e, caso precise apagar, tenta apagar do target -- caminho que o m�dulo est� apontando */
+		/** Este visitor navega no module e, caso precise apagar, tenta apagar do target -- caminho que o módulo está apontando */
 		DeleteVisitor visitor = new DeleteVisitor("*.delete"){
 			VariablePathUtils vpu = new VariablePathUtils(conf, module);
 			
-			// TODO: testar e revisar logs.. uma vez que os logs ir�o ficar estranhos no caso que existir o arquivo.txt.delete no module e o arquivo.txt j� tenha sido deletado
+			// TODO: testar e revisar logs.. uma vez que os logs irão ficar estranhos no caso que existir o arquivo.txt.delete no module e o arquivo.txt já tenha sido deletado
 			// talvez este must delete abaixo resolva o probelma
 			@Override
 			protected boolean mustDelete(Path path) {				

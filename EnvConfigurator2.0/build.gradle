@@ -6,6 +6,46 @@ group = 'br.com.datamaio'
 sourceCompatibility = 1.8
 version = '1.0'
 
+configurations {
+	excludedDeps
+}
+
+//Configura o projeto para utilizar o projeto ao invés do jar
+gradle.taskGraph.whenReady {taskGraph ->
+	 eclipse {
+		 def eclipseWSProjectNames = [] as java.util.Set;
+		 def eclipseWSDirs =  file("../").list();
+
+		 configurations.all.each{ configuration ->
+			 configuration.dependencies.each{ dep ->
+				 eclipseWSDirs.each {projectName ->
+					 if( projectName.equalsIgnoreCase(dep.name) ){
+						 eclipseWSProjectNames.add(projectName);
+						 configurations.excludedDeps.dependencies.add(dep);
+					 }
+				 }
+			 }
+		 }
+
+		 classpath {
+			 file{
+				 withXml { xml ->
+					 def node = xml.asNode()
+
+					 eclipseWSProjectNames.collect{ projectName ->
+						 println  "\tThe project " + projectName + " was found in the workspace. Using it instead of its JAR dependency"
+						 node.appendNode( 'classpathentry', [ kind: 'src', path:"/${projectName}", exported: 'true', combineaccessrules:'false'])
+					 }
+				 }
+			 }
+
+			 if(configurations.excludedDeps.dependencies.size()>0){
+				 minusConfigurations += configurations.excludedDeps;
+			 }
+		 }
+	 }
+}
+
 jar {
     manifest {
         attributes 'Implementation-Title': 'EnvConfigurator', 'Implementation-Version': version
@@ -37,6 +77,6 @@ uploadArchives {
 }
 
 task wrapper (type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = '1.7'
 }
 

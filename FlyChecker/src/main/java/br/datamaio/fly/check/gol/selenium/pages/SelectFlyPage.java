@@ -139,7 +139,7 @@ public class SelectFlyPage {
                         e.printStackTrace();
                     }
                 } catch (NoSuchElementException e) {
-                    // ignora a op��o porque ela est� indispon�nvel
+                    // ignora a op��o porque ela está indispon�nvel
                 }
             });
         });

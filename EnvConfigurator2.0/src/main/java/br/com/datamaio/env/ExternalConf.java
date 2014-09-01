@@ -17,8 +17,9 @@ import br.com.datamaio.env.util.EncodingHelper;
 import br.com.datamaio.env.util.Encryptor;
 
 public class ExternalConf extends Properties {
+	private static final long serialVersionUID = 1L;
 	private static final EncodingHelper encodingHelper = new EncodingHelper();
-	private static Pattern p = Pattern.compile("\\$\\{([^\\$\\{])*\\}");
+	private static Pattern variable = Pattern.compile("\\$\\{([^\\$\\{])*\\}");
 	
 	@Override
 	public synchronized void load(InputStream inStream) throws IOException {
@@ -39,11 +40,10 @@ public class ExternalConf extends Properties {
 		merge();
 	}
 	
-	public synchronized void load(final Path conf) {
-        if (conf!=null) {
-            // primeiro carrega do arquivo
-        	final Charset cs = encodingHelper.getCharset(conf.toString());
-    		try (BufferedReader reader = Files.newBufferedReader(conf, cs)) {
+	public synchronized void load(final Path configFile) {
+        if (configFile!=null) {
+        	final Charset cs = inferFileCharset(configFile);
+    		try (BufferedReader reader = Files.newBufferedReader(configFile, cs)) {
     			super.load(reader);
     		} catch (IOException e) {
     			throw new RuntimeException(e);
@@ -54,7 +54,7 @@ public class ExternalConf extends Properties {
 
 	private void merge() {
 		// faz este loop apenas para garantir que, se tiver alguma propriedade criptografada, ela sera descriptografada
-		// também resolve as vari�veis
+		// também resolve as variáveis
 		final Set<Object> propsKeySet = keySet();
 		for (final Object key : propsKeySet) {
 			final String value = (String) get(key);
@@ -81,7 +81,7 @@ public class ExternalConf extends Properties {
 	}
 	
 	public String resolvePropertyValue(String value) {
-        final Matcher m = p.matcher(value);
+        final Matcher m = variable.matcher(value);
         while(m.find()) {
             final String key = m.group();
             final String keyProp = key.substring(0, key.length()-1).substring(2);
@@ -92,7 +92,7 @@ public class ExternalConf extends Properties {
             }
 
             if(innerValue!=null){
-                final Matcher m2 = p.matcher(innerValue);
+                final Matcher m2 = variable.matcher(innerValue);
                 if(m2.find()){
                     innerValue = resolvePropertyValue(innerValue);
                 }
@@ -102,4 +102,8 @@ public class ExternalConf extends Properties {
 
         return value;
     }
+	
+	private Charset inferFileCharset(final Path configFile) {
+		return encodingHelper.getCharset(configFile.toString());
+	}
 }

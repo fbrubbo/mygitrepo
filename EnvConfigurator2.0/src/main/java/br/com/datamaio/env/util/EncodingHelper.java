@@ -10,8 +10,8 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 /**
- * Classe que visita dentro das configura��es do eclipse para saber exatamente o encoding configurado para cada arquivo. <br>
- * Se não exisitr um encoding configura, esta classe considera o encoding padr�o do SO.
+ * Classe que visita dentro das configurações do eclipse para saber exatamente o encoding configurado para cada arquivo. <br>
+ * Se não exisitr um encoding configura, esta classe considera o encoding padrão do SO.
  * 
  * @author Fernando Rubbo
  */

@@ -12,7 +12,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Anotação de Validação da CronException
+ * Anotaï¿½ï¿½o de Validaï¿½ï¿½o da CronException
  *
  * @author Fernando Rubbo
  */
@@ -21,9 +21,9 @@ import javax.validation.Payload;
 @Target({ METHOD, FIELD })
 @Retention(RUNTIME)
 public @interface Cron {
-	/** Mensagem padrão que será apresentada para o usuário */
-	String message() default "A expressão Cron é inválida!";
-    /** Grupos de validação */
+	/** Mensagem padrÃ£o que serï¿½ apresentada para o usuï¿½rio */
+	String message() default "A expressï¿½o Cron ï¿½ invï¿½lida!";
+    /** Grupos de validaï¿½ï¿½o */
 	Class<?>[] groups() default { };
 	/** */
     Class<? extends Payload>[] payload() default { };

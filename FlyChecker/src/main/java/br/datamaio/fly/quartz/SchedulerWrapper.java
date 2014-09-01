@@ -67,7 +67,7 @@ public class SchedulerWrapper {
 		}
 	}
 
-	/** Retorna as execu��es que ir�o inicar nos pr�ximos 5 mimutos	 */
+	/** Retorna as execu��es que irão inicar nos pr�ximos 5 mimutos	 */
 	public synchronized List<ProximaExecucao> buscarProximasExecucoes() {
 
 		final Calendar now = Calendar.getInstance();
@@ -106,7 +106,7 @@ public class SchedulerWrapper {
 
 
 	/**
-	 * Agenda o job. Se j� existe, remove o velho e recria o agendamento.
+	 * Agenda o job. Se já existe, remove o velho e recria o agendamento.
 	 *
 	 * @param sched os dados necess�rios para o agendamento
 	 */
@@ -122,7 +122,7 @@ public class SchedulerWrapper {
 	}
 
 	/**
-	 * Se o job j� existe, deleta ele e as triggers relacionadas
+	 * Se o job já existe, deleta ele e as triggers relacionadas
 	 *
 	 * @param sched o agendamento
 	 */
@@ -191,7 +191,7 @@ public class SchedulerWrapper {
 		return builder.build();
 	}
 
-	/** Indica se o quartz est� ativo */
+	/** Indica se o quartz está ativo */
 	public boolean isSchedulerStarted() {
 		return scheduler != null;
 	}
