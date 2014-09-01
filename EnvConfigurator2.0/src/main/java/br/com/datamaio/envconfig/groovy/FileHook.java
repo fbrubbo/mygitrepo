@@ -1,8 +1,8 @@
-package br.com.datamaio.env.groovy;
+package br.com.datamaio.envconfig.groovy;
 
 import java.io.File;
 
-import br.com.datamaio.env.util.Util;
+import br.com.datamaio.envconfig.util.Util;
 
 public class FileHook extends Hook {
 	protected File srcFile;

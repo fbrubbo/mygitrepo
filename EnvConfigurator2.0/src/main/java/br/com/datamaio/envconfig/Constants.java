@@ -1,4 +1,4 @@
-package br.com.datamaio.env;
+package br.com.datamaio.envconfig;
 
 public interface Constants {
 	public static final String ENV_PROD_PROPERTY = "EnvConfigurator.list.ip.prod";

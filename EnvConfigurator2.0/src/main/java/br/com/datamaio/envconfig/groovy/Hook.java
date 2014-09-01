@@ -1,4 +1,4 @@
-package br.com.datamaio.env.groovy;
+package br.com.datamaio.envconfig.groovy;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -18,8 +18,8 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
-import br.com.datamaio.env.Constants;
-import br.com.datamaio.env.util.Util;
+import br.com.datamaio.envconfig.Constants;
+import br.com.datamaio.envconfig.util.Util;
 
 public class Hook {
 	private static final Map<String, String> HOSTS = new HashMap<String, String>();

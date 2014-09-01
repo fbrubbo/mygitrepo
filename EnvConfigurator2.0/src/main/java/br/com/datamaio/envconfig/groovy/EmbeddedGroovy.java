@@ -1,4 +1,4 @@
-package br.com.datamaio.env.groovy;
+package br.com.datamaio.envconfig.groovy;
 
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;

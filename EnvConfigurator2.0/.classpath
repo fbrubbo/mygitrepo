@@ -4,14 +4,14 @@
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/test/resources"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/UtilityFwk"/>
-	<classpathentry exported="true" kind="lib" path="/home/fernando/.gradle/caches/artifacts-26/filestore/junit/junit/4.12-beta-1/jar/f516376d8dbcaf37ab11975cd7807e5e1782a847/junit-4.12-beta-1.jar" sourcepath="/home/fernando/.gradle/caches/artifacts-26/filestore/junit/junit/4.12-beta-1/source/6b1bbf7aedba23e3e43cb7afe0e9842c364065bd/junit-4.12-beta-1-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/home/fernando/.gradle/caches/artifacts-26/filestore/org.codehaus.groovy/groovy-all/2.3.6/jar/dfe5f424777f4579786ec2145fc43286fcda8195/groovy-all-2.3.6.jar" sourcepath="/home/fernando/.gradle/caches/artifacts-26/filestore/org.codehaus.groovy/groovy-all/2.3.6/source/daa3256e1f5887541d5ba47022ed4de19143ea2/groovy-all-2.3.6-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/home/fernando/.gradle/caches/artifacts-26/filestore/org.hamcrest/hamcrest-core/1.3/jar/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar" sourcepath="/home/fernando/.gradle/caches/artifacts-26/filestore/org.hamcrest/hamcrest-core/1.3/source/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/home/fernando/.gradle/caches/artifacts-26/filestore/org.jasypt/jasypt/1.9.0/jar/857a1a55a81641c31b2a9b4b292120c1d4432bd/jasypt-1.9.0.jar" sourcepath="/home/fernando/.gradle/caches/artifacts-26/filestore/org.jasypt/jasypt/1.9.0/source/7345fb69a07951acddfd3e0a0989aac52f9f655/jasypt-1.9.0-sources.jar"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
 	<classpathentry kind="con" path="org.springsource.ide.eclipse.gradle.dsld.classpathcontainer"/>
 	<classpathentry kind="con" path="GROOVY_DSL_SUPPORT"/>
 	<classpathentry kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry kind="output" path="bin"/>
+	<classpathentry sourcepath="/home/fernando/.gradle/caches/modules-2/files-2.1/org.jasypt/jasypt/1.9.0/7345fb69a07951acddfd3e0a0989aac52f9f655/jasypt-1.9.0-sources.jar" kind="lib" path="/home/fernando/.gradle/caches/modules-2/files-2.1/org.jasypt/jasypt/1.9.0/857a1a55a81641c31b2a9b4b292120c1d4432bd/jasypt-1.9.0.jar" exported="true"/>
+	<classpathentry sourcepath="/home/fernando/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-all/2.3.6/daa3256e1f5887541d5ba47022ed4de19143ea2/groovy-all-2.3.6-sources.jar" kind="lib" path="/home/fernando/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-all/2.3.6/dfe5f424777f4579786ec2145fc43286fcda8195/groovy-all-2.3.6.jar" exported="true"/>
+	<classpathentry sourcepath="/home/fernando/.gradle/caches/modules-2/files-2.1/junit/junit/4.12-beta-1/6b1bbf7aedba23e3e43cb7afe0e9842c364065bd/junit-4.12-beta-1-sources.jar" kind="lib" path="/home/fernando/.gradle/caches/modules-2/files-2.1/junit/junit/4.12-beta-1/f516376d8dbcaf37ab11975cd7807e5e1782a847/junit-4.12-beta-1.jar" exported="true"/>
+	<classpathentry sourcepath="/home/fernando/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar" kind="lib" path="/home/fernando/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar" exported="true"/>
+	<classpathentry kind="src" path="/UtilityFwk" exported="true" combineaccessrules="false"/>
 </classpath>

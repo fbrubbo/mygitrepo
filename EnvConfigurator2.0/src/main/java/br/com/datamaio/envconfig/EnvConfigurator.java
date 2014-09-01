@@ -1,4 +1,4 @@
-package br.com.datamaio.env;
+package br.com.datamaio.envconfig;
 
 import static java.nio.file.Files.exists;
 
@@ -15,8 +15,8 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
-import br.com.datamaio.env.groovy.ModuleHookEmbeddedGroovy;
-import br.com.datamaio.env.util.VariablePathUtils;
+import br.com.datamaio.envconfig.groovy.ModuleHookEmbeddedGroovy;
+import br.com.datamaio.envconfig.util.VariablePathUtils;
 import br.com.datamaio.fwk.io.DeleteVisitor;
 import br.com.datamaio.fwk.io.FileUtils;
 import br.com.datamaio.fwk.io.PathUtils;

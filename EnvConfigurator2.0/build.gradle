@@ -4,6 +4,7 @@ apply plugin: 'maven'
 
 group = 'br.com.datamaio'
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 version = '1.0'
 
 configurations {
@@ -40,7 +41,7 @@ gradle.taskGraph.whenReady {taskGraph ->
 			 }
 
 			 if(configurations.excludedDeps.dependencies.size()>0){
-				 minusConfigurations += configurations.excludedDeps;
+				 minusConfigurations += [configurations.excludedDeps];
 			 }
 		 }
 	 }
@@ -77,6 +78,6 @@ uploadArchives {
 }
 
 task wrapper (type: Wrapper) {
-    gradleVersion = '1.7'
+    gradleVersion = '2.1-rc-2'
 }
 

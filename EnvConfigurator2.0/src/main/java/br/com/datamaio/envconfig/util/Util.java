@@ -1,6 +1,6 @@
-package br.com.datamaio.env.util;
+package br.com.datamaio.envconfig.util;
 
-import static br.com.datamaio.env.Constants.LINUX_USE_SUDO;
+import static br.com.datamaio.envconfig.Constants.LINUX_USE_SUDO;
 
 import java.io.IOException;
 import java.io.InputStream;

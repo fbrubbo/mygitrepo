@@ -1,4 +1,4 @@
-package br.com.datamaio.env;
+package br.com.datamaio.envconfig;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,8 +13,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import br.com.datamaio.env.util.EncodingHelper;
-import br.com.datamaio.env.util.Encryptor;
+import br.com.datamaio.envconfig.util.EncodingHelper;
+import br.com.datamaio.envconfig.util.Encryptor;
 
 public class ExternalConf extends Properties {
 	private static final long serialVersionUID = 1L;

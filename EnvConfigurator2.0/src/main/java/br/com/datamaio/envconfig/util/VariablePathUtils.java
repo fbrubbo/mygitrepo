@@ -1,11 +1,11 @@
-package br.com.datamaio.env.util;
+package br.com.datamaio.envconfig.util;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import br.com.datamaio.env.ExternalConf;
+import br.com.datamaio.envconfig.ExternalConf;
 
 public final class VariablePathUtils {
 	private ExternalConf conf;

@@ -1,4 +1,4 @@
-package br.com.datamaio.env.util;
+package br.com.datamaio.envconfig.util;
 
 import java.io.BufferedInputStream;
 import java.io.File;

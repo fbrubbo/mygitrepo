@@ -1,7 +1,7 @@
-package br.com.datamaio.env.groovy;
+package br.com.datamaio.envconfig.groovy;
 
-import br.com.datamaio.env.Constants;
-import br.com.datamaio.env.util.Util;
+import br.com.datamaio.envconfig.Constants;
+import br.com.datamaio.envconfig.util.Util;
 
 
 public class ModuleHook extends Hook {

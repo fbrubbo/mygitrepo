@@ -1,11 +1,11 @@
-package br.com.datamaio.env.util;
+package br.com.datamaio.envconfig.util;
 
 import java.io.Console;
 
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.jasypt.util.text.BasicTextEncryptor;
 
-import br.com.datamaio.env.Constants;
+import br.com.datamaio.envconfig.Constants;
 
 public class Encryptor {
 	public static final String PREFIX = "ENCRYPTED:";	

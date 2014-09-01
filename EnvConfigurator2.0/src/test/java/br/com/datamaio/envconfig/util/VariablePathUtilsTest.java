@@ -1,4 +1,4 @@
-package br.com.datamaio.env.util;
+package br.com.datamaio.envconfig.util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.datamaio.env.ExternalConf;
+import br.com.datamaio.envconfig.ExternalConf;
 import br.com.datamaio.fwk.io.PathUtils;
 
 public class VariablePathUtilsTest {
