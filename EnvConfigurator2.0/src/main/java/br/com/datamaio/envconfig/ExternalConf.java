@@ -40,7 +40,7 @@ public class ExternalConf extends Properties {
 		merge();
 	}
 	
-	public synchronized void load(final Path configFile) {
+	public synchronized ExternalConf load(final Path configFile) {
         if (configFile!=null) {
         	final Charset cs = inferFileCharset(configFile);
     		try (BufferedReader reader = Files.newBufferedReader(configFile, cs)) {
@@ -50,6 +50,7 @@ public class ExternalConf extends Properties {
     		}
     		merge();
         }
+        return this;
 	}
 
 	private void merge() {
