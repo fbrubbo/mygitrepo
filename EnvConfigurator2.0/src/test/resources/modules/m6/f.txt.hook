@@ -1,0 +1,8 @@
+import br.com.datamaio.envconfig.groovy.FileHook;
+
+class f extends FileHook {
+	@Override
+	public void post() {
+	  chmod("777");
+	}
+}

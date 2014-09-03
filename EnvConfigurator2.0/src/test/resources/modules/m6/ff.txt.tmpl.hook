@@ -1,0 +1,8 @@
+import br.com.datamaio.envconfig.groovy.FileHook;
+
+class ff extends FileHook {
+	@Override
+	public void post() {
+	  renameTo(targetPath + ".postexecuted");
+	}
+}

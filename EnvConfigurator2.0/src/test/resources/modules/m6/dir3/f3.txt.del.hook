@@ -1,0 +1,10 @@
+import br.com.datamaio.envconfig.groovy.FileHook;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+class f3 extends FileHook {
+	@Override
+	public void post() {
+	  Files.createFile(Paths.get(targetPath + ".postexecuted"));
+	}
+}
