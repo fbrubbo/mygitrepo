@@ -22,7 +22,7 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 public @interface Cron {
 	/** Mensagem padrão que ser� apresentada para o usu�rio */
-	String message() default "A express�o Cron � inv�lida!";
+	String message() default "A express�o Cron é inv�lida!";
     /** Grupos de valida��o */
 	Class<?>[] groups() default { };
 	/** */

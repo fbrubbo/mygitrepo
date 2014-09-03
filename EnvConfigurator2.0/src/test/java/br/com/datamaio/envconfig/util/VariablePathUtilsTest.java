@@ -27,7 +27,7 @@ public class VariablePathUtilsTest {
 
 	@Test
 	public void replacePathVars() throws IOException{		
-		VariablePathUtils vpu = new VariablePathUtils(conf, null);
+		VariablePathHelper vpu = new VariablePathHelper(conf, null);
 		assertThat(vpu.replacePathVars("/opt/jboss/@all@"), is("/opt/jboss/VAL_all"));
 		assertThat(vpu.replacePathVars("/opt/jboss/@all@/test"), is("/opt/jboss/VAL_all/test"));
 		assertThat(vpu.replacePathVars("/opt/jboss/@begin@test"), is("/opt/jboss/VAL_begintest"));
@@ -37,7 +37,7 @@ public class VariablePathUtilsTest {
 	
 	@Test(expected=IllegalStateException.class)
 	public void variableDoNotExists() throws IOException{		
-		VariablePathUtils vpu = new VariablePathUtils(conf, null);
+		VariablePathHelper vpu = new VariablePathHelper(conf, null);
 		assertThat(vpu.replacePathVars("/opt/jboss/@NOTREPLACED@/test"), is("/opt/jboss/@NOTREPLACED@/test"));
 	}
 
@@ -47,7 +47,7 @@ public class VariablePathUtilsTest {
 		Path modules = Paths.get("/location/modules/mymodule");		
 		Path dir = PathUtils.get(modules, "@manydirs@/test@end@");
 				
-		VariablePathUtils vpu = new VariablePathUtils(conf, modules);
+		VariablePathHelper vpu = new VariablePathHelper(conf, modules);
 		Path result = vpu.getTarget(dir);
 		assertThat(result, is(PathUtils.get("/a/b/c/testVAL_end")));		
 	}
@@ -57,7 +57,7 @@ public class VariablePathUtilsTest {
 		Path modules = Paths.get("/location/modules/mymodule");		
 		Path file = PathUtils.get(modules, "@manydirs@/test.txt.delete");
 				
-		VariablePathUtils vpu = new VariablePathUtils(conf, modules);
+		VariablePathHelper vpu = new VariablePathHelper(conf, modules);
 		Path result = vpu.getTargetWithoutSuffix(file, ".delete");
 		assertThat(result, is(PathUtils.get("/a/b/c/test.txt")));		
 	}

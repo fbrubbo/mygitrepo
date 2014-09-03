@@ -19,7 +19,7 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
 import br.com.datamaio.envconfig.Constants;
-import br.com.datamaio.envconfig.util.Util;
+import br.com.datamaio.envconfig.util.Cmd;
 
 public class Hook {
 	private static final Map<String, String> HOSTS = new HashMap<String, String>();
@@ -31,7 +31,7 @@ public class Hook {
 	public void post() {}
 
 	/**
-	 * Ao finalizar a execu��o dos hooks (pre/post) o framewok deve chamar este m�todo
+	 * Ao finalizar a execução dos hooks (pre/post) o framewok deve chamar este método
 	 * para limpar as propriedades transientes
 	 */
 	public void finish() {
@@ -42,31 +42,31 @@ public class Hook {
 	}
 
 	protected boolean isLinux(){
-		return Util.isLinux();
+		return Cmd.isLinux();
 	}
 
 	protected boolean isWindows(){
-        return !Util.isLinux();
+        return !Cmd.isLinux();
     }
 
 	protected String whoami(){
-		return Util.whoami();
+		return Cmd.whoami();
 	}
 
 	protected String run(final String cmd) {
-		return Util.run(cmd);
+		return Cmd.run(cmd);
 	}
 
 	protected String chmod(final String mode, final String file) {
-		return Util.chmod(mode, file);
+		return Cmd.chmod(mode, file);
 	}
 
 	public static String chown(final String user, final String file) {
-		return Util.chown(user, file);
+		return Cmd.chown(user, file);
 	}
 
 	protected String mv(final String from, final String to) {
-        return Util.mv(from, to);
+        return Cmd.mv(from, to);
     }
 
 	protected boolean isDesenv(){

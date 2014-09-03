@@ -108,7 +108,7 @@ public class SelectFlyPage {
     private void buildReturning() {
         if(TripType.ONE_WAY.equals(trip)){
             // TODO: o ideal seria construir objetos diferente de acordo com o trip
-            throw new IllegalStateException("você não pode chamar o m�todo de retorno de viagem se ecolheu apenas one tryp");
+            throw new IllegalStateException("você não pode chamar o método de retorno de viagem se ecolheu apenas one tryp");
         }
 
         if(buildReturning) {

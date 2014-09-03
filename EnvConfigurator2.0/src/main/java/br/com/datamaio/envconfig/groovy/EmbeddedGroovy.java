@@ -22,6 +22,7 @@ public class EmbeddedGroovy {
 				final ClassLoader parent = ModuleHookEmbeddedGroovy.class.getClassLoader();
 				final GroovyClassLoader loader = new GroovyClassLoader(parent);
 				final Class<?> groovyClass = loader.parseClass(this.groovyFile);
+				loader.close();
 				
 				final GroovyObject groovyObject = (GroovyObject) groovyClass.newInstance();				
 				return (Hook) groovyObject;

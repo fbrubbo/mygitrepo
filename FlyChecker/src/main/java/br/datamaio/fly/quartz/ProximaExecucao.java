@@ -3,7 +3,7 @@ package br.datamaio.fly.quartz;
 import java.util.Calendar;
 
 /**
- * DTO que contem a pr�xima execu��o
+ * DTO que contem a próxima execução
  */
 public class ProximaExecucao {
 
@@ -23,7 +23,7 @@ public class ProximaExecucao {
 	 *
 	 * @param id do Agendamento
 	 * @param nome do Job
-	 * @param dataHora data e hora da pr�xima execu��o
+	 * @param dataHora data e hora da próxima execução
 	 */
 	public ProximaExecucao(final Long id, final String nome,
 			final Calendar dataHora) {

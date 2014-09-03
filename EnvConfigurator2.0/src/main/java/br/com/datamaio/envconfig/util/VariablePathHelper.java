@@ -7,11 +7,11 @@ import java.util.regex.Pattern;
 
 import br.com.datamaio.envconfig.ExternalConf;
 
-public final class VariablePathUtils {
+public final class VariablePathHelper {
 	private ExternalConf conf;
 	private Path module;
 
-	public VariablePathUtils(ExternalConf conf, Path module){
+	public VariablePathHelper(ExternalConf conf, Path module){
 		this.conf = conf;
 		this.module = module;
 	}

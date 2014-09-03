@@ -2,7 +2,7 @@ package br.com.datamaio.envconfig.groovy;
 
 import java.io.File;
 
-import br.com.datamaio.envconfig.util.Util;
+import br.com.datamaio.envconfig.util.Cmd;
 
 public class FileHook extends Hook {
 	protected File srcFile;
@@ -11,36 +11,36 @@ public class FileHook extends Hook {
 	protected String targetPath;
 	
 	protected String chmod(String mode) {
-		return Util.chmod(mode, targetPath);
+		return Cmd.chmod(mode, targetPath);
 	}
 	
 	protected String chmod(String mode, boolean recursive) {
-		return Util.chmod(mode, targetPath, recursive);
+		return Cmd.chmod(mode, targetPath, recursive);
 	}
 	
 	public void dos2unix() {
-		Util.dos2unix(targetPath);	
+		Cmd.dos2unix(targetPath);	
 	}
 	
 	
 	protected String chown(String user) {
-		return Util.chown(user, targetPath);
+		return Cmd.chown(user, targetPath);
 	}
 	
 	protected String chown(String user, boolean recursive) {
-		return Util.chown(user, targetPath, recursive);
+		return Cmd.chown(user, targetPath, recursive);
 	}
 	
 	protected String chown(String user, String group, boolean recursive) {
-		return Util.chown(user, group, recursive);
+		return Cmd.chown(user, group, recursive);
 	}
 	
 	protected String ln(String link) {
-		return Util.ln(targetPath, link);
+		return Cmd.ln(targetPath, link);
 	}
 		
 	protected String renameTo(String to) {
-        return Util.mv(targetPath, to);
+        return Cmd.mv(targetPath, to);
     }
 	
 	protected String getTargetDirectory(){

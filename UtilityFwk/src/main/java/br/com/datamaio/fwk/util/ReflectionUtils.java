@@ -489,7 +489,7 @@ public final class ReflectionUtils
         }
         // --- Fim do código experimental --
 
-        // este cara foi deixado para evitar problemas, mas o código acima � ligeiramente mais r�pido.
+        // este cara foi deixado para evitar problemas, mas o código acima é ligeiramente mais rápido.
         return PROPERTY_UTILS.isReadable(bean, name);
     }
 

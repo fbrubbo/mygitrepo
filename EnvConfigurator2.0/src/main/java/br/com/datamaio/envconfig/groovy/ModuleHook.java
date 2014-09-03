@@ -1,11 +1,11 @@
 package br.com.datamaio.envconfig.groovy;
 
 import br.com.datamaio.envconfig.Constants;
-import br.com.datamaio.envconfig.util.Util;
-
+import br.com.datamaio.envconfig.util.Cmd;
 
 public class ModuleHook extends Hook {
-
+	protected String modulePath;
+	
 	private static final String ROOT = "root";
 
     protected void requestSudoPassword() {
@@ -14,9 +14,9 @@ public class ModuleHook extends Hook {
     	} else {
 	        System.setProperty(Constants.LINUX_USE_SUDO, "true");
 	        System.out.println("Entre com o password para executar os comandos com sudo. (OBS: o comando abaixo eh apenas para verificar a permissao de sudo)");
-	        final String result = Util.ls("/root/");
+	        final String result = Cmd.ls("/root/");
 
-	        // o if abaixo � apenas por garantia. Vai que não d� erro e apenas aparece permiss�o negada no output
+	        // o if abaixo é apenas por garantia. Vai que não d� erro e apenas aparece permiss�o negada no output
 	        if(result==null
 	                || result.contains("Permission denied")
 	                || result.contains("Permissão negada")
@@ -27,5 +27,4 @@ public class ModuleHook extends Hook {
 	        }
     	}
     }
-
 }

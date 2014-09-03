@@ -10,8 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 
 // FIXME: reescrever toda esta clase para Cmd
-// Ai criar para LinuxCmd, CentOSCmd, WindowsCmd, etc
-public class Util {
+// Ai criar para LinuxCmd, UbuntoCmd, CentOSCmd, WindowsCmd, etc
+// remover o use sudo?!?! se remover aqui, remover também de ModuleHook
+public class Cmd {
 
 	static class Interact {
 		boolean printOutput(){

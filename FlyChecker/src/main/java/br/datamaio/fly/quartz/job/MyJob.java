@@ -103,7 +103,7 @@ public class MyJob implements Job {
 	}	
 	
 	private Sender getSender() {
-		// FIXME: melhorar isto.. agora � so para testar
+		// FIXME: melhorar isto.. agora é so para testar
 		return new Sender(new ApiKey().getKey());
 	}	
 	

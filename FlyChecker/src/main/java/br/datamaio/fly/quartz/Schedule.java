@@ -39,42 +39,42 @@ public class Schedule {
 	private Long id;
 	
 	@Column(name = "name", nullable = false, length = 64)
-	@NotNull(message = "O nome do agendamento é obrigatório!")
-	@Size(min = 4, max = 64, message = "Tamanho do nome deve ser maior que 4 e menor que 64 posições!")
+	@NotNull(message = "O nome do agendamento Ã© obrigatï¿½rio!")
+	@Size(min = 4, max = 64, message = "Tamanho do nome deve ser maior que 4 e menor que 64 posiï¿½ï¿½es!")
 	private String name;
 
 	@Column(name = "jobClass")
-	@NotNull(message = "A classe do Job é obrigatória!")
+	@NotNull(message = "A classe do Job Ã© obrigatï¿½ria!")
 	private Class<? extends Job> jobClass;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "frequency")
-	@NotNull(message = "O tipo do agendamento é obrigatório!")
+	@NotNull(message = "O tipo do agendamento Ã© obrigatï¿½rio!")
 	private Frequency frequency;	
 	
 	// PERIODICO
 	@Column(name = "cron", nullable = true, length = 64)
 	@Cron	
-	@NotNull(message = "Para agendamento periodico a expressão Cron é obrigatória!", groups = Periodic.class)
+	@NotNull(message = "Para agendamento periodico a expressï¿½o Cron Ã© obrigatï¿½ria!", groups = Periodic.class)
 	private String cron;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "from", nullable = true)
 	@Future(message = "A data inicial deve estar no futuro!")
-	@NotNull(message = "Para agendamento periodico a data inicial é obrigatória!", groups = Periodic.class)
+	@NotNull(message = "Para agendamento periodico a data inicial Ã© obrigatï¿½ria!", groups = Periodic.class)
 	private LocalDateTime from;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "dataFinal", nullable = true)
 	@Future(message = "A data final deve estar no futuro!")
-	@NotNull(message = "Para agendamento periodico a data final é obrigatória!", groups = Periodic.class)
+	@NotNull(message = "Para agendamento periodico a data final Ã© obrigatï¿½ria!", groups = Periodic.class)
 	private LocalDateTime to;
 
 	// UNICO
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "datahora", nullable = true)
 	@Future(message = "A data e hora deve estar no futuro!")
-	@NotNull(message = "Para agendamento único a data e hora é obrigatória!", groups = Single.class)
+	@NotNull(message = "Para agendamento ï¿½nico a data e hora Ã© obrigatï¿½ria!", groups = Single.class)
 	private LocalDateTime time;
 
 	
@@ -144,7 +144,7 @@ public class Schedule {
 	
 	
 	/**
-	 * Retorna o nome que será utilizado no Job
+	 * Retorna o nome que serï¿½ utilizado no Job
 	 *
 	 * @return o nome do Job
 	 */
