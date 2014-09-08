@@ -1,15 +1,17 @@
 package br.com.datamaio.envconfig.groovy;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -18,13 +20,17 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
-import br.com.datamaio.envconfig.Constants;
+import br.com.datamaio.envconfig.conf.Configuration;
+import br.com.datamaio.envconfig.conf.Environments;
 import br.com.datamaio.envconfig.util.Cmd;
 
 public class Hook {
+	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	private static final Map<String, String> HOSTS = new HashMap<String, String>();
 	
+	protected Environments envs;
 	protected Properties props;
+	protected Configuration conf;
 	private final Properties transientProps = new Properties();
 
 	public boolean pre() {return true;}
@@ -74,15 +80,18 @@ public class Hook {
 	}
 
 	protected boolean isTst(){
-		return checkEnv(Constants.ENV_TST_PROPERTY);
+		final String address = whatIsMyIp();
+		return envs.isTst(address);
 	}
 
 	protected boolean isHom(){
-		return checkEnv(Constants.ENV_HOM_PROPERTY);
+		final String address = whatIsMyIp();
+		return envs.isHom(address);
 	}
 
 	protected boolean isProd(){
-		return checkEnv(Constants.ENV_PROD_PROPERTY);
+		final String address = whatIsMyIp();
+		return envs.isProd(address);
 	}
 
     protected String whatIsMyIp()
@@ -131,16 +140,6 @@ public class Hook {
         return props.getProperty(key)!=null;
     }
 
-	private boolean checkEnv(final String property) {
-		final String prop = props.getProperty(property);
-		if(prop == null) {
-		    throw new RuntimeException("Favor setar a propriedade " + property);
-		}
-		final List<String> propList = Arrays.asList(prop.split(","));
-
-		final String address = whatIsMyIp();
-        return propList.contains(address);
-	}
 
 	private String getIpFromDNS(String hostName) {
 		if(!HOSTS.containsKey(hostName)) { 
@@ -189,5 +188,17 @@ public class Hook {
 		}
 		return results;
 	}
+	
+    public void log(String msg) {
+        LOGGER.info(msg);
+    }
+    
+    public Path resolveDependency(String name) {
+    	File file = conf.getDependency(name);
+    	if(file==null)
+    		throw new RuntimeException("Não foi possível resolver a dependência " + name);
+    	
+    	return file.toPath();
+    }
 	
 }

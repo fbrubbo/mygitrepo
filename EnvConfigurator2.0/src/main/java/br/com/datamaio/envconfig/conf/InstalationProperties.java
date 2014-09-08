@@ -1,4 +1,4 @@
-package br.com.datamaio.envconfig;
+package br.com.datamaio.envconfig.conf;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,8 @@ import java.util.regex.Pattern;
 import br.com.datamaio.envconfig.util.EncodingHelper;
 import br.com.datamaio.envconfig.util.Encryptor;
 
-public class ExternalConf extends Properties {
+public class InstalationProperties extends Properties {
+	
 	private static final long serialVersionUID = 1L;
 	private static final EncodingHelper encodingHelper = new EncodingHelper();
 	private static Pattern variable = Pattern.compile("\\$\\{([^\\$\\{])*\\}");
@@ -40,7 +41,7 @@ public class ExternalConf extends Properties {
 		merge();
 	}
 	
-	public synchronized ExternalConf load(final Path configFile) {
+	public synchronized InstalationProperties load(final Path configFile) {
         if (configFile!=null) {
         	final Charset cs = inferFileCharset(configFile);
     		try (BufferedReader reader = Files.newBufferedReader(configFile, cs)) {
@@ -68,7 +69,7 @@ public class ExternalConf extends Properties {
 		for (final Object key : sysPropsKeySet) {
 			final String value = (String) sysProps.get(key);
 			putInProps(key, value);
-		}
+		}		
 	}
 	
 	private void putInProps(final Object key, final String value) {

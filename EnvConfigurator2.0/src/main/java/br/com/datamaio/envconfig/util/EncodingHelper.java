@@ -6,8 +6,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Properties;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 
 /**
  * Classe que visita dentro das configurações do eclipse para saber exatamente o encoding configurado para cada arquivo. <br>
@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
  */
 public class EncodingHelper {
 
-	private static final Logger LOGGER = Logger.getLogger(EncodingHelper.class);
+    private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private static final String DEFAULT_ECLIPSE_CONF = ".settings/org.eclipse.core.resources.prefs";
 	private static final String ENCODING_PREFIX = "encoding/";
@@ -87,7 +87,7 @@ public class EncodingHelper {
 				if (isTheKeyAnEncoding(key)) {
 					if (key.contains(fileName) || 
 							fileName.contains(key.substring(ENCODING_PREFIX.length() + 1))) {
-						LOGGER.debug("t\t\tFound in the inverse logic");
+						LOGGER.fine("t\t\tFound in the inverse logic");
 						encode = props.getProperty(key);
 						break;
 					}
@@ -97,7 +97,7 @@ public class EncodingHelper {
 
 		final String result = encode == null ? defaultEncoding : encode;		
 		final Charset cs = Charset.forName(result);
-		LOGGER.debug("\t\tEncoding for " + fileName + " is " + cs);
+		LOGGER.fine("\t\tEncoding for " + fileName + " is " + cs);
 		return cs;
 	}
 

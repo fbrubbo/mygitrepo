@@ -12,16 +12,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import br.com.datamaio.fwk.io.FileUtils;
 import br.com.datamaio.fwk.io.PathUtils;
 
 
-public class EnvConfTest {
+public class EnvConfiguratorTest {
+	
+	@Before
+	public void setup(){
+		System.setProperty("br.com.datamaio.envconfig.util.LogHelper.EnableFileHandler", "false");
+	}
+	
 	@Test
 	public void testDelete() throws Exception {
 		Path[] paths = createEnv(1);
@@ -35,7 +44,7 @@ public class EnvConfTest {
 		assertThat(exists(PathUtils.get(fs, "f.txt")), is(true));
 		assertThat(exists(PathUtils.get(fs, "ff.txt")), is(false));
 		
-		new EnvConf(new ExternalConf(), module).deleteFiles();
+		new EnvConfigurator(new HashMap<>(), module).deleteFiles();
 
 		assertThat(exists(PathUtils.get(fs, "dir1/f1.txt")), is(false));
 		assertThat(exists(PathUtils.get(fs, "dir2/dir21/f21.txt")), is(false));
@@ -61,7 +70,7 @@ public class EnvConfTest {
 		assertThat(exists(PathUtils.get(fs, "f.txt")), is(false));
 		assertThat(exists(PathUtils.get(fs, "ff.txt")), is(true));
 		
-		new EnvConf(new ExternalConf(), module).copyFiles();		
+		new EnvConfigurator(new HashMap<>(), module).copyFiles();		
 
 		assertThat(exists(PathUtils.get(fs, "dir1/f1.txt")), is(true));
 		assertThat(exists(PathUtils.get(fs, "dir2/dir21/f21.txt")), is(true));
@@ -88,10 +97,10 @@ public class EnvConfTest {
 		assertThat(exists(PathUtils.get(fs, "f.txt")), is(false));
 		assertThat(exists(PathUtils.get(fs, "ff.txt")), is(true));
 		
-		ExternalConf ext = new ExternalConf();
+		Map<String, String> ext = new HashMap<>();
 		ext.put("favlang", "aaaaaa");
 		ext.put("favlang2", "bbbbbb");
-		new EnvConf(ext, module).copyFiles();		
+		new EnvConfigurator(ext, module).copyFiles();		
 
 		checkResult(fs, result, "dir1/f1.txt");
 		checkResult(fs, result, "dir2/dir21/f21.txt");
@@ -117,10 +126,10 @@ public class EnvConfTest {
 		assertThat(exists(PathUtils.get(fs, "f.txt")), is(false));
 		assertThat(exists(PathUtils.get(fs, "ff.txt")), is(true));
 		
-		ExternalConf ext = new ExternalConf();
+		Map<String, String> ext = new HashMap<>();
 		ext.put("favlang", "aaaaaa");
 		ext.put("favlang2", "bbbbbb");
-		new EnvConf(ext, module).exec();		
+		new EnvConfigurator(ext, module).exec();		
 
 		checkResult(fs, result, "dir1/f1.txt");
 		checkResult(fs, result, "dir2/dir21/f21.txt");
@@ -142,9 +151,9 @@ public class EnvConfTest {
 		assertThat(exists(PathUtils.get(fs, "f.txt")), is(false));
 		assertThat(exists(PathUtils.get(fs, "dir3/f3.txt")), is(true));
 		
-		ExternalConf ext = new ExternalConf();
+		Map<String, String> ext = new HashMap<>();
 		ext.put("favlang", "aaaaaa");
-		new EnvConf(ext, module).exec();		
+		new EnvConfigurator(ext, module).exec();		
 
 		assertThat(exists(PathUtils.get(fs, "dir2/dir21/f21.txt")), is(false));
 		assertThat(exists(PathUtils.get(fs, "f.txt")), is(true));
@@ -166,10 +175,10 @@ public class EnvConfTest {
 		assertThat(exists(PathUtils.get(fs, "ff.txt.postexecuted")), is(false));
 		assertThat(exists(PathUtils.get(fs, "dir3/f3.txt")), is(true));
 		
-		ExternalConf ext = new ExternalConf();
+		Map<String, String> ext = new HashMap<>();
 		ext.put("favlang", "aaaaaa");
 		ext.put("favlang2", "bbbbbb");
-		new EnvConf(ext, module).exec();		
+		new EnvConfigurator(ext, module).exec();		
 
 		assertThat(exists(PathUtils.get(fs, "f.txt")), is(true));
 		Set<PosixFilePermission> after = Files.getPosixFilePermissions(PathUtils.get(fs, "f.txt"));
@@ -189,9 +198,9 @@ public class EnvConfTest {
 		Path module = paths[2];
 		Files.write(PathUtils.get(module, "Module.hook"), buildModuleHookPre()); 
 				
-		ExternalConf ext = new ExternalConf();
+		Map<String, String> ext = new HashMap<>();
 		ext.put("var", "var errada");
-		new EnvConf(ext, module).exec();		
+		new EnvConfigurator(ext, module).exec();		
 
 		assertThat(exists(PathUtils.get(fs, "f.txt")), is(false));
 		assertThat(exists(PathUtils.get(fs, "dir3/f3.txt")), is(false));
@@ -207,8 +216,8 @@ public class EnvConfTest {
 		Path module = paths[2];
 		Files.write(PathUtils.get(module, "Module.hook"), buildModuleHookPost()); 
 				
-		ExternalConf ext = new ExternalConf();
-		new EnvConf(ext, module).exec();		
+		Map<String, String> ext = new HashMap<>();
+		new EnvConfigurator(ext, module).exec();		
 
 		assertThat(exists(PathUtils.get(fs, "f.txt")), is(true));
 		assertThat(exists(PathUtils.get(fs, "dir3/f3.txt")), is(true));

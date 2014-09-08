@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/DesenvDBServer/!svn/ver/102/trunk/GradlePlugins/src/main/resources/META-INF/gradle-plugins
+END
+dbenvconfig.properties
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/DesenvDBServer/!svn/ver/102/trunk/GradlePlugins/src/main/resources/META-INF/gradle-plugins/dbenvconfig.properties
+END
+dbjava.properties
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/DesenvDBServer/!svn/ver/15/trunk/GradlePlugins/src/main/resources/META-INF/gradle-plugins/dbjava.properties
+END
+dbembeddedwar.properties
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/DesenvDBServer/!svn/ver/15/trunk/GradlePlugins/src/main/resources/META-INF/gradle-plugins/dbembeddedwar.properties
+END
+dbwar.properties
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/DesenvDBServer/!svn/ver/15/trunk/GradlePlugins/src/main/resources/META-INF/gradle-plugins/dbwar.properties
+END
+dbjenkins.properties
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/DesenvDBServer/!svn/ver/96/trunk/GradlePlugins/src/main/resources/META-INF/gradle-plugins/dbjenkins.properties
+END

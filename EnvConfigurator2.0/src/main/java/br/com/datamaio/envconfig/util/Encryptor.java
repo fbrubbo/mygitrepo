@@ -5,9 +5,8 @@ import java.io.Console;
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.jasypt.util.text.BasicTextEncryptor;
 
-import br.com.datamaio.envconfig.Constants;
-
 public class Encryptor {
+	public static final String ENCRYPTOR_PASSWORD_PROPERTY = "EnvConfigurator.encryptor.password";
 	public static final String PREFIX = "ENCRYPTED:";	
 	private static Encryptor INSTANCE;	
 	private static int passRetry = 3;	
@@ -17,7 +16,7 @@ public class Encryptor {
        
 	public static synchronized final Encryptor get(){
 		if(INSTANCE==null) {
-			String pass = System.getProperty(Constants.ENCRYPTOR_PASSWORD_PROPERTY);
+			String pass = System.getProperty(ENCRYPTOR_PASSWORD_PROPERTY);
 			if(pass==null || pass.length()==0) {
 				pass = readPasswordFromConsole();
 			}
@@ -48,7 +47,7 @@ public class Encryptor {
 			final char[] passwd = cons.readPassword("Forneca o password para descriptografar as propriedades:") ;
 			if (passwd != null) {
 				String pass = new String(passwd);
-				System.setProperty(Constants.ENCRYPTOR_PASSWORD_PROPERTY, pass);
+				System.setProperty(ENCRYPTOR_PASSWORD_PROPERTY, pass);
 				return pass;
 			}
 		}
@@ -63,7 +62,7 @@ public class Encryptor {
     private Encryptor(String pass, boolean retry) {
     	if(pass==null || pass.length()==0) {
     		throw new RuntimeException("E necessario informar a propriedade java -D" + 
-    				Constants.ENCRYPTOR_PASSWORD_PROPERTY + "=<SEU_PASSWORD> ao iniciar o programa (ou estar em modo console). " +
+    				ENCRYPTOR_PASSWORD_PROPERTY + "=<SEU_PASSWORD> ao iniciar o programa (ou estar em modo console). " +
     				"Esta senha e utilizada para descriptografar as configuracoes criptografadas.");
     	}
     	

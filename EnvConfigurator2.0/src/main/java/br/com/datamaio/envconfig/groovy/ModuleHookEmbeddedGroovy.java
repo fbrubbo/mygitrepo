@@ -1,45 +1,43 @@
 package br.com.datamaio.envconfig.groovy;
 
-import groovy.lang.GroovyObject;
-
 import java.io.File;
-import java.nio.file.Path;
-import java.util.Properties;
+import java.util.logging.Logger;
+
+import br.com.datamaio.envconfig.conf.Configuration;
 
 
 public class ModuleHookEmbeddedGroovy extends EmbeddedGroovy {
-	private final String modulePath;
-
-	public ModuleHookEmbeddedGroovy(final String suffix, final Path module, final Properties props) {
-		this(suffix, module.toString(), props);
-	}
+    private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
-	public ModuleHookEmbeddedGroovy(final String suffix, final String modulePath, final Properties props) {
-		super(modulePath + File.separator + "Module" + suffix, props);
-		this.modulePath = modulePath;
-		setModulePath();
-	}
+	private final Configuration conf;
 	
-	private void setModulePath() {
-		if(hook!=null) {
-			final GroovyObject groovyObject = (GroovyObject) hook;
-			groovyObject.setProperty("modulePath", modulePath);
-		}
+	public ModuleHookEmbeddedGroovy(Configuration conf) {
+		super(buildModuleHookName(conf), conf);
+		this.conf = conf;
 	}
 
 	@Override
 	public boolean pre() {
-		System.out.println("##################################################################################################################################");
-		System.out.println("########### INICIO MODULE ############### " + this.modulePath + " ############## INICIO MODULE ############");
-		System.out.println("##################################################################################################################################");
+		LOGGER.info("##################################################################################################################################");
+		LOGGER.info("########### INICIO MODULE ############### " + conf.getInstalationModule() + " ############## INICIO MODULE ############");
+		LOGGER.info("##################################################################################################################################");
 		return super.pre();
 	}
 
 	@Override
 	public void post() {
 		super.post();
-		System.out.println("##################################################################################################################################");
-		System.out.println("############# FIM MODULE ############### " + this.modulePath + " ############### FIM MODULE #############");
-		System.out.println("##################################################################################################################################");
+	}
+
+	@Override
+	public void finish() {
+		super.finish();
+		LOGGER.info("##################################################################################################################################");
+		LOGGER.info("############# FIM MODULE ############### " + conf.getInstalationModule() + " ############### FIM MODULE #############");
+		LOGGER.info("##################################################################################################################################");
+	}
+	
+	private static String buildModuleHookName(Configuration conf) {
+		return conf.getInstalationModule() + File.separator + "Module" + Configuration.HOOK_SUFFIX;
 	}
 }

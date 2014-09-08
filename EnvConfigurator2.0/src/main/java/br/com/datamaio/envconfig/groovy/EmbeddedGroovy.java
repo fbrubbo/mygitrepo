@@ -4,16 +4,17 @@ import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 
 import java.io.File;
-import java.util.Properties;
+
+import br.com.datamaio.envconfig.conf.Configuration;
 
 public class EmbeddedGroovy {
 	protected File groovyFile;
 	protected Hook hook;
 	
-	public EmbeddedGroovy(String groovyPath, Properties props) {
+	public EmbeddedGroovy(String groovyPath, Configuration conf) {
 		this.groovyFile = new File(groovyPath);			
 		this.hook = newInstance();
-		setProperties(props);
+		setConfiguration(conf);
 	}
 	
 	private Hook newInstance(){		
@@ -45,6 +46,11 @@ public class EmbeddedGroovy {
 	public void post(){
 		if(exists()) {
 			this.hook.post();
+		}
+	}
+	
+	public void finish(){
+		if(exists()) {
 			this.hook.finish();
 		}
 	}
@@ -53,10 +59,12 @@ public class EmbeddedGroovy {
 		return this.groovyFile.exists();
 	}
 	
-	private void setProperties(final Properties props) {
+	private void setConfiguration(final Configuration conf) {
 		if(hook!=null) {
 			final GroovyObject groovyObject = (GroovyObject) hook;
-			groovyObject.setProperty("props", props);
+			groovyObject.setProperty("envs", conf.getEnvironments());
+			groovyObject.setProperty("props", conf.getInstalationProperties());
+			groovyObject.setProperty("conf", conf);
 		}
 	}	
 }

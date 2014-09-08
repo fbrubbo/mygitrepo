@@ -4,16 +4,17 @@ import groovy.lang.GroovyObject;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.Properties;
+
+import br.com.datamaio.envconfig.conf.Configuration;
 
 public class FileHookEmbeddedGroovy extends EmbeddedGroovy {
 	
-	public FileHookEmbeddedGroovy(final String suffix, final Path src, final Path target, Properties props) {
-		this(suffix, src.toFile(), target.toFile(), props);
+	public FileHookEmbeddedGroovy(final Path src, final Path target, final Configuration conf) {
+		this(src.toFile(), target.toFile(), conf);
 	}
 	
-	public FileHookEmbeddedGroovy(final String suffix, final File src, final File target, Properties props) {
-		super(src.getAbsolutePath() + suffix, props);
+	public FileHookEmbeddedGroovy(final File src, final File target, final Configuration conf) {
+		super(src.getAbsolutePath() + Configuration.HOOK_SUFFIX, conf);
 		setSrc(src);
 		setTarget(target);
 	}

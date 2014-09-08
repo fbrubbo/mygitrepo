@@ -2,17 +2,22 @@ package br.com.datamaio.envconfig.util;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import br.com.datamaio.envconfig.ExternalConf;
+import br.com.datamaio.envconfig.conf.Configuration;
 
-public final class VariablePathHelper {
-	private ExternalConf conf;
+public final class PathHelper {
+	private Map<String, String> properties;
 	private Path module;
 
-	public VariablePathHelper(ExternalConf conf, Path module){
-		this.conf = conf;
+	public PathHelper(Configuration conf){
+		this(conf.getInstalationProperties(), conf.getInstalationModule());
+	}
+	
+	PathHelper(Map<String, String> properties, Path module){
+		this.properties = properties;
 		this.module = module;
 	}
 	
@@ -39,7 +44,7 @@ public final class VariablePathHelper {
     	final Matcher m = p.matcher(srcPath);
     	while(m.find()) {
     		final String key = m.group();
-			final String value = (String) conf.get(key.replaceAll("@", ""));
+			final String value = (String) properties.get(key.replaceAll("@", ""));
 			if(value!=null)
 				srcPath = srcPath.replace(key, value);
 			else 

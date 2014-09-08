@@ -1,13 +1,16 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'groovy'
 apply plugin: 'maven'
 
+archivesBaseName = 'EnvConfig'
 group = 'br.com.datamaio'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-version = '1.0'
+version = '0.1'
 
 configurations {
+	pack2Install
 	excludedDeps
 }
 
@@ -61,12 +64,12 @@ repositories {
 }
 
 dependencies {
-    compile 'br.com.datamaio:UtilityFwk:1+'
-	compile 'log4j:log4j:1.2.+'
-	compile 'org.jasypt:jasypt:1.9.0'
+	compile gradleApi(),localGroovy()
+	compile 'org.jasypt:jasypt:1.9.2'
 	compile 'org.codehaus.groovy:groovy-all:2.3.6'
+    compile 'br.com.datamaio:UtilityFwk:1+'
 	
-    testCompile 'junit:junit:4.+'
+    testCompile 'junit:junit:4.+'	
 }
 
 uploadArchives {
@@ -80,4 +83,5 @@ uploadArchives {
 task wrapper (type: Wrapper) {
     gradleVersion = '2.1-rc-2'
 }
+
 
