@@ -44,7 +44,7 @@ public class MyJob implements Job {
 	    try {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
 			
-			BigDecimal threshold = new BigDecimal("350");
+			BigDecimal threshold = new BigDecimal("400");
 			LocalDate startDate = LocalDate.of(2014, 12, 12);
 			Period period = Period.ofMonths(3);
 			
