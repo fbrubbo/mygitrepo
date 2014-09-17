@@ -1,5 +1,7 @@
 package br.com.datamaio.envconfig.groovy;
 
+import groovy.lang.GroovyObject;
+
 import java.io.File;
 import java.util.logging.Logger;
 
@@ -13,13 +15,14 @@ public class ModuleHookEmbeddedGroovy extends EmbeddedGroovy {
 	
 	public ModuleHookEmbeddedGroovy(Configuration conf) {
 		super(buildModuleHookName(conf), conf);
+		setConfiguration(conf);
 		this.conf = conf;
 	}
 
 	@Override
 	public boolean pre() {
 		LOGGER.info("##################################################################################################################################");
-		LOGGER.info("########### INICIO MODULE ############### " + conf.getInstalationModule() + " ############## INICIO MODULE ############");
+		LOGGER.info("########### INICIO MODULE ############### " + conf.getModuleDir() + " ############## INICIO MODULE ############");
 		LOGGER.info("##################################################################################################################################");
 		return super.pre();
 	}
@@ -33,11 +36,18 @@ public class ModuleHookEmbeddedGroovy extends EmbeddedGroovy {
 	public void finish() {
 		super.finish();
 		LOGGER.info("##################################################################################################################################");
-		LOGGER.info("############# FIM MODULE ############### " + conf.getInstalationModule() + " ############### FIM MODULE #############");
+		LOGGER.info("############# FIM MODULE ############### " + conf.getModuleDir() + " ############### FIM MODULE #############");
 		LOGGER.info("##################################################################################################################################");
 	}
 	
 	private static String buildModuleHookName(Configuration conf) {
-		return conf.getInstalationModule() + File.separator + "Module" + Configuration.HOOK_SUFFIX;
+		return conf.getModuleDir() + File.separator + "Module" + Configuration.HOOK_SUFFIX;
 	}
+	
+	private void setConfiguration(final Configuration conf) {
+		if(hook!=null) {
+			final GroovyObject groovyObject = (GroovyObject) hook;
+			groovyObject.setProperty("modulePath", conf.getModuleDir());
+		}
+	}	
 }

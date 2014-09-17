@@ -1,4 +1,4 @@
-package br.com.datamaio.envconfig.util;
+package br.com.datamaio.envconfig.util.cmd;
 
 import java.io.BufferedReader;
 import java.io.IOException;

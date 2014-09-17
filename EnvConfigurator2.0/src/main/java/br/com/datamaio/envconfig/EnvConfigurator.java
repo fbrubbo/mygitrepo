@@ -69,7 +69,7 @@ public class EnvConfigurator {
 	}
 
 	public void exec() {
-		Path module = conf.getInstalationModule();
+		Path module = conf.getModuleDir();
 		try {			
 			final ModuleHookEmbeddedGroovy groovy = new ModuleHookEmbeddedGroovy(conf);
 			try{
@@ -90,7 +90,7 @@ public class EnvConfigurator {
 	}
 
 	protected void deleteFiles() {		
-		Path module = conf.getInstalationModule();
+		Path module = conf.getModuleDir();
 		
 		FileUtils.deleteDir(module, new DeleteVisitor("*" + DELETE_SUFFIX){
 			private FileHookEmbeddedGroovy hook;
@@ -127,8 +127,8 @@ public class EnvConfigurator {
 	}
 	
 	protected void copyFiles() {
-		Path module = conf.getInstalationModule();
-		final Map<String, String> properties = conf.getInstalationProperties();
+		Path module = conf.getModuleDir();
+		final Map<String, String> properties = conf.getProperties();
 		
 		final SimpleTemplateEngine engine = new SimpleTemplateEngine();
 		final Path target = pathHelper.getTarget(module);

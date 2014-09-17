@@ -63,7 +63,7 @@ public class EmbeddedGroovy {
 		if(hook!=null) {
 			final GroovyObject groovyObject = (GroovyObject) hook;
 			groovyObject.setProperty("envs", conf.getEnvironments());
-			groovyObject.setProperty("props", conf.getInstalationProperties());
+			groovyObject.setProperty("props", conf.getProperties());
 			groovyObject.setProperty("conf", conf);
 		}
 	}	

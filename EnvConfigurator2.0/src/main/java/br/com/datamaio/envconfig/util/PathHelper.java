@@ -13,7 +13,7 @@ public final class PathHelper {
 	private Path module;
 
 	public PathHelper(Configuration conf){
-		this(conf.getInstalationProperties(), conf.getInstalationModule());
+		this(conf.getProperties(), conf.getModuleDir());
 	}
 	
 	PathHelper(Map<String, String> properties, Path module){

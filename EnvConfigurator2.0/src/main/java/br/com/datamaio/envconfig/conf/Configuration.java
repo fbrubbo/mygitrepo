@@ -14,10 +14,10 @@ public class Configuration {
 	public static final String TEMPLATE_SUFFIX = ".tmpl";
 		
 	/** Contém as propriedades configuradas para a instalação */
-	private Path instalationPropertiesPath;
-	private final Map<String, String> instalationProperties;
+	private Path propertiesPath;
+	private final Map<String, String> properties;
 	/** Contém o diretório onde está o módulo que será instalado */
-	private Path instalationModule;
+	private Path moduleDir;
 	/** Contém os ips dos ambientes */
 	private Environments environments;
 	/** Normalmente * key é o groovy dependency, value é o File onde se encontra esta dependência */
@@ -43,24 +43,24 @@ public class Configuration {
 	}
 	
 	public Configuration(Path propertiesPath, Map<String, String> properties, Path module, Environments environments, Map<String, File> dependencies) {
-		this.instalationPropertiesPath = propertiesPath;
-		this.instalationProperties = properties;
-		this.instalationModule = module;
+		this.propertiesPath = propertiesPath;
+		this.properties = properties;
+		this.moduleDir = module;
 		this.environments = environments;
 		this.dependencies = dependencies;
 	}
 
 
-	public Path getInstalationPropertiesPath() {
-		return instalationPropertiesPath;
+	public Path getPropertiesPath() {
+		return propertiesPath;
 	}
 
-	public Map<String, String> getInstalationProperties() {
-		return instalationProperties;
+	public Map<String, String> getProperties() {
+		return properties;
 	}
 
-	public Path getInstalationModule() {
-		return instalationModule;
+	public Path getModuleDir() {
+		return moduleDir;
 	}
 
 	public Environments getEnvironments() {

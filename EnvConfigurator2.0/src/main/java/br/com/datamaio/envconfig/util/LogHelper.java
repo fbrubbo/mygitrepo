@@ -78,7 +78,7 @@ public class LogHelper
 	public void printProperties() {
 		LOGGER.info("==============================================================================================================");
 		LOGGER.info("=============== PROPERTIES QUE PODEM SER USADAS NOS ARQUIVOS COM LOGICA (*.hook OU *.tmpl) ===================");
-		Map<String, String> props = conf.getInstalationProperties();
+		Map<String, String> props = conf.getProperties();
 		Set<String> keys = props.keySet();
 		for (String key : keys) {
 			LOGGER.info(String.format("%s = %s", key, props.get(key)));
@@ -95,8 +95,8 @@ public class LogHelper
 		try {
 			File currentDir = new java.io.File(".").getCanonicalFile();
 
-			String moduleName = conf.getInstalationModule().getFileName().toString();
-			String fileName = currentDir.toPath().relativize(conf.getInstalationPropertiesPath()).toString();
+			String moduleName = conf.getModuleDir().getFileName().toString();
+			String fileName = currentDir.toPath().relativize(conf.getPropertiesPath()).toString();
 			fileName = fileName.substring(0, fileName.indexOf(".properties") < 0 ? fileName.length() : fileName.indexOf(".properties"));
 			String log = currentDir + "/" + LOG_FOLDER + "/" + moduleName + "/" + fileName + "_" + df.format(new Date()) + ".log";
 			return Paths.get(log);

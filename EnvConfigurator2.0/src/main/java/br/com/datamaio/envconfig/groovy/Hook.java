@@ -22,7 +22,7 @@ import javax.naming.directory.InitialDirContext;
 
 import br.com.datamaio.envconfig.conf.Configuration;
 import br.com.datamaio.envconfig.conf.Environments;
-import br.com.datamaio.envconfig.util.Cmd;
+import br.com.datamaio.envconfig.util.cmd.Command;
 
 public class Hook {
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -32,10 +32,15 @@ public class Hook {
 	protected Properties props;
 	protected Configuration conf;
 	private final Properties transientProps = new Properties();
+	protected final Command command;
 
 	public boolean pre() {return true;}
 	public void post() {}
 
+	public Hook(){
+		command = Command.get();
+	}
+	
 	/**
 	 * Ao finalizar a execução dos hooks (pre/post) o framewok deve chamar este método
 	 * para limpar as propriedades transientes
@@ -48,31 +53,31 @@ public class Hook {
 	}
 
 	protected boolean isLinux(){
-		return Cmd.isLinux();
+		return Command.isLinux();
 	}
 
 	protected boolean isWindows(){
-        return !Cmd.isLinux();
+        return !Command.isLinux();
     }
 
 	protected String whoami(){
-		return Cmd.whoami();
+		return command.whoami();
 	}
 
 	protected String run(final String cmd) {
-		return Cmd.run(cmd);
+		return command.run(cmd);
 	}
 
 	protected String chmod(final String mode, final String file) {
-		return Cmd.chmod(mode, file);
+		return command.chmod(mode, file);
 	}
 
-	public static String chown(final String user, final String file) {
-		return Cmd.chown(user, file);
+	public String chown(final String user, final String file) {
+		return command.chown(user, file);
 	}
 
 	protected String mv(final String from, final String to) {
-        return Cmd.mv(from, to);
+        return command.mv(from, to);
     }
 
 	protected boolean isDesenv(){
