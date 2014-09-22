@@ -41,6 +41,23 @@ public class EnvConfigurator {
 	// TODO: falta fazer o backup
 	// TODO: falta organizar os arquivos de log no diretório certo
 	// TODO: falta os métodos que utilizem as dependências
+	// TODO: testes para tudo
+	// TODO: revisar tudo
+	// TODO: usar aqui o EncodingHelper para copiar, mergear os arquivos
+	/*
+	 *  TODO(s):
+	 *  - Gradle
+	 *  	1) criar a estrutura básica
+	 *  	2) fazer o zip
+	 *  		upload archive???
+	 *  	3) config do eclipse para ficar bonitinho
+	 *  	4) wrapper automático? quem define é a versão do instalador
+	 *  	5) uname -a não está funcionando
+	 *  - Outros
+	 *  	1) comparar FWKUtils ultima versão com a minha.. arrumar método a método. Melhorar testes
+	 *  
+	 *
+	 */
 	
     private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
