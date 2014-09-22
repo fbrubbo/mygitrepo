@@ -1,4 +1,4 @@
-package br.com.datamaio.envconfig.util.cmd;
+package br.com.datamaio.envconfig.cmd;
 
 import java.io.IOException;
 import java.io.InputStream;

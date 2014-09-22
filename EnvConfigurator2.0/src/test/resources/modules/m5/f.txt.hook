@@ -1,8 +1,4 @@
-import br.com.datamaio.envconfig.groovy.FileHook;
-
-class f extends FileHook {
-	@Override
-	public boolean pre() {
-	  return "aaaaaa".equals(get("favlang"));
-	}
+boolean pre() {
+	println get("favlang")
+  return "aaaaaa".equals(get("favlang"));
 }

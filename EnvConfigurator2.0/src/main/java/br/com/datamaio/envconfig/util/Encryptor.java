@@ -6,7 +6,7 @@ import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.jasypt.util.text.BasicTextEncryptor;
 
 public class Encryptor {
-	public static final String ENCRYPTOR_PASSWORD_PROPERTY = "EnvConfigurator.encryptor.password";
+	public static final String ENCRYPTOR_PASSWORD_PROPERTY = "br.com.datamaio.envconfig.util.Encryptor.password";
 	public static final String PREFIX = "ENCRYPTED:";	
 	private static Encryptor INSTANCE;	
 	private static int passRetry = 3;	
@@ -26,7 +26,6 @@ public class Encryptor {
 	}
 	
 	public static final Encryptor get(String pass){
-		//TODO: se o cara pegar por este método.. não deveria fazer o retry e, consequentemente, não deveria ler do console
 		return new Encryptor(pass, false);
 	}
 
@@ -84,7 +83,7 @@ public class Encryptor {
 				retryPass();
 				return INSTANCE.decrypt(text);
 			} else {				
-				throw new RuntimeException("Nao foi possivel descriptografar as propriedades com a senha informada!");
+				throw new DecryptionException("Nao foi possivel descriptografar as propriedades com a senha informada!");
 			}
 		}
     }
@@ -95,5 +94,12 @@ public class Encryptor {
     
     public String encryptProp(String text) {
 		return PREFIX + encrypt(text);
-    }        
+    }
+    
+    public static final class DecryptionException extends RuntimeException {
+		private static final long serialVersionUID = 1L;
+		public DecryptionException(String message) {
+			super(message);
+		}    	
+    }
 }

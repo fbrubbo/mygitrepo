@@ -1,4 +1,6 @@
-package br.com.datamaio.envconfig.groovy;
+package br.com.datamaio.envconfig.hooks;
+
+import groovy.lang.Script;
 
 import java.io.File;
 import java.net.InetAddress;
@@ -20,16 +22,16 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
+import br.com.datamaio.envconfig.cmd.Command;
 import br.com.datamaio.envconfig.conf.Configuration;
-import br.com.datamaio.envconfig.conf.Environments;
-import br.com.datamaio.envconfig.util.cmd.Command;
+import br.com.datamaio.envconfig.conf.ConfEnvironments;
 
-public class Hook {
+public abstract class Hook extends Script {
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	private static final Map<String, String> HOSTS = new HashMap<String, String>();
 	
-	protected Environments envs;
-	protected Properties props;
+	protected ConfEnvironments envs;
+	protected Map<String, String> props;
 	protected Configuration conf;
 	private final Properties transientProps = new Properties();
 	protected final Command command;
@@ -138,11 +140,13 @@ public class Hook {
 	}
 
 	protected String get(final String key){
-	    return props.getProperty(key);
+		if(props==null)
+			return null;
+	    return props.get(key);
 	}
 
 	protected boolean contains(final String key){
-        return props.getProperty(key)!=null;
+        return props.get(key)!=null;
     }
 
 
@@ -205,5 +209,15 @@ public class Hook {
     	
     	return file.toPath();
     }
+    
+	protected void setEnvs(ConfEnvironments envs) {
+		this.envs = envs;
+	}
+	protected void setProps(Map<String, String> props) {
+		this.props = props;
+	}
+	protected void setConf(Configuration conf) {
+		this.conf = conf;
+	}
 	
 }

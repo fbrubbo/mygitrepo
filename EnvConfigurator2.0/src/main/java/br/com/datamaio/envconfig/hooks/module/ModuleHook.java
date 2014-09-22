@@ -1,13 +1,14 @@
-package br.com.datamaio.envconfig.groovy;
+package br.com.datamaio.envconfig.hooks.module;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import br.com.datamaio.envconfig.hooks.Hook;
 import br.com.datamaio.fwk.io.FileUtils;
 
-public class ModuleHook extends Hook {
-	public String modulePath;
+public abstract class ModuleHook extends Hook {
+	protected String moduleDir;
 
 	public void unzip(String depName, String toDir) {
 		Path from = resolveDependency(depName);
@@ -38,5 +39,9 @@ public class ModuleHook extends Hook {
 		log("- Instalando pacotes EAR definidos em 'packsToDeploy/bin/' no diretorio '$deploymentPath' ...");
 		log("-------------------------------------------------------------------------------------------------------------------------------------");
 		FileUtils.copy(packsToInstall, deploymentPath, "*.ear");
+	}
+
+	protected void setModuleDir(String moduleDir) {
+		this.moduleDir = moduleDir;
 	}
 }

@@ -19,30 +19,30 @@ public class Configuration {
 	/** Contém o diretório onde está o módulo que será instalado */
 	private Path moduleDir;
 	/** Contém os ips dos ambientes */
-	private Environments environments;
+	private ConfEnvironments environments;
 	/** Normalmente * key é o groovy dependency, value é o File onde se encontra esta dependência */
 	private Map<String, File> dependencies;
 	
 	public Configuration(Path properties, Path module) {
-		this(properties, module, new Environments(), new HashMap<>());
+		this(properties, module, new ConfEnvironments(), new HashMap<>());
 	}
 	
-	public Configuration(Path properties, Path module, Environments environments, Map<String, File> dependencies) {
+	public Configuration(Path properties, Path module, ConfEnvironments environments, Map<String, File> dependencies) {
 		this(properties, toMaps(properties), module, environments, dependencies);
 	}
 
 	private static Map<String, String> toMaps(Path properties) {
-		InstalationProperties props = new InstalationProperties().load(properties);
+		ConfProperties props = new ConfProperties().load(properties);
 		return props.entrySet().stream()
 				.collect(toMap(e -> e.getKey().toString()
 							  ,e -> e.getValue().toString()));
 	}
 	
 	public Configuration(Path propertiesPath, Map<String, String> properties, Path module) {
-		this(propertiesPath, properties, module, new Environments(), new HashMap<>());
+		this(propertiesPath, properties, module, new ConfEnvironments(), new HashMap<>());
 	}
 	
-	public Configuration(Path propertiesPath, Map<String, String> properties, Path module, Environments environments, Map<String, File> dependencies) {
+	public Configuration(Path propertiesPath, Map<String, String> properties, Path module, ConfEnvironments environments, Map<String, File> dependencies) {
 		this.propertiesPath = propertiesPath;
 		this.properties = properties;
 		this.moduleDir = module;
@@ -63,7 +63,7 @@ public class Configuration {
 		return moduleDir;
 	}
 
-	public Environments getEnvironments() {
+	public ConfEnvironments getEnvironments() {
 		return environments;
 	}
 

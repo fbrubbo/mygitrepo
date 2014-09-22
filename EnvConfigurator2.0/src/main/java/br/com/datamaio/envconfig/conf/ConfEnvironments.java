@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Environments {
+public class ConfEnvironments {
 	private List<String> ipProd;
 	private List<String> ipHom;
 	private List<String> ipTst;
 	
-	public Environments() {
+	public ConfEnvironments() {
 		this((List<String>)null, null, null);
 	}
 	
-	public Environments(String[] ipProd, String[] ipHom, String[] ipTst) {
+	public ConfEnvironments(String[] ipProd, String[] ipHom, String[] ipTst) {
 		this(ipProd!=null ? Arrays.asList(ipProd) : null,
 			ipHom!=null ? Arrays.asList(ipHom) : null,
 			ipTst!=null ? Arrays.asList(ipTst) : null);
 	}
 	
-	public Environments(List<String> ipProd, List<String> ipHom, List<String> ipTst) {
+	public ConfEnvironments(List<String> ipProd, List<String> ipHom, List<String> ipTst) {
 		super();
 		this.ipProd = ipProd!=null ? ipProd : new ArrayList<String>();
 		this.ipHom = ipHom!=null ? ipHom : new ArrayList<String>();

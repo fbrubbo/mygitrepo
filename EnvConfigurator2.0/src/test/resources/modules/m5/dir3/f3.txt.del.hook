@@ -1,8 +1,3 @@
-import br.com.datamaio.envconfig.groovy.FileHook;
-
-class f3 extends FileHook {
-	@Override
-	public boolean pre() {
-	  return false;
-	}
+boolean pre() {
+  return false;
 }

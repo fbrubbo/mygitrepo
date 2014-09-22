@@ -3,6 +3,7 @@ package br.com.datamaio.fwk.io;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -122,6 +123,18 @@ public final class FileUtils {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}	
+	}
+	
+	public static String read(Path file) {
+		return read(file, Charset.defaultCharset());
+	}
+	
+	public static String read(Path file, Charset charset) {
+		try {
+			return new String(Files.readAllBytes(file));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 }

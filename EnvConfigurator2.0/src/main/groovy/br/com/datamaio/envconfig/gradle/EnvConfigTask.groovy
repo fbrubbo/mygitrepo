@@ -6,7 +6,7 @@ import org.gradle.api.artifacts.Dependency
 import org.gradle.api.tasks.TaskAction
 
 import br.com.datamaio.envconfig.EnvConfigurator
-import br.com.datamaio.envconfig.conf.Environments
+import br.com.datamaio.envconfig.conf.ConfEnvironments
 
 class EnvConfigTask  extends DefaultTask {
 	
@@ -31,7 +31,7 @@ class EnvConfigTask  extends DefaultTask {
 		
 		//TODO Validar se existe e, se existir pedir confirmação do usuário de module e da configuração
 		
-		def environments = new Environments(env.ipsProd, env.ipsHom, env.ipsTst)
+		def environments = new ConfEnvironments(env.ipsProd, env.ipsHom, env.ipsTst)
         def dependencies = mapDependencies2File();
 		new EnvConfigurator(conf.toPath(), module.toPath(), environments, dependencies).exec();
     }

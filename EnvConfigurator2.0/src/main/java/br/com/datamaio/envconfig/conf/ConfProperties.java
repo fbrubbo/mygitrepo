@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import br.com.datamaio.envconfig.util.EncodingHelper;
 import br.com.datamaio.envconfig.util.Encryptor;
 
-public class InstalationProperties extends Properties {
+public class ConfProperties extends Properties {
 	
 	private static final long serialVersionUID = 1L;
 	private static final EncodingHelper encodingHelper = new EncodingHelper();
@@ -41,7 +41,7 @@ public class InstalationProperties extends Properties {
 		merge();
 	}
 	
-	public synchronized InstalationProperties load(final Path configFile) {
+	public synchronized ConfProperties load(final Path configFile) {
         if (configFile!=null) {
         	final Charset cs = inferFileCharset(configFile);
     		try (BufferedReader reader = Files.newBufferedReader(configFile, cs)) {
@@ -78,11 +78,11 @@ public class InstalationProperties extends Properties {
 			final String decryptedValue = Encryptor.get().decrypt(value);
 			put(key, decryptedValue);
 		} else {
-			put(key, resolvePropertyValue(value));
+			put(key, resolve(value));
 		}
 	}
 	
-	public String resolvePropertyValue(String value) {
+	String resolve(String value) {
         final Matcher m = variable.matcher(value);
         while(m.find()) {
             final String key = m.group();
@@ -96,7 +96,7 @@ public class InstalationProperties extends Properties {
             if(innerValue!=null){
                 final Matcher m2 = variable.matcher(innerValue);
                 if(m2.find()){
-                    innerValue = resolvePropertyValue(innerValue);
+                    innerValue = resolve(innerValue);
                 }
                 value = value.replace(key, innerValue);
             }

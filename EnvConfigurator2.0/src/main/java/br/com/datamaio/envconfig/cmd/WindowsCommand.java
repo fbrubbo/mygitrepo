@@ -1,4 +1,4 @@
-package br.com.datamaio.envconfig.util.cmd;
+package br.com.datamaio.envconfig.cmd;
 
 import java.nio.file.Paths;
 import java.util.logging.Logger;

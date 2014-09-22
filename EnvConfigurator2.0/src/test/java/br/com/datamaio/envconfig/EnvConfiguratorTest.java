@@ -227,27 +227,19 @@ public class EnvConfiguratorTest {
 	}
 	
 	private byte[] buildModuleHookPre() {
-		return ("import br.com.datamaio.envconfig.groovy.ModuleHook;"
-	        + "\n"
-			+ "\nclass Module extends ModuleHook {"
-			+ "\n	@Override"
-			+ "\n	public boolean pre() {"
-			+ "\n	  return \"xyz\".equals(get(\"var\"));"
-			+ "\n	}"
-			+ "\n}").getBytes();
+		return ("println envs; println modulePath; println conf; println props;"
+				+ "\nboolean pre() {"
+				+ "\n	return \"xyz\".equals(get(\"var\"));"
+				+ "\n}").getBytes();
 	}
 	
 	private byte[] buildModuleHookPost() {
-		return ("import br.com.datamaio.envconfig.groovy.ModuleHook;"
-			+ "\nimport java.nio.file.Files;"
-			+ "\nimport java.nio.file.Paths;"
-	        + "\n"
-			+ "\nclass Module extends ModuleHook {"
-			+ "\n	@Override"
-			+ "\n	public void post() {"
-			+ "\n		Files.createFile(Paths.get(modulePath + \"/Module.postexecuted\"));"
-			+ "\n	}"
-			+ "\n}").getBytes();
+		return ("\nimport java.nio.file.Files;"
+				+ "\nimport java.nio.file.Paths;"
+		        + "\n"
+				+ "\nvoid post() {"
+				+ "\n	Files.createFile(Paths.get(moduleDir + \"/Module.postexecuted\"));"
+				+ "\n}").getBytes();
 	}
 
 	private Path[] createEnv(int index) throws IOException, URISyntaxException {

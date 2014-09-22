@@ -21,10 +21,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import br.com.datamaio.envconfig.conf.ConfEnvironments;
 import br.com.datamaio.envconfig.conf.Configuration;
-import br.com.datamaio.envconfig.conf.Environments;
-import br.com.datamaio.envconfig.groovy.FileHookEmbeddedGroovy;
-import br.com.datamaio.envconfig.groovy.ModuleHookEmbeddedGroovy;
+import br.com.datamaio.envconfig.hooks.file.FileHookEvaluator;
+import br.com.datamaio.envconfig.hooks.module.ModuleHookEvaluator;
 import br.com.datamaio.envconfig.util.LogHelper;
 import br.com.datamaio.envconfig.util.PathHelper;
 import br.com.datamaio.fwk.io.CopyVisitor;
@@ -41,7 +41,6 @@ public class EnvConfigurator {
 	// TODO: falta fazer o backup
 	// TODO: falta organizar os arquivos de log no diretório certo
 	// TODO: falta os métodos que utilizem as dependências
-	// TODO: eliminar o Cosntants.java
 	
     private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
@@ -49,7 +48,7 @@ public class EnvConfigurator {
 	private final PathHelper pathHelper;
 
 	public EnvConfigurator(Path properties, Path module2Install) {
-		this(properties, module2Install, new Environments(), new HashMap<>());
+		this(properties, module2Install, new ConfEnvironments(), new HashMap<>());
 	}
 	
 	EnvConfigurator(Map<String, String> instalationProperties, Path module2Install) {
@@ -57,7 +56,7 @@ public class EnvConfigurator {
 		this(new Configuration(Paths.get("Test.properties"), instalationProperties, module2Install));
 	}
 	
-	public EnvConfigurator(Path properties, Path module2Install, Environments environments, Map<String, File> dependencies) {
+	public EnvConfigurator(Path properties, Path module2Install, ConfEnvironments environments, Map<String, File> dependencies) {
 		this(new Configuration(properties, module2Install, environments, dependencies));
 	}
 	
@@ -71,17 +70,17 @@ public class EnvConfigurator {
 	public void exec() {
 		Path module = conf.getModuleDir();
 		try {			
-			final ModuleHookEmbeddedGroovy groovy = new ModuleHookEmbeddedGroovy(conf);
+			final ModuleHookEvaluator hook = new ModuleHookEvaluator(conf);
 			try{
-				if (groovy.pre()) {
+				if (hook.pre()) {
 					deleteFiles();
 					copyFiles();
-					groovy.post();
+					hook.post();
 				} else {
 					LOGGER.warning("Modulo " + module + " nao foi instalado neste ambiente pois o Module.hook retornou false");
 				}
 			} finally {
-				groovy.finish();
+				hook.finish();
 			}
 		} catch (final Exception e) {
 			LOGGER.log(Level.SEVERE, "Erro inesperado.", e);
@@ -93,7 +92,7 @@ public class EnvConfigurator {
 		Path module = conf.getModuleDir();
 		
 		FileUtils.deleteDir(module, new DeleteVisitor("*" + DELETE_SUFFIX){
-			private FileHookEmbeddedGroovy hook;
+			private FileHookEvaluator hook;
 			
 			@Override /** Verificar se o arquivo existe antes de tentar deletar */
 			protected boolean mustDelete(Path source) {
@@ -102,20 +101,17 @@ public class EnvConfigurator {
 				}
 				
 				final Path target = pathHelper.getTargetWithoutSuffix(source, DELETE_SUFFIX);
-				hook = new FileHookEmbeddedGroovy(source, target, conf);
-				try {
-					return super.mustDelete(source) 
-							&& exists(target) 
-							&& hook.pre();
-				} finally {
-					hook.finish();
-				}
+				hook = new FileHookEvaluator(source, target, conf);
+				return super.mustDelete(source) 
+						&& exists(target) 
+						&& hook.pre();
 			}
 			
 			@Override /** Deleta o target e não source */ 
 			protected void delete(Path source) throws IOException {
 				try {
 					Path target = pathHelper.getTargetWithoutSuffix(source, DELETE_SUFFIX);
+					LOGGER.info("DELETING..: " + target);
 					FileUtils.delete(target);
 					hook.post();
 					LOGGER.info("DELETED: " + target);
@@ -134,7 +130,7 @@ public class EnvConfigurator {
 		final Path target = pathHelper.getTarget(module);
 		
 		FileUtils.copy(new CopyVisitor(module, target, "*" + DELETE_SUFFIX){
-			private FileHookEmbeddedGroovy hook;
+			private FileHookEvaluator hook;
 			
 			@Override /** Não considera os .del */
 			protected boolean mustCopy(Path source) {
@@ -143,19 +139,16 @@ public class EnvConfigurator {
 				}
 				
 				final Path target = pathHelper.getTargetWithoutSuffix(source, TEMPLATE_SUFFIX);
-				hook = new FileHookEmbeddedGroovy(source, target, conf);
-				try {
-					return !matcher.matches(source.getFileName()) && hook.pre();
-				} finally {
-					hook.finish();
-				}
+				hook = new FileHookEvaluator(source, target, conf);
+				return !matcher.matches(source.getFileName()) && hook.pre();
 			}
 			
 			@Override /** Copia OU faz o merge do template */
 			protected void copy(Path source, final Path target) throws IOException {
 				try {
-					if(source.toString().endsWith(TEMPLATE_SUFFIX)) {					
+					if(source.toString().endsWith(TEMPLATE_SUFFIX)) {
 						File resolvedTargetFile = new File(target.toString().replace(TEMPLATE_SUFFIX, ""));
+						LOGGER.info("MERGING..: " + resolvedTargetFile);
 					    try (Writer out = new BufferedWriter(new FileWriter(resolvedTargetFile))) {
 							Writable tmplt = engine.createTemplate(source.toFile()).make(properties);
 							tmplt.writeTo(out);
@@ -165,6 +158,7 @@ public class EnvConfigurator {
 					    hook.post();
 					    LOGGER.info("MERGED: " + resolvedTargetFile);
 					} else {
+						LOGGER.info("COPING..: " + target);
 						Files.copy(source, target, REPLACE_EXISTING);
 						hook.post();
 						LOGGER.info("COPIED: " + target);
