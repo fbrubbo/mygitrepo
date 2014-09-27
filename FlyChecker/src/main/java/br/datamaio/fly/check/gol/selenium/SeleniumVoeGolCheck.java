@@ -57,7 +57,7 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
 		
 		VoeGolCheck check = new SeleniumVoeGolCheck();  
 		check.setUp(threshold, startDate, period);
-		List<RoundTrip> trips = check.congonhas2caxias();
+		List<RoundTrip> trips = check.weekendCheckCongonhas2Caxias();
 		
 		DateTimeFormatter DATE = ofPattern("dd/MM/yyyy");
 		NumberFormat REAIS = DecimalFormat.getCurrencyInstance();
@@ -77,6 +77,7 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
 						REAIS.format(totalValue))); 
 		}
 		System.out.println(builder.toString());
+		check.tearDown();
 	}
     
 //    private static final String CONGONHAS = "Congonhas";

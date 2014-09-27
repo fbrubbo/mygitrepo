@@ -2,8 +2,10 @@ package br.datamaio.fly.check.gol;
 
 import static br.datamaio.fly.DayPeriod.AFTERNOON;
 import static br.datamaio.fly.DayPeriod.AFTERNOON_OR_NIGHT;
+import static br.datamaio.fly.DayPeriod.ANY;
 import static br.datamaio.fly.DayPeriod.MORNING;
 import static br.datamaio.fly.DayPeriod.NIGHT;
+import static java.time.LocalDate.of;
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.time.temporal.TemporalAdjusters.next;
 
@@ -52,8 +54,54 @@ public abstract class VoeGolCheck {
 
     public void tearDown(){
     }
+    
+    public List<RoundTrip> checkNatal() throws Exception {
+    	List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
+				
+		Path logFile = buildLogFile("NATAL_congonhas2caxias_");
+		try (BufferedWriter report = Files.newBufferedWriter(logFile)) {
+			write(report, "--------- Searching Flyies PARA NATAL ---------");
+			
+			LocalDate dret = of(2015, 1, 2);
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 23), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 24), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 25), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 26), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 27), ANY, dret, ANY));
+			
+			dret = of(2015, 1, 3);
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 23), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 24), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 25), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 26), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 27), ANY, dret, ANY));
 
-	public List<RoundTrip> congonhas2caxias() throws Exception {
+			dret = of(2015, 1, 4);
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 23), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 24), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 25), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 26), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 27), ANY, dret, ANY));
+
+			dret = of(2015, 1, 5);
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 23), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 24), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 25), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 26), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 27), ANY, dret, ANY));
+
+			dret = of(2015, 1, 6);
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 23), ANY, dret, MORNING));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 24), ANY, dret, MORNING));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 25), ANY, dret, MORNING));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 12, 26), ANY, dret, MORNING));
+			
+			write(report, "Finalizado com sucesso Agendamento para NATAL..");
+		} 
+		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
+	}
+
+	public List<RoundTrip> weekendCheckCongonhas2Caxias() throws Exception {
 		List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
 
 		Path logFile = buildLogFile("congonhas2caxias_");
@@ -83,7 +131,7 @@ public abstract class VoeGolCheck {
 		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
 	
-    public List<RoundTrip> caxias2congonhas() throws Exception {
+    public List<RoundTrip> weekendCheckCaxias2Congonhas() throws Exception {
     	List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
     	
         Path logFile = buildLogFile("caxias2congonhas_");

@@ -44,20 +44,30 @@ public class MyJob implements Job {
 	    try {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
 			
-			BigDecimal threshold = new BigDecimal("400");
-			LocalDate startDate = LocalDate.of(2014, 12, 12);
-			Period period = Period.ofMonths(3);
-			
+			BigDecimal threshold = new BigDecimal("800");
+			LocalDate startDate = LocalDate.of(2014, 12, 11);
+			Period period = Period.ofMonths(3);			
 			VoeGolCheck check = new SeleniumVoeGolCheck();  // new UrlConnVoeGolCheck();
 			check.setUp(threshold, startDate, period);
 			
-			List<RoundTrip> trips = null;
-			trips = check.caxias2congonhas();
+			// --- check natal ---
+			List<RoundTrip> trips = null;			
+			trips = check.checkNatal();
+			if(trips.size()>0) {
+				sendToAndroidFullDate(trips, "NATAL Congonhas->Caxias");
+			}
+			
+			
+			// --- check regular ---
+			threshold = new BigDecimal("460");
+			check.setUp(threshold, startDate, period);
+			
+			trips = check.weekendCheckCaxias2Congonhas();
 			if(trips.size()>0) {
 				sendToAndroid(trips, "Caxias -> Congonhas");
 			}
 			
-			trips = check.congonhas2caxias(); 
+			trips = check.weekendCheckCongonhas2Caxias(); 
 			if(trips.size()>0) {
 				sendToAndroid(trips, "Congonhas -> Caxias");
 			}
@@ -70,7 +80,7 @@ public class MyJob implements Job {
 		}
 		
 	}
-
+	
 	public void sendToAndroid(Exception e)  {
 		StringWriter w = new StringWriter();
 		PrintWriter pw = new PrintWriter(w);
@@ -94,6 +104,27 @@ public class MyJob implements Job {
 			builder.append(builder.length()>0 ? "\n" : "")
 					.append(String.format("- Dia %s (%s - %s): %s", 
 						dDate.format(DATE), 
+						dDate.getDayOfWeek().toString().substring(0, 2), 
+						rDate.getDayOfWeek().toString().substring(0, 2), 
+						REAIS.format(totalValue))); 
+		}
+		LOGGER.info("Sending to androids: " + builder.toString());
+		SendAllMessagesServlet.send(getSender(), prefix, builder.toString());
+	}	
+	
+	public void sendToAndroidFullDate(List<RoundTrip> trips, String prefix) throws IOException {
+		StringBuilder builder = new StringBuilder();
+		for (RoundTrip t : trips) {
+		    Schedule sd = t.getDeparture().getSchedule();
+		    Schedule sr = t.getReturning().getSchedule();
+		    
+		    LocalDate dDate = sd.getDate();
+			LocalDate rDate = sr.getDate();
+			BigDecimal totalValue = t.getDeparture().getValue().add(t.getReturning().getValue());
+			builder.append(builder.length()>0 ? "\n" : "")
+					.append(String.format("- Dia %s - %s (%s - %s): %s", 
+						dDate.format(DATE),
+						rDate.format(DATE), 
 						dDate.getDayOfWeek().toString().substring(0, 2), 
 						rDate.getDayOfWeek().toString().substring(0, 2), 
 						REAIS.format(totalValue))); 
