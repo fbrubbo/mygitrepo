@@ -12,52 +12,43 @@ class EnvConfigTask  extends DefaultTask {
 	
 	@TaskAction
     def action() {		
-    	def env = project.envconfig.env
-		def install = project.envconfig.install
-		def conf = project.file("conf/" + install.conf)
-		def module = project.file("module/" + install.module)
-		
-		System.setProperty("user.dir", project.rootDir.absolutePath);
-		
-        println "=================== Running envconfig! =============================="
-		println "====== Environment Properties ======"
+    	def env = project.envconfig.env		
+		def config = Input.config(project);
+		def module = Input.module(project)
+				
+        println "==================== Running envconfig =============================="
+		println "====== Environment Configuration ======"
         println "IP PROD LIST  : " + env.ipsProd
         println "IP HOM  LIST  : " + env.ipsHom
         println "IP TST  LIST  : " + env.ipsTst
 		println "IP DES  LIST  : [ANY OTHER]"
-		println "====== Instalation Properties ======"
-        println "CONFIG FILE   : " + conf 
+		println "====== Instalation Configuration ======"
+        println "CONFIG FILE   : " + config 
         println "MODULE DIR    : " + module  
 		println "====================================================================="
 		
-		def console = System.console()
-		if (console) {
-			if(!conf.exists()) {
-				println "**************************************************"
-				println "*** Arquivo de configuracao '$conf' nao existe ***"
-				println "**************************************************"
-				return
-			}
-			
-			if(!module.exists() || !module.isDirectory()) {
-				println "**********************************************************"
-				println "*** Module '$module' nao existe ou nao eh um diretorio ***"
-				println "**********************************************************"
-				return
-			}
-
-			def ok = console.readLine('\n> Você está rodando no ambiente descrito acima. Tem certeza que deseja continuar? ')
-			if("sim".equalsIgnoreCase(ok) || "yes".equalsIgnoreCase(ok) || "s".equalsIgnoreCase(ok) || "y".equalsIgnoreCase(ok)) {
-				def environments = new ConfEnvironments(env.ipsProd, env.ipsHom, env.ipsTst)
-				def dependencies = mapDependencies2Path();
-				new EnvConfigurator(conf.toPath(), module.toPath(), environments, dependencies).exec();
+		if( Input.validate(module, config) ) {
+			println "aqui"
+			def console = System.console()
+			if (console) {
+				def ok = console.readLine('\nReview the above config. Type "yes" to procceed and "no" to abort: ')
+				if("sim".equalsIgnoreCase(ok) || "yes".equalsIgnoreCase(ok) 
+					|| "s".equalsIgnoreCase(ok) || "y".equalsIgnoreCase(ok)) {
+					def environments = new ConfEnvironments(env.ipsProd, env.ipsHom, env.ipsTst)
+					def dependencies = mapDependencies2Path();
+					new EnvConfigurator(config.toPath(), module.toPath(), environments, dependencies).exec();
+				} else {
+					println "============================"
+					println "=== Instalation aborted! ==="
+					println "============================"
+				}
 			} else {
-				println "***************************"
-				println "*** Instalacao abortada ***"
-				println "***************************"
+				println "ERROR: Cannot get console."
 			}
 		} else {
-			println "ERROR: Cannot get console."
+			println "============================"
+			println "=== Instalation aborted! ==="
+			println "============================"
 		}
 		
     }

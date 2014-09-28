@@ -37,19 +37,16 @@ import br.com.datamaio.fwk.io.FileUtils;
  * @author Fernando Rubbo
  */
 public class EnvConfigurator {
-	// TODO: multi language e doc em inglês
 	// TODO: WindowsCommand dar erro quando executa comando linux específico ou ele passa reto. Tipo chmod
 	// TODO: falta fazer o backup
-	// TODO: falta organizar os arquivos de log no diretório certo
-	// TODO: falta os métodos que utilizem as dependências
 	// TODO: testes para tudo
-	// TODO: revisar tudo
+	// TODO: revisar tudo. rever todos TODOS
 	// TODO: usar aqui o EncodingHelper para copiar, mergear os arquivos
+	// TODO: multi language e doc em inglês
 	// TODO: permitir lista de modulos. cuidado. impacta validacao do gradle
 	/*
 	 *  TODO(s):
 	 *  - Gradle
-	 *  	2) upload archive???
 	 *  	3) config do eclipse para ficar bonitinho
 	 *  - Outros
 	 *  	1) comparar FWKUtils ultima versão com a minha.. arrumar método a método. Melhorar testes
@@ -77,11 +74,11 @@ public class EnvConfigurator {
 	public EnvConfigurator(Configuration conf) {
 		this.conf = conf;
 		this.pathHelper = new PathHelper(conf);
-		// TODO. isto aqui também não ficou muito bom.. ver como melhorar
-		new LogHelper(conf).setup().printProperties();
+		new LogHelper(conf).startup();
 	}
 
 	public void exec() {
+		conf.printProperties();
 		Path module = conf.getModuleDir();
 		try {			
 			final ModuleHookEvaluator hook = new ModuleHookEvaluator(conf);

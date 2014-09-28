@@ -38,12 +38,12 @@ public class Encryptor {
 	//OBS: isto tranca no eclipse.. pois ele nao possui um console. 
 	private static String readPasswordFromConsole() {
 		if(passRetry--==0) {
-			throw new RuntimeException("Numero maximo de tentativas (3x) foi esgotado!");
+			throw new RuntimeException("Exiting.. Retryies (3x)!");
 		}
 		
 		final Console cons = System.console();
 		if (cons != null ) {
-			final char[] passwd = cons.readPassword("\nForneca o password para descriptografar as propriedades:") ;
+			final char[] passwd = cons.readPassword("\nProvide the password to decrypt properties:") ;
 			if (passwd != null) {
 				String pass = new String(passwd);
 				System.setProperty(ENCRYPTOR_PASSWORD_PROPERTY, pass);
@@ -51,7 +51,7 @@ public class Encryptor {
 			}
 		}
 			
-		throw new RuntimeException("Nao foi possivel ler do console a senha para descriptografar as propriedades!");
+		throw new RuntimeException("It was not possible to read password!");
 	}
 
 	private Encryptor(String pass) {
@@ -60,9 +60,8 @@ public class Encryptor {
 	    
     private Encryptor(String pass, boolean retry) {
     	if(pass==null || pass.length()==0) {
-    		throw new RuntimeException("E necessario informar a propriedade java -D" + 
-    				ENCRYPTOR_PASSWORD_PROPERTY + "=<SEU_PASSWORD> ao iniciar o programa (ou estar em modo console). " +
-    				"Esta senha e utilizada para descriptografar as configuracoes criptografadas.");
+    		throw new RuntimeException("It is required to provide the system property " 
+    				+ ENCRYPTOR_PASSWORD_PROPERTY + "=<PASSWORD> (or execute it in a command line)");
     	}
     	
     	this.encriptor = new BasicTextEncryptor();
@@ -78,12 +77,12 @@ public class Encryptor {
 			}
 			return encriptor.decrypt(_text);
 		} catch (EncryptionOperationNotPossibleException e) {
-			System.out.println("Senha incorreta!");
+			System.out.println("\tIncorrect password!");
 			if(retry) {
 				retryPass();
 				return INSTANCE.decrypt(text);
 			} else {				
-				throw new DecryptionException("Nao foi possivel descriptografar as propriedades com a senha informada!");
+				throw new DecryptionException("It was not possible to decrypt the property!");
 			}
 		}
     }

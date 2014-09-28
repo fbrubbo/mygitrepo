@@ -5,21 +5,25 @@ import static java.util.stream.Collectors.toMap;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.logging.Logger;
 
 public class Configuration {
-
+	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	
 	public static final String HOOK_SUFFIX = ".hook";
 	public static final String DELETE_SUFFIX = ".del";
 	public static final String TEMPLATE_SUFFIX = ".tmpl";
 		
-	/** Contém as propriedades configuradas para a instalação */
-	private Path propertiesPath;
+	/** path for the config file */
+	private Path configPath;
+	/** all the properties allowed to be used during installaiton. Includes, config file and system properties */
 	private final Map<String, String> properties;
-	/** Contém o diretório onde está o módulo que será instalado */
+	/** Module directory */
 	private Path moduleDir;
-	/** Contém os ips dos ambientes */
+	/** The environments IPs */
 	private ConfEnvironments environments;
-	/** Normalmente * key é o groovy dependency, value é o File onde se encontra esta dependência */
+	/** Dependencies. Where the key is the gradle dependency and the value is the cache path */
 	private Map<String, Path> dependencies;
 	
 	public Configuration(Path properties, Path module) {
@@ -41,16 +45,16 @@ public class Configuration {
 		this(propertiesPath, properties, module, new ConfEnvironments(), new HashMap<>());
 	}
 	
-	public Configuration(Path propertiesPath, Map<String, String> properties, Path module, ConfEnvironments environments, Map<String, Path> dependencies) {
-		this.propertiesPath = propertiesPath;
+	public Configuration(Path confiPath, Map<String, String> properties, Path module, ConfEnvironments environments, Map<String, Path> dependencies) {
+		this.configPath = confiPath;
 		this.properties = properties;
 		this.moduleDir = module;
 		this.environments = environments;
 		this.dependencies = dependencies;
 	}
 
-	public Path getPropertiesPath() {
-		return propertiesPath;
+	public Path getConfigPath() {
+		return configPath;
 	}
 
 	public Map<String, String> getProperties() {
@@ -68,5 +72,16 @@ public class Configuration {
 	public Path getDependency(String name) {
 		return dependencies.get(name);
 	}
-
+	
+	public void printProperties() {
+		LOGGER.info("========================================================================================================");
+		LOGGER.info("============ Properties allowed to be used during installation (i.e *.hook and *.tmpl) =================");
+		LOGGER.info("========================================================================================================");
+		Map<String, String> props = getProperties();
+		Set<String> keys = props.keySet();
+		for (String key : keys) {
+			LOGGER.info(String.format("%s = %s", key, props.get(key)));
+		}
+		LOGGER.info("========================================================================================================");
+	}
 }

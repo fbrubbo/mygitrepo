@@ -9,45 +9,43 @@ class EnvConfigPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-		// -- cria extensao de envconfig
+    	project.defaultTasks 'envconfig'
+    	project.configurations {
+    		pack2Install
+    	}
+		
+		// -- create envconfig extension
         project.extensions.create("envconfig", EnvConfigExtension)
         project.envconfig.extensions.create("env", EnvNestedExtension)
-        project.envconfig.extensions.create("install", InstallNestedExtension)
+        project.envconfig.extensions.create("install", InstallNestedExtension)		
 
-		project.defaultTasks 'envconfig'
-		
-        project.configurations {
-            pack2Install
-        }
-
-		// -- configura tasks
+		// -- configure new tasks
 		project.task('envconfig', type:EnvConfigTask){
-			description = "Executa a configuração automatizada de todo o ambiente"
+			description = "Automatically isntall and configure the environment"
 		}
 		project.task('encrypt', type:EncryptPropertyTask){
-			description = "Executa a criptografica em uma dada propriedade"
+			description = "Helper to encrypt a property"
 		}
 		project.task('decrypt', type:DecryptPropertyTask){
-			description = "Executa a decodificacao de uma propriedade criptografada"
+			description = "Helper to dencrypt a property"
 		}
 		project.task('validate', type:ValidateTask){
-			description = "Executa a validacao das criptografias das propriedades do arquivo de conf"
+			description = "Helper to perform a basic sanity check in the configuration (includes password check)"
 		}
-		project.task('changePassword', type:ChangePasswordTask){
-			description = "Executa a troca da senha de todas as propriedades do arquivo de conf"
-		}
-
-				
+		project.task('changepassword', type:ChangePasswordTask){
+			description = "Helper to change password for encrypted properties all at once"
+		}			
 
 		
-		// -- configura o wrapper
+		// -- configure the wrapper to execute automatically
 		project.task('wrapper', type: Wrapper) {
 			description = "Generate gradle wrapper"
 			gradleVersion = '2.1'
 		}		
 		project.tasks["wrapper"].execute()
 		
-		// -- configura a geração do pacote
+		
+		// -- configure packaging 
 		project.apply (plugin: 'base')
 		project.task('pack', type:Zip) {
 			from '.'

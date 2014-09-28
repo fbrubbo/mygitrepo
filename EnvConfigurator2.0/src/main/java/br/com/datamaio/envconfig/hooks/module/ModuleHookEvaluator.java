@@ -37,7 +37,7 @@ public class ModuleHookEvaluator extends HookEvaluator {
 	@Override
 	public boolean pre() {
 		LOGGER.info("#############################################################################################################");
-		LOGGER.info("######## INICIO MODULE ############# " + relativize() + " ############ INICIO MODULE #########");
+		LOGGER.info("######## BEGIN MODULE ############# " + relativize() + " ############ BEGIN MODULE #########");
 		LOGGER.info("#############################################################################################################");
 		boolean pre = super.pre();
 		LOGGER.info("--------------------------" );
@@ -58,7 +58,7 @@ public class ModuleHookEvaluator extends HookEvaluator {
 	public void finish() {
 		super.finish();
 		LOGGER.info("#############################################################################################################");
-		LOGGER.info("########## FIM MODULE ############## " + relativize() + " ############## FIM MODULE ##########");
+		LOGGER.info("########## END MODULE ############## " + relativize() + " ############## END MODULE ##########");
 		LOGGER.info("#############################################################################################################");
 	}
 	

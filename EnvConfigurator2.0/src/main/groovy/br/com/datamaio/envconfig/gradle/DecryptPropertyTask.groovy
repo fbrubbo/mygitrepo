@@ -9,15 +9,19 @@ class DecryptPropertyTask  extends DefaultTask {
 	
 	@TaskAction
     def action() {		
+		println "\nHelper tool to decrypt an existing property"
+		
 		Console console = System.console()
 		if (console) {
 			def encrypted = console.readLine('\nEncrypted Property Value: ')
 			def pass = new String(console.readPassword('Password: '))
 			
-			def value = Encryptor.get(pass).decrypt(encrypted);
-			
-			println("Propriedade descriptografada : $value");
-			
+			try {
+				def value = Encryptor.get(pass).decrypt(encrypted);
+				println("\nDecrypted value is : $value");
+			} catch (Exception e) {
+				println("\nIt was not possible to decrypt the property value. Check the password!");
+			}			
 		} else {
 			println "ERROR: Cannot get console."
 		}		
