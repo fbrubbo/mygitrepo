@@ -5,14 +5,12 @@ import static br.com.datamaio.envconfig.conf.Configuration.HOOK_SUFFIX;
 import static br.com.datamaio.envconfig.conf.Configuration.TEMPLATE_SUFFIX;
 import static java.nio.file.Files.exists;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import groovy.text.GStringTemplateEngine;
 import groovy.text.SimpleTemplateEngine;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,7 +50,6 @@ public class EnvConfigurator {
 	 *  - Gradle
 	 *  	2) upload archive???
 	 *  	3) config do eclipse para ficar bonitinho
-	 *  	6) utilitários de criptografia no gradle
 	 *  - Outros
 	 *  	1) comparar FWKUtils ultima versão com a minha.. arrumar método a método. Melhorar testes
 	 *

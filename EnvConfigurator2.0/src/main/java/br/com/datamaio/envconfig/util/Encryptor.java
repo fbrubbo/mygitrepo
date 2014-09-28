@@ -43,7 +43,7 @@ public class Encryptor {
 		
 		final Console cons = System.console();
 		if (cons != null ) {
-			final char[] passwd = cons.readPassword("Forneca o password para descriptografar as propriedades:") ;
+			final char[] passwd = cons.readPassword("\nForneca o password para descriptografar as propriedades:") ;
 			if (passwd != null) {
 				String pass = new String(passwd);
 				System.setProperty(ENCRYPTOR_PASSWORD_PROPERTY, pass);

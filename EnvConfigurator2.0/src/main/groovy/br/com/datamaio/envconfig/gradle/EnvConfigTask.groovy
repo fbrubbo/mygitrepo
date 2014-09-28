@@ -24,6 +24,7 @@ class EnvConfigTask  extends DefaultTask {
         println "IP PROD LIST  : " + env.ipsProd
         println "IP HOM  LIST  : " + env.ipsHom
         println "IP TST  LIST  : " + env.ipsTst
+		println "IP DES  LIST  : [ANY OTHER]"
 		println "====== Instalation Properties ======"
         println "CONFIG FILE   : " + conf 
         println "MODULE DIR    : " + module  
