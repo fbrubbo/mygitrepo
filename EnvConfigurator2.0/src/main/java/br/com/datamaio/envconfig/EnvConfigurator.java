@@ -45,6 +45,7 @@ public class EnvConfigurator {
 	// TODO: testes para tudo
 	// TODO: revisar tudo
 	// TODO: usar aqui o EncodingHelper para copiar, mergear os arquivos
+	// TODO: permitir lista de modulos. cuidado. impacta validacao do gradle
 	/*
 	 *  TODO(s):
 	 *  - Gradle
