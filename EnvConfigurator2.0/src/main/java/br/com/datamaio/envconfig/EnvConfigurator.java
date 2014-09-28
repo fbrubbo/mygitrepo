@@ -24,6 +24,7 @@ import br.com.datamaio.envconfig.conf.ConfEnvironments;
 import br.com.datamaio.envconfig.conf.Configuration;
 import br.com.datamaio.envconfig.hooks.file.FileHookEvaluator;
 import br.com.datamaio.envconfig.hooks.module.ModuleHookEvaluator;
+import br.com.datamaio.envconfig.util.BackupHelper;
 import br.com.datamaio.envconfig.util.LogHelper;
 import br.com.datamaio.envconfig.util.PathHelper;
 import br.com.datamaio.fwk.io.CopyVisitor;
@@ -39,7 +40,7 @@ import br.com.datamaio.fwk.io.FileUtils;
 public class EnvConfigurator {
 	// TODO: WindowsCommand dar erro quando executa comando linux específico ou ele passa reto. Tipo chmod
 	// TODO: falta fazer o backup
-	// TODO: testes para tudo
+	// TODO: testes para tudo. testar todas as possibilidades de backup
 	// TODO: revisar tudo. rever todos TODOS
 	// TODO: usar aqui o EncodingHelper para copiar, mergear os arquivos
 	// TODO: multi language e doc em inglês
@@ -57,14 +58,14 @@ public class EnvConfigurator {
 	
 	private Configuration conf;
 	private final PathHelper pathHelper;
+	private final BackupHelper backupHelper;
 
 	public EnvConfigurator(Path properties, Path module2Install) {
 		this(properties, module2Install, new ConfEnvironments(), new HashMap<>());
 	}
 	
 	EnvConfigurator(Map<String, String> instalationProperties, Path module2Install) {
-		// TODO: ver como melhorar isto.. está meio gambi. Usado apenas nos testes
-		this(new Configuration(Paths.get("Test.properties"), instalationProperties, module2Install));
+		this(new Configuration(Paths.get(new File(".").getAbsolutePath(), "config"), instalationProperties, module2Install));
 	}
 	
 	public EnvConfigurator(Path properties, Path module2Install, ConfEnvironments environments, Map<String, Path> dependencies) {
@@ -74,6 +75,7 @@ public class EnvConfigurator {
 	public EnvConfigurator(Configuration conf) {
 		this.conf = conf;
 		this.pathHelper = new PathHelper(conf);
+		this.backupHelper = new BackupHelper(conf);
 		new LogHelper(conf).startup();
 	}
 
@@ -122,6 +124,7 @@ public class EnvConfigurator {
 			protected void delete(Path source) throws IOException {
 				try {
 					Path target = pathHelper.getTargetWithoutSuffix(source, DELETE_SUFFIX);
+					backupHelper.backupFileOrDir(target);
 					FileUtils.delete(target);
 					LOGGER.info(" :DELETED");
 					LOGGER.info("\t" + target);
@@ -160,6 +163,7 @@ public class EnvConfigurator {
 				try {
 					if(source.toString().endsWith(TEMPLATE_SUFFIX)) {
 						File resolvedTargetFile = new File(target.toString().replace(TEMPLATE_SUFFIX, ""));
+						backupHelper.backupFile(resolvedTargetFile.toPath());
 					    try (Writer out = new BufferedWriter(new FileWriter(resolvedTargetFile))) {
 							engine.createTemplate(source.toFile())
 								.make(properties)
@@ -171,6 +175,7 @@ public class EnvConfigurator {
 					    LOGGER.info("\t" + source + " -> " + resolvedTargetFile);
 					    hook.post();
 					} else {
+						backupHelper.backupFile(target);
 						Files.copy(source, target, REPLACE_EXISTING);
 						LOGGER.info(" :COPIED");
 						LOGGER.info("\t" + source + " -> " + target);

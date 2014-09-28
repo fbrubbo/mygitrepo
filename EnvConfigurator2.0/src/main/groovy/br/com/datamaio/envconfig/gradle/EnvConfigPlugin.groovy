@@ -49,8 +49,7 @@ class EnvConfigPlugin implements Plugin<Project> {
 		project.apply (plugin: 'base')
 		project.task('pack', type:Zip) {
 			from '.'
-			exclude 'build'
-			exclude 'log'
+			exclude 'build', 'log', 'backup'
 		}
 		project.configurations {
 			archives

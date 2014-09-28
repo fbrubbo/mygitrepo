@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -16,8 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import br.com.datamaio.fwk.io.FileUtils;
@@ -26,9 +27,11 @@ import br.com.datamaio.fwk.io.PathUtils;
 
 public class EnvConfiguratorTest {
 	
-	@Before
+	@After
 	public void setup(){
-		System.setProperty("br.com.datamaio.envconfig.util.LogHelper.EnableFileHandler", "false");
+		Path base = new File(".").getAbsoluteFile().toPath();
+		FileUtils.delete(PathUtils.get(base, "backup"));
+		FileUtils.delete(PathUtils.get(base, "log"));
 	}
 	
 	@Test

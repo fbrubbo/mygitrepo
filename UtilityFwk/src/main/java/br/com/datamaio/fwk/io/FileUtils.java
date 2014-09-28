@@ -106,6 +106,14 @@ public final class FileUtils {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public static void copyFile(Path source, Path target) {
+		try {
+			Files.copy(source, target, REPLACE_EXISTING);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	/** Método helper para criar um arquivo em um determinado diretório com um determinado nome */
 	public static Path createFile(Path dir, String name) {
