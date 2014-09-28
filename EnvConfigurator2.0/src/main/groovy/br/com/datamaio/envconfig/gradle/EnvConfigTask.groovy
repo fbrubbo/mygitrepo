@@ -14,8 +14,8 @@ class EnvConfigTask  extends DefaultTask {
     def action() {		
     	def env = project.envconfig.env
 		def install = project.envconfig.install
-		def conf = project.file(install.conf)
-		def module = project.file(install.module)
+		def conf = project.file("conf/" + install.conf)
+		def module = project.file("module/" + install.module)
 		
 		System.setProperty("user.dir", project.rootDir.absolutePath);
 		
@@ -29,11 +29,36 @@ class EnvConfigTask  extends DefaultTask {
         println "MODULE DIR    : " + module  
 		println "====================================================================="
 		
-		//TODO Validar se existe e, se existir pedir confirmação do usuário de module e da configuração
+		def console = System.console()
+		if (console) {
+			if(!conf.exists()) {
+				println "**************************************************"
+				println "*** Arquivo de configuracao '$conf' nao existe ***"
+				println "**************************************************"
+				return
+			}
+			
+			if(!module.exists() || !module.isDirectory()) {
+				println "**********************************************************"
+				println "*** Module '$module' nao existe ou nao eh um diretorio ***"
+				println "**********************************************************"
+				return
+			}
+
+			def ok = console.readLine('\n> Você está rodando no ambiente descrito acima. Tem certeza que deseja continuar? ')
+			if("sim".equalsIgnoreCase(ok) || "yes".equalsIgnoreCase(ok) || "s".equalsIgnoreCase(ok) || "y".equalsIgnoreCase(ok)) {
+				def environments = new ConfEnvironments(env.ipsProd, env.ipsHom, env.ipsTst)
+				def dependencies = mapDependencies2Path();
+				new EnvConfigurator(conf.toPath(), module.toPath(), environments, dependencies).exec();
+			} else {
+				println "***************************"
+				println "*** Instalacao abortada ***"
+				println "***************************"
+			}
+		} else {
+			println "ERROR: Cannot get console."
+		}
 		
-		def environments = new ConfEnvironments(env.ipsProd, env.ipsHom, env.ipsTst)
-        def dependencies = mapDependencies2Path();
-		new EnvConfigurator(conf.toPath(), module.toPath(), environments, dependencies).exec();
     }
 
 	def mapDependencies2Path(){	

@@ -1,6 +1,8 @@
 package br.com.datamaio.fwk.io;
 
+import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static java.util.stream.Collectors.toList;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -8,6 +10,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -137,4 +140,27 @@ public final class FileUtils {
 		}
 	}
 	
+	public static List<Path> ls(Path dir) {
+		try {
+			return Files.list(dir).collect(toList());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static void move(Path from, Path to) {
+		try {
+			Files.move(from, to, ATOMIC_MOVE, REPLACE_EXISTING);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static void createSymbolicLink(Path link, Path targetFile) {
+		try {
+			Files.createSymbolicLink(link, targetFile);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

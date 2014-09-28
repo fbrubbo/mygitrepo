@@ -50,12 +50,8 @@ public class EnvConfigurator {
 	/*
 	 *  TODO(s):
 	 *  - Gradle
-	 *  	1) criar a estrutura básica
-	 *  	2) fazer o zip
-	 *  		upload archive???
+	 *  	2) upload archive???
 	 *  	3) config do eclipse para ficar bonitinho
-	 *  	4) wrapper automático? quem define é a versão do instalador
-	 *  	5) uname -a não está funcionando
 	 *  	6) utilitários de criptografia no gradle
 	 *  - Outros
 	 *  	1) comparar FWKUtils ultima versão com a minha.. arrumar método a método. Melhorar testes

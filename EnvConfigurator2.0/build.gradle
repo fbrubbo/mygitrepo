@@ -10,7 +10,6 @@ targetCompatibility = 1.8
 version = '0.1'
 
 configurations {
-	pack2Install
 	excludedDeps
 }
 
@@ -65,9 +64,10 @@ repositories {
 
 dependencies {
 	compile gradleApi(),localGroovy()
-	compile 'org.jasypt:jasypt:1.9.2'
-	compile 'org.codehaus.groovy:groovy-all:2.3.6'
-    compile 'br.com.datamaio:UtilityFwk:1+'
+	compile 'org.jasypt:jasypt:1.9.2', 
+			'org.codehaus.groovy:groovy-all:2.3.6',
+			'commons-configuration:commons-configuration:+',
+			'br.com.datamaio:UtilityFwk:1+'
 	
     testCompile 'junit:junit:4.+'	
 }
@@ -84,7 +84,4 @@ task wrapper (type: Wrapper) {
     gradleVersion = '2.1'
 }
 
-test << {
-	
-}
 

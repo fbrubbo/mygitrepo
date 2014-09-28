@@ -14,9 +14,7 @@ jar {
 
 repositories {
     mavenCentral()
-	maven {
-		url "file:///opt/gradle-repo/maven-repo/"
-	}
+	maven { url "file:///opt/gradle-repo/maven-repo/" }
 }
 
 dependencies {
