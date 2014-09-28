@@ -2,7 +2,6 @@ package br.com.datamaio.envconfig.conf;
 
 import static java.util.stream.Collectors.toMap;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +20,13 @@ public class Configuration {
 	/** Contém os ips dos ambientes */
 	private ConfEnvironments environments;
 	/** Normalmente * key é o groovy dependency, value é o File onde se encontra esta dependência */
-	private Map<String, File> dependencies;
+	private Map<String, Path> dependencies;
 	
 	public Configuration(Path properties, Path module) {
 		this(properties, module, new ConfEnvironments(), new HashMap<>());
 	}
 	
-	public Configuration(Path properties, Path module, ConfEnvironments environments, Map<String, File> dependencies) {
+	public Configuration(Path properties, Path module, ConfEnvironments environments, Map<String, Path> dependencies) {
 		this(properties, toMaps(properties), module, environments, dependencies);
 	}
 
@@ -42,14 +41,13 @@ public class Configuration {
 		this(propertiesPath, properties, module, new ConfEnvironments(), new HashMap<>());
 	}
 	
-	public Configuration(Path propertiesPath, Map<String, String> properties, Path module, ConfEnvironments environments, Map<String, File> dependencies) {
+	public Configuration(Path propertiesPath, Map<String, String> properties, Path module, ConfEnvironments environments, Map<String, Path> dependencies) {
 		this.propertiesPath = propertiesPath;
 		this.properties = properties;
 		this.moduleDir = module;
 		this.environments = environments;
 		this.dependencies = dependencies;
 	}
-
 
 	public Path getPropertiesPath() {
 		return propertiesPath;
@@ -67,7 +65,7 @@ public class Configuration {
 		return environments;
 	}
 
-	public File getDependency(String name) {
+	public Path getDependency(String name) {
 		return dependencies.get(name);
 	}
 

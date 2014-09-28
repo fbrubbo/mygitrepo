@@ -2,10 +2,8 @@ package br.com.datamaio.envconfig.hooks;
 
 import groovy.lang.Script;
 
-import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -23,8 +21,9 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
 import br.com.datamaio.envconfig.cmd.Command;
-import br.com.datamaio.envconfig.conf.Configuration;
+import br.com.datamaio.envconfig.cmd.Command.Interaction;
 import br.com.datamaio.envconfig.conf.ConfEnvironments;
+import br.com.datamaio.envconfig.conf.Configuration;
 
 public abstract class Hook extends Script {
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -36,17 +35,12 @@ public abstract class Hook extends Script {
 	private final Properties transientProps = new Properties();
 	protected final Command command;
 
-	public boolean pre() {return true;}
-	public void post() {}
-
 	public Hook(){
 		command = Command.get();
 	}
-	
-	/**
-	 * Ao finalizar a execução dos hooks (pre/post) o framewok deve chamar este método
-	 * para limpar as propriedades transientes
-	 */
+
+	public boolean pre() {return true;}
+	public void post() {}
 	public void finish() {
 		Set<Object> keySet = transientProps.keySet();
 		for (Object key : keySet) {
@@ -54,33 +48,155 @@ public abstract class Hook extends Script {
 		}
 	}
 
-	protected boolean isLinux(){
+	//---------------- init command delegates ---------------
+	
+	public String osname() {
+		return Command.osname();
+	}
+
+	public boolean isLinux() {
 		return Command.isLinux();
 	}
-
-	protected boolean isWindows(){
-        return !Command.isLinux();
+	
+	public boolean isWindows(){
+        return Command.isWindows();
     }
-
-	protected String whoami(){
-		return command.whoami();
+	
+	public void execute(String file) {
+		command.execute(file);
+	}
+	
+	public String distribution() {
+		return command.distribution();
 	}
 
-	protected String run(final String cmd) {
-		return command.run(cmd);
+	public  void dos2unix(String file) {
+		command.dos2unix(file);		
 	}
 
-	protected String chmod(final String mode, final String file) {
+	public String groupadd(final String group) {
+		return command.groupadd(group);
+	}
+
+	public String groupadd(final String group, final String options) {
+		return command.groupadd(group, options);
+	}
+
+	public String useradd(final String user) {
+		return command.useradd(user);
+	}
+
+	public String useradd(final String user, final String options) {
+		return command.useradd(user, options);
+	}
+
+	public String passwd(final String user, final String passwd) {
+		return command.passwd(user, passwd);
+	}
+
+	public String chmod(String mode, String file) {
 		return command.chmod(mode, file);
 	}
 
-	public String chown(final String user, final String file) {
+	public String chmod(String mode, String file, boolean recursive) {
+		return command.chmod(mode, file, recursive);
+	}
+
+	public String chown(String user, String file) {
 		return command.chown(user, file);
 	}
 
-	protected String mv(final String from, final String to) {
-        return command.mv(from, to);
-    }
+	public String chown(String user, String file, boolean recursive) {
+		return command.chown(user, file, recursive);
+	}
+
+	public String chown(String user, String group, String file, boolean recursive) {
+		return command.chown(user, group, file, recursive);
+	}
+
+	public String ln(final String link, final String targetFile) {
+		return command.ln(link, targetFile);
+	}
+
+	public boolean exists(String file){
+		return command.exists(file);
+	}
+	
+	public String whoami() {
+		return command.whoami();
+	}
+
+	public void mkdir(String dir) {
+		command.mkdir(dir);
+	}
+
+	public void mv(String from, String to) {
+		command.mv(from, to);
+	}
+
+	public List<String> ls(String path) {
+		return command.ls(path);
+	}
+
+	public void rm(String path) {
+		command.rm(path);
+	}
+
+	public void cp(String from, String to) {
+		command.cp(from, to);
+	}
+
+	// --- run ----
+
+	public String run(String cmd) {
+		return command.run(cmd);
+	}
+
+	public String run(List<String> cmdList) {
+		return command.run(cmdList);
+	}
+
+	public String run(String cmd, final boolean printOutput) {
+		return command.run(cmd, printOutput);
+	}
+
+	public String run(List<String> cmdList, final boolean printOutput) {
+		return command.run(cmdList, printOutput);
+	}
+
+	public String run(String cmd, final int... successfulExec) {
+		return command.run(cmd, successfulExec);
+	}
+
+	public String run(List<String> cmdList, final int... successfulExec) {
+		return command.run(cmdList, successfulExec);
+	}
+
+	public String run(String cmd, Interaction interact) {
+		return command.run(cmd, interact);
+	}
+
+	public String run(List<String> cmdList, Interaction interact) {
+		return command.run(cmdList, interact);
+	}
+
+	/**
+	 * Este metodo nao faz interacao nenhuma. Isto é, ele não mostra o output e
+	 * nem o erro. Mas se o retorno do comando for diferente de 0, ele continua
+	 * lancando uma exception
+	 *
+	 * OBS> este metodo foi criado pois alguns executaveis travavam lendo o
+	 * output
+	 */
+	public String runWithNoInteraction(String cmd) {
+		return command.runWithNoInteraction(cmd);
+	}
+
+	public String runWithNoInteraction(List<String> cmdList) {
+		return command.runWithNoInteraction(cmdList);
+	}
+
+    // --- env methods ---
 
 	protected boolean isDesenv(){
 		return !isTst() && !isHom() && !isProd();
@@ -126,6 +242,12 @@ public abstract class Hook extends Script {
 		}
     }
     
+    public void log(String msg) {
+        LOGGER.info("\t" + msg);
+    }
+        
+    // --- properties methods ---
+    
 	protected void addTransientProperty(final String key, final Boolean value){
 		addTransientProperty(key, "" + value);
 	}
@@ -148,7 +270,10 @@ public abstract class Hook extends Script {
 	protected boolean contains(final String key){
         return props.get(key)!=null;
     }
+	
+    
 
+	// ------ private methods ------
 
 	private String getIpFromDNS(String hostName) {
 		if(!HOSTS.containsKey(hostName)) { 
@@ -197,18 +322,6 @@ public abstract class Hook extends Script {
 		}
 		return results;
 	}
-	
-    public void log(String msg) {
-        LOGGER.info(msg);
-    }
-    
-    public Path resolveDependency(String name) {
-    	File file = conf.getDependency(name);
-    	if(file==null)
-    		throw new RuntimeException("Não foi possível resolver a dependência " + name);
-    	
-    	return file.toPath();
-    }
     
 	protected void setEnvs(ConfEnvironments envs) {
 		this.envs = envs;

@@ -1,16 +1,50 @@
 package br.com.datamaio.envconfig.cmd;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public abstract class LinuxCommand extends Command {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	
+	@Override
+	public void execute(String file) {
+		Path path = Paths.get(file);
+		try {
+			String oldPosix = PosixFilePermissions.toString(Files.getPosixFilePermissions(path));			
+			Files.setPosixFilePermissions(path, PosixFilePermissions.fromString("rwxrwxrwx"));
+			
+			run(file);
+			
+			Files.setPosixFilePermissions(path, PosixFilePermissions.fromString(oldPosix));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}			
+	}
+	
+	public static void main(String[] args) throws IOException {
+	      Path path = Paths.get("/tmp");
+	      Set<PosixFilePermission> set = Files.getPosixFilePermissions(path);
+	      System.out.println("/tmp  : " + PosixFilePermissions.toString(set));
+	 
+	      path = Paths.get("/");
+	      set = Files.getPosixFilePermissions(path);
+	      System.out.println("/     : " + PosixFilePermissions.toString(set));
+	 
+	      path = Paths.get("/proc");
+	      set = Files.getPosixFilePermissions(path);
+	      System.out.println("/proc : " + PosixFilePermissions.toString(set));
+	   }
 	
 	public String chmod(String mode, String file) {
 		return chmod(mode, file, false);
@@ -43,7 +77,7 @@ public abstract class LinuxCommand extends Command {
 		List<String> cmd = new ArrayList<String>();
 		cmd.add("dos2unix");
 		cmd.add(file);
-		run(cmd);
+		run(cmd, false);
 	}
 
 	public String chown(String user, String file) {
@@ -63,39 +97,6 @@ public abstract class LinuxCommand extends Command {
 		cmd.add(user + ":" + group);
 		cmd.add(file);
 		return run(cmd);
-	}
-
-	public String mkdir(String dir) {
-		return run("mkdir -p " + dir);
-	}
-
-	public String mv(String from, String to) {
-		List<String> cmd = new ArrayList<String>();
-		cmd.add("/bin/mv");
-		cmd.add("-f");
-		cmd.add(from);
-		cmd.add(to);
-		return run(cmd);
-	}
-
-	public String ls(String path) {
-		return run("ls " + path);
-	}
-
-	public String ln(final String file, final String link) {
-		return run("ln -sf " + file + " " + link);
-	}
-
-	public String rm(final String path) {
-		return run("/bin/rm -f " + path);
-	}
-
-	public String rm(final String path, final boolean isRecursive) {
-		return run("/bin/rm -f" + (isRecursive ? "R" : "") + " " + path);
-	}
-
-	public String cp(final String from, final String to) {
-		return run("/bin/cp -f " + from + " " + to);
 	}
 
 	public String groupadd(final String group) {
@@ -126,7 +127,7 @@ public abstract class LinuxCommand extends Command {
 	 */
 	public String passwd(final String user, final String passwd) {
 		List<String> cmd = Arrays.asList("passwd", user);
-		return run(cmd, new Interact() {
+		return run(cmd, new Interaction() {
 			@Override
 			void execute(OutputStream out) throws Exception {
 				byte[] bytes = (passwd + "\n").getBytes();
@@ -160,15 +161,15 @@ public abstract class LinuxCommand extends Command {
 	}
 
 	public String bash(String cmd, final boolean printOutput) {
-		return run("bash -c " + cmd, printOutput);
+		return run("bash -c \"" + cmd + "\"", printOutput);
 	}
 
 	public String bash(String cmd, final int... successfulExec) {
-		return run("bash -c " + cmd, successfulExec);
+		return run("bash -c \"" + cmd + "\"", successfulExec);
 	}
 
 	public String bashWithNoInteraction(String cmd) {
-		return run("bash -c " + cmd, (Interact) null);
+		return run("bash -c \"" + cmd + "\"", (Interaction) null);
 	}
 
 	// ---------- end bash run -------
@@ -186,7 +187,7 @@ public abstract class LinuxCommand extends Command {
 	public void uninstall(String pack) {
 		LOGGER.info("\t********** Removendo pacote " + pack);
 		List<String> cmd = buildUnistallCommand(pack);
-		run(cmd, new Interact());
+		run(cmd, new Interaction());
 		LOGGER.info("\t********** Pacote " + pack + " removido\n");
 	}
 

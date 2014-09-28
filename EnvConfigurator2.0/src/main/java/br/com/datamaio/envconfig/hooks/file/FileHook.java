@@ -12,37 +12,36 @@ public abstract class FileHook extends Hook {
 	protected String target;
 	
 	protected String chmod(String mode) {
-		return command.chmod(mode, target);
+		return chmod(mode, target);
 	}
 	
 	protected String chmod(String mode, boolean recursive) {
-		return command.chmod(mode, target, recursive);
+		return chmod(mode, target, recursive);
 	}
 	
-	public void dos2unix() {
-		command.dos2unix(target);	
+	protected void dos2unix() {
+		dos2unix(target);	
 	}
-	
 	
 	protected String chown(String user) {
-		return command.chown(user, target);
+		return chown(user, target);
 	}
 	
-	protected String chown(String user, boolean recursive) {
-		return command.chown(user, target, recursive);
-	}
-	
-	protected String chown(String user, String group, boolean recursive) {
-		return command.chown(user, group, recursive);
+	protected String chown(String userAndGroup, boolean recursive) {
+		return chown(userAndGroup, target, recursive);
 	}
 	
 	protected String ln(String link) {
-		return command.ln(target, link);
+		return ln(link, target);
 	}
 		
-	protected String renameTo(String to) {
-        return command.mv(target, to);
+	protected void renameTo(String to) {
+        mv(target, to);
     }
+	
+	protected void reloadFile() {
+		execute(target);
+	}
 	
 	protected String getTargetDirectory(){
 		Path path = Paths.get(target);

@@ -5,13 +5,14 @@ import static br.com.datamaio.envconfig.conf.Configuration.HOOK_SUFFIX;
 import static br.com.datamaio.envconfig.conf.Configuration.TEMPLATE_SUFFIX;
 import static java.nio.file.Files.exists;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import groovy.lang.Writable;
+import groovy.text.GStringTemplateEngine;
 import groovy.text.SimpleTemplateEngine;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,6 +39,8 @@ import br.com.datamaio.fwk.io.FileUtils;
  * @author Fernando Rubbo
  */
 public class EnvConfigurator {
+	// TODO: multi language e doc em inglês
+	// TODO: WindowsCommand dar erro quando executa comando linux específico ou ele passa reto. Tipo chmod
 	// TODO: falta fazer o backup
 	// TODO: falta organizar os arquivos de log no diretório certo
 	// TODO: falta os métodos que utilizem as dependências
@@ -73,7 +76,7 @@ public class EnvConfigurator {
 		this(new Configuration(Paths.get("Test.properties"), instalationProperties, module2Install));
 	}
 	
-	public EnvConfigurator(Path properties, Path module2Install, ConfEnvironments environments, Map<String, File> dependencies) {
+	public EnvConfigurator(Path properties, Path module2Install, ConfEnvironments environments, Map<String, Path> dependencies) {
 		this(new Configuration(properties, module2Install, environments, dependencies));
 	}
 	
@@ -128,10 +131,10 @@ public class EnvConfigurator {
 			protected void delete(Path source) throws IOException {
 				try {
 					Path target = pathHelper.getTargetWithoutSuffix(source, DELETE_SUFFIX);
-					LOGGER.info("DELETING..: " + target);
 					FileUtils.delete(target);
+					LOGGER.info(" :DELETED");
+					LOGGER.info("\t" + target);
 					hook.post();
-					LOGGER.info("DELETED: " + target);
 				} finally {
 					hook.finish();
 				}
@@ -157,7 +160,8 @@ public class EnvConfigurator {
 				
 				final Path target = pathHelper.getTargetWithoutSuffix(source, TEMPLATE_SUFFIX);
 				hook = new FileHookEvaluator(source, target, conf);
-				return !matcher.matches(source.getFileName()) && hook.pre();
+				boolean pre = hook.pre();
+				return !matcher.matches(source.getFileName()) && pre;
 			}
 			
 			@Override /** Copia OU faz o merge do template */
@@ -165,20 +169,21 @@ public class EnvConfigurator {
 				try {
 					if(source.toString().endsWith(TEMPLATE_SUFFIX)) {
 						File resolvedTargetFile = new File(target.toString().replace(TEMPLATE_SUFFIX, ""));
-						LOGGER.info("MERGING..: " + resolvedTargetFile);
 					    try (Writer out = new BufferedWriter(new FileWriter(resolvedTargetFile))) {
-							Writable tmplt = engine.createTemplate(source.toFile()).make(properties);
-							tmplt.writeTo(out);
+							engine.createTemplate(source.toFile())
+								.make(properties)
+								.writeTo(out);
 						} catch (Exception e) {
 							throw new IOException(e);
 						}
+					    LOGGER.info(" :MERGED");
+					    LOGGER.info("\t" + source + " -> " + resolvedTargetFile);
 					    hook.post();
-					    LOGGER.info("MERGED: " + resolvedTargetFile);
 					} else {
-						LOGGER.info("COPING..: " + target);
 						Files.copy(source, target, REPLACE_EXISTING);
+						LOGGER.info(" :COPIED");
+						LOGGER.info("\t" + source + " -> " + target);
 						hook.post();
-						LOGGER.info("COPIED: " + target);
 					}
 				} finally {
 					hook.finish();

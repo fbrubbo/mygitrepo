@@ -1,5 +1,7 @@
 package br.com.datamaio.envconfig.hooks.module;
 
+import static br.com.datamaio.envconfig.conf.Configuration.HOOK_SUFFIX;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.logging.Logger;
 
 import br.com.datamaio.envconfig.conf.Configuration;
 import br.com.datamaio.envconfig.hooks.HookEvaluator;
+import br.com.datamaio.fwk.io.PathUtils;
 
 
 public class ModuleHookEvaluator extends HookEvaluator {
@@ -33,26 +36,33 @@ public class ModuleHookEvaluator extends HookEvaluator {
 
 	@Override
 	public boolean pre() {
-		LOGGER.info("##################################################################################################################################");
-		LOGGER.info("########### INICIO MODULE ############### " + moduleDir + " ############## INICIO MODULE ############");
-		LOGGER.info("##################################################################################################################################");
-		return super.pre();
+		LOGGER.info("#############################################################################################################");
+		LOGGER.info("######## INICIO MODULE ############# " + relativize() + " ############ INICIO MODULE #########");
+		LOGGER.info("#############################################################################################################");
+		boolean pre = super.pre();
+		LOGGER.info("--------------------------" );
+		return pre;
+	}
+
+	private String relativize() {
+		String mod = moduleDir.toString();
+		return mod.substring(mod.indexOf(File.separator + "module"));
 	}
 
 	@Override
 	public void post() {
-		super.post();
+		super.post();		
 	}
 
 	@Override
 	public void finish() {
 		super.finish();
-		LOGGER.info("##################################################################################################################################");
-		LOGGER.info("############# FIM MODULE ############### " + moduleDir + " ############### FIM MODULE #############");
-		LOGGER.info("##################################################################################################################################");
+		LOGGER.info("#############################################################################################################");
+		LOGGER.info("########## FIM MODULE ############## " + relativize() + " ############## FIM MODULE ##########");
+		LOGGER.info("#############################################################################################################");
 	}
 	
-	private static String buildModuleHookName(Configuration conf) {
-		return conf.getModuleDir() + File.separator + "Module" + Configuration.HOOK_SUFFIX;
+	private static Path buildModuleHookName(Configuration conf) {
+		return PathUtils.get(conf.getModuleDir(), "Module" + HOOK_SUFFIX);
 	}	
 }

@@ -1,5 +1,8 @@
 package br.com.datamaio.envconfig.cmd;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
@@ -7,6 +10,32 @@ import br.com.datamaio.fwk.io.ZipUtils;
 
 public class WindowsCommand extends Command {
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+	@Override
+	public void execute(String file) {
+		run(file);
+	}
+	
+	@Override
+	public String distribution() {
+		String OS_NAME = "OS Name:";
+		try {
+			Runtime rt = Runtime.getRuntime();
+			Process pr = rt.exec("SYSTEMINFO");
+			BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+
+			String line = "";
+			while ((line = in.readLine()) != null) {
+				if (line.contains(OS_NAME)) {
+					return line.substring(line.lastIndexOf(OS_NAME) + OS_NAME.length(), line.length() - 1);
+				}
+			}
+
+			return "N/A";
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
+	}
 	
 	public void install(String pack) {
 		throw new RuntimeException("Operacao 'install' Nao implementado para windows");
@@ -28,8 +57,7 @@ public class WindowsCommand extends Command {
 
 	@Override
 	public void dos2unix(String file) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
-
+		// do nothing
 	}
 
 	@Override
@@ -46,40 +74,10 @@ public class WindowsCommand extends Command {
 	public String chown(String user, String group, String file, boolean recursive) {
 		throw new RuntimeException("Operacao Nao implementado para windows");
 	}
-
-	@Override
-	public String mkdir(String dir) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
-	}
-
-	@Override
-	public String mv(String from, String to) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
-	}
-
-	@Override
-	public String ls(String path) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
-	}
-
+	
 	@Override
 	public String ln(String file, String link) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
-	}
-
-	@Override
-	public String rm(String path) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
-	}
-
-	@Override
-	public String rm(String path, boolean isRecursive) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
-	}
-
-	@Override
-	public String cp(String from, String to) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+		throw new RuntimeException("Operacao nao suportada no windows");
 	}
 
 	@Override
@@ -115,7 +113,8 @@ public class WindowsCommand extends Command {
 	}
 
 	@Override
-	public void installLocalPack(String path) {
+	public void installFromLocalPath(String path) {
 		throw new RuntimeException("Operacao Nao implementado para windows");
 	}
+	
 }

@@ -32,11 +32,11 @@ class EnvConfigTask  extends DefaultTask {
 		//TODO Validar se existe e, se existir pedir confirmação do usuário de module e da configuração
 		
 		def environments = new ConfEnvironments(env.ipsProd, env.ipsHom, env.ipsTst)
-        def dependencies = mapDependencies2File();
+        def dependencies = mapDependencies2Path();
 		new EnvConfigurator(conf.toPath(), module.toPath(), environments, dependencies).exec();
     }
 
-	def mapDependencies2File(){	
+	def mapDependencies2Path(){	
 		def map = [:]		
 		project.configurations.pack2Install.dependencies?.each {Dependency d ->
 			def key = "$d.group:$d.name:$d.version"
@@ -45,9 +45,9 @@ class EnvConfigTask  extends DefaultTask {
 				return d.group.split("\\.").find { s -> name.contains(s) }!=null && name.contains(d.name) && name.contains(d.version)
 			}
 			if(value==null){
-				throw new InvalidUserDataException("Não conseguiu resolver $key. Em packs2Intall NÃO use '+'")
+				throw new InvalidUserDataException("Nao conseguiu resolver $key. Em packs2Intall NAO use '+'")
 			}
-			map.putAt(key, value)
+			map.putAt(key, value.toPath())
 		}		
 		return map
 	}

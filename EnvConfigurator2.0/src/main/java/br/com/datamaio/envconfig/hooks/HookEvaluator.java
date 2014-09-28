@@ -5,7 +5,6 @@ import groovy.lang.GroovyShell;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 
 import org.codehaus.groovy.control.CompilerConfiguration;
@@ -14,13 +13,16 @@ import br.com.datamaio.envconfig.conf.Configuration;
 import br.com.datamaio.fwk.io.FileUtils;
 
 public abstract class HookEvaluator {
+	private Path groovyPath;
 	private GroovyShell shell;
 	protected String script;
 	
-	public HookEvaluator(String groovyPath, Map<String, Object> binds, Configuration conf) {
+	public HookEvaluator(Path groovyPath, Map<String, Object> binds, Configuration conf) {
+		this.groovyPath = groovyPath;
+		
 		binds = buildBinding(binds, conf);
 		this.shell = createShell(binds, conf);
-		this.script = readScript(binds, groovyPath);
+		this.script = readScript(binds);
 	}
 
 	private Map<String, Object> buildBinding(Map<String, Object> binds, Configuration conf) {
@@ -30,14 +32,13 @@ public abstract class HookEvaluator {
 		return binds;
 	}
 
-	private String readScript(Map<String, Object> binds, String groovyPath) {
-		Path file = Paths.get(groovyPath);
-		if( Files.exists(file) ) {
+	private String readScript(Map<String, Object> binds) {
+		if( Files.exists(groovyPath) ) {
 			String script = "";
 			for (String b : binds.keySet()) {
 				script += "set" + b.substring(0,1).toUpperCase() + b.substring(1) + "(" + b + ");\n";
 			}
-			return script + FileUtils.read(file);
+			return script + FileUtils.read(groovyPath);
 		}
 		
 		return null;
@@ -85,4 +86,8 @@ public abstract class HookEvaluator {
 
 	protected abstract String getScriptBaseClass();
 	
+	@Override
+	public String toString() {
+		return groovyPath.toString();
+	}
 }

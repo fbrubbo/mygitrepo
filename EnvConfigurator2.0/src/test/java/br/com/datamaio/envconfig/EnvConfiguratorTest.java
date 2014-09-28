@@ -226,6 +226,34 @@ public class EnvConfiguratorTest {
 		FileUtils.delete(root);
 	}
 	
+	/**
+	 * Make sure the behavior will not be changed in the future. 
+	 *    Issue: https://jira.codehaus.org/browse/GROOVY-2939
+	 *    Because of this issue the creators do not want to fix, we need to encode in .tmpl files:
+	 *      - all '\' as '\\' 
+	 *      - all '$' as '\$' (not because of the issue, but because it is a char to execute the EL)  
+	 * 
+	 * If we change this, it should be configurable
+	 */
+	@Test
+	public void testComplexTmplFiles() throws Exception {
+		Path[] paths = createEnv(9);
+		Path root = paths[0];
+		Path fs = paths[1];
+		Path module = paths[2];
+		Path result = paths[3];
+		
+		assertThat(exists(PathUtils.get(fs, "f1.txt")), is(false));
+		
+		Map<String, String> ext = new HashMap<>();
+		new EnvConfigurator(ext, module).exec();		
+
+		assertThat(exists(PathUtils.get(fs, "f1.txt")), is(true));
+		checkResult(fs, result, "f1.txt");
+		
+		FileUtils.delete(root);
+	}
+	
 	private byte[] buildModuleHookPre() {
 		return ("println envs; println modulePath; println conf; println props;"
 				+ "\nboolean pre() {"
@@ -250,7 +278,7 @@ public class EnvConfiguratorTest {
 		Path completeModule = FileUtils.createDirectories(PathUtils.get(module, fs));
 		
 		FileUtils.copy(Paths.get(getClass().getResource("/fs/fs" + index).toURI()), fs);
-		FileUtils.copy(Paths.get(getClass().getResource("/modules/m" + index).toURI()), completeModule);
+		FileUtils.copy(Paths.get(getClass().getResource("/module/m" + index).toURI()), completeModule);
 		FileUtils.copy(Paths.get(getClass().getResource("/result/r" + index).toURI()), result);
 		
 		return new Path[]{root, fs, module, result};
