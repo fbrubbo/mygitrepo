@@ -3,7 +3,6 @@ package br.com.datamaio.envconfig.conf;
 import static java.util.stream.Collectors.toMap;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -112,7 +111,7 @@ public class Configuration {
 	private String currentExecutionPath;
 	private synchronized String buildCurrentExecutionPath() {
 		if(currentExecutionPath==null) {		
-			SimpleDateFormat df = new SimpleDateFormat("yyyyMMHHmmss");
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
 			Path baseDir = new File(".").getAbsoluteFile().toPath();				
 			String fileName = baseDir.relativize(getConfigPath()).toString().replace("config/", "");
 			if(fileName.endsWith(".conf")) {

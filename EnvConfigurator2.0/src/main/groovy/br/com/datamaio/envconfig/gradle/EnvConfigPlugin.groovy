@@ -57,5 +57,11 @@ class EnvConfigPlugin implements Plugin<Project> {
 		project.artifacts {
 			archives project.pack
 		}
+		
+		// -- override the default behaviour to delete more folders
+		project.clean {
+			description = "Deletes the following folders: build, backup, log"
+			delete "backup","log"
+		}
     }
 }

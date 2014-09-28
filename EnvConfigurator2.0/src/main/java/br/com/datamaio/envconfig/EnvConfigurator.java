@@ -39,12 +39,12 @@ import br.com.datamaio.fwk.io.FileUtils;
  */
 public class EnvConfigurator {
 	// TODO: WindowsCommand dar erro quando executa comando linux específico ou ele passa reto. Tipo chmod
-	// TODO: falta fazer o backup
 	// TODO: testes para tudo. testar todas as possibilidades de backup
 	// TODO: revisar tudo. rever todos TODOS
 	// TODO: usar aqui o EncodingHelper para copiar, mergear os arquivos
 	// TODO: multi language e doc em inglês
 	// TODO: permitir lista de modulos. cuidado. impacta validacao do gradle
+	// TODO: as informações setadas no gradle não estão sendo impressas no log de arquivo
 	/*
 	 *  TODO(s):
 	 *  - Gradle
