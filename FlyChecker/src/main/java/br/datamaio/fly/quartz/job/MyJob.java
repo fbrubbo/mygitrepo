@@ -44,7 +44,7 @@ public class MyJob implements Job {
 	    try {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
 			
-			BigDecimal threshold = new BigDecimal("800");
+			BigDecimal threshold = new BigDecimal("710");
 			LocalDate startDate = LocalDate.of(2014, 12, 11);
 			Period period = Period.ofMonths(3);			
 			VoeGolCheck check = new SeleniumVoeGolCheck();  // new UrlConnVoeGolCheck();
@@ -59,7 +59,7 @@ public class MyJob implements Job {
 			
 			
 			// --- check regular ---
-			threshold = new BigDecimal("460");
+			threshold = new BigDecimal("330");
 			check.setUp(threshold, startDate, period);
 			
 			trips = check.weekendCheckCaxias2Congonhas();

@@ -56,13 +56,17 @@ class EnvConfigTask  extends DefaultTask {
 	def mapDependencies2Path(){	
 		def map = [:]		
 		project.configurations.pack2Install.dependencies?.each {Dependency d ->
+			if(d.version.contains("+")) {
+				throw new InvalidUserDataException("In 'packs2Intall' it is not allowed to use '+' modifier!")
+			}
+			
 			def key = "$d.group:$d.name:$d.version"
 			def value = project.configurations.pack2Install.files?.find { File f ->
 				def name = f.toString();
 				return d.group.split("\\.").find { s -> name.contains(s) }!=null && name.contains(d.name) && name.contains(d.version)
 			}
 			if(value==null){
-				throw new InvalidUserDataException("Nao conseguiu resolver $key. Em packs2Intall NAO use '+'")
+				throw new InvalidUserDataException("Could not resolve 'packs2Install' dependency: $key.")
 			}
 			map.putAt(key, value.toPath())
 		}		

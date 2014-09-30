@@ -45,12 +45,32 @@ public class EnvConfigurator {
 	// TODO: multi language e doc em inglês
 	// TODO: permitir lista de modulos. cuidado. impacta validacao do gradle
 	// TODO: as informações setadas no gradle não estão sendo impressas no log de arquivo
+	// TODO: se colocar um diretório vazio na instalação o instalador não está criando.. deveria!?!?
 	/*
 	 *  TODO(s):
 	 *  - Gradle
 	 *  	3) config do eclipse para ficar bonitinho
 	 *  - Outros
 	 *  	1) comparar FWKUtils ultima versão com a minha.. arrumar método a método. Melhorar testes
+	   
+		TODO: porque está imprimindo duas vezes INSTALLING
+			INFO: Sep 29, 2014 23:36:15 INSTALLING: opt/wildfly/teste.del
+			INFO: Sep 29, 2014 23:36:15  :PRE
+			INFO: Sep 29, 2014 23:36:15 	File /opt/wildfly/teste does not exists. Nothing to do.
+			INFO: Sep 29, 2014 23:36:15 INSTALLING: home/fernando/.bashrc
+			INFO: Sep 29, 2014 23:36:15  :PRE
+			INFO: Sep 29, 2014 23:36:15 	Executing cmd: dos2unix /home/fernando/.bashrc 
+			INFO: Sep 29, 2014 23:36:15  :COPIED
+			INFO: Sep 29, 2014 23:36:15 	/home/fernando/eclipsews/ws1/EnvConfigTest/module/module1/home/fernando/.bashrc -> /home/fernando/.bashrc
+			INFO: Sep 29, 2014 23:36:15  :POST
+			INFO: Sep 29, 2014 23:36:15 	Executing cmd: dos2unix /home/fernando/.bashrc 
+			INFO: Sep 29, 2014 23:36:15 	Executing cmd: chmod 644 /home/fernando/.bashrc 
+			INFO: Sep 29, 2014 23:36:15 	Executing cmd: /home/fernando/.bashrc 
+			INFO: Sep 29, 2014 23:36:15 --------------------------
+			INFO: Sep 29, 2014 23:36:15 INSTALLING: opt/wildfly/teste.del
+			INFO: Sep 29, 2014 23:36:15  :PRE
+			INFO: Sep 29, 2014 23:36:15 post
+
 	 *
 	 */
 	
@@ -115,9 +135,15 @@ public class EnvConfigurator {
 				
 				final Path target = pathHelper.getTargetWithoutSuffix(source, DELETE_SUFFIX);
 				hook = new FileHookEvaluator(source, target, conf);
-				return super.mustDelete(source) 
-						&& exists(target) 
-						&& hook.pre();
+				if( super.mustDelete(source) ) {
+					boolean exists = exists(target);
+					boolean pre = hook.pre();
+					if ( !exists ) {
+						LOGGER.info("\tFile " + target + " does not exists. Nothing to do.");
+					}
+					return exists && pre;
+				}
+				return false; 
 			}
 			
 			@Override /** Deleta o target e não source */ 
