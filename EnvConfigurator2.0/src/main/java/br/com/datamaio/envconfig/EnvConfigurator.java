@@ -52,25 +52,6 @@ public class EnvConfigurator {
 	 *  	3) config do eclipse para ficar bonitinho
 	 *  - Outros
 	 *  	1) comparar FWKUtils ultima versão com a minha.. arrumar método a método. Melhorar testes
-	   
-		TODO: porque está imprimindo duas vezes INSTALLING
-			INFO: Sep 29, 2014 23:36:15 INSTALLING: opt/wildfly/teste.del
-			INFO: Sep 29, 2014 23:36:15  :PRE
-			INFO: Sep 29, 2014 23:36:15 	File /opt/wildfly/teste does not exists. Nothing to do.
-			INFO: Sep 29, 2014 23:36:15 INSTALLING: home/fernando/.bashrc
-			INFO: Sep 29, 2014 23:36:15  :PRE
-			INFO: Sep 29, 2014 23:36:15 	Executing cmd: dos2unix /home/fernando/.bashrc 
-			INFO: Sep 29, 2014 23:36:15  :COPIED
-			INFO: Sep 29, 2014 23:36:15 	/home/fernando/eclipsews/ws1/EnvConfigTest/module/module1/home/fernando/.bashrc -> /home/fernando/.bashrc
-			INFO: Sep 29, 2014 23:36:15  :POST
-			INFO: Sep 29, 2014 23:36:15 	Executing cmd: dos2unix /home/fernando/.bashrc 
-			INFO: Sep 29, 2014 23:36:15 	Executing cmd: chmod 644 /home/fernando/.bashrc 
-			INFO: Sep 29, 2014 23:36:15 	Executing cmd: /home/fernando/.bashrc 
-			INFO: Sep 29, 2014 23:36:15 --------------------------
-			INFO: Sep 29, 2014 23:36:15 INSTALLING: opt/wildfly/teste.del
-			INFO: Sep 29, 2014 23:36:15  :PRE
-			INFO: Sep 29, 2014 23:36:15 post
-
 	 *
 	 */
 	
@@ -180,8 +161,7 @@ public class EnvConfigurator {
 				
 				final Path target = pathHelper.getTargetWithoutSuffix(source, TEMPLATE_SUFFIX);
 				hook = new FileHookEvaluator(source, target, conf);
-				boolean pre = hook.pre();
-				return !matcher.matches(source.getFileName()) && pre;
+				return !matcher.matches(source.getFileName()) && hook.pre();
 			}
 			
 			@Override /** Copia OU faz o merge do template */
