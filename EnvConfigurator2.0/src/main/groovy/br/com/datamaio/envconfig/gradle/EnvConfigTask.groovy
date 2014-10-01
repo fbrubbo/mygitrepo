@@ -43,7 +43,10 @@ class EnvConfigTask  extends DefaultTask {
 					println "============================"
 				}
 			} else {
-				println "ERROR: Cannot get console."
+				println "DEV ONLY: Cannot get console - Will keep processing, but will not accept cryptography in any configuration property"
+				def environments = new ConfEnvironments(env.ipsProd, env.ipsHom, env.ipsTst)
+				def dependencies = mapDependencies2Path();
+				new EnvConfigurator(config.toPath(), module.toPath(), environments, dependencies).exec();
 			}
 		} else {
 			println "============================"
