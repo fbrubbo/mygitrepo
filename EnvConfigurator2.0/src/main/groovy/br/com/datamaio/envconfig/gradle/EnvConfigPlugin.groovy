@@ -40,7 +40,7 @@ class EnvConfigPlugin implements Plugin<Project> {
 		// -- configure the wrapper to execute automatically
 		project.task('wrapper', type: Wrapper) {
 			description = "Generate gradle wrapper"
-			gradleVersion = '2.1'
+			gradleVersion = '2.2-20140930220016+0000'
 		}		
 		project.tasks["wrapper"].execute()
 		

@@ -46,6 +46,9 @@ public class EnvConfigurator {
 	// TODO: permitir lista de modulos. cuidado. impacta validacao do gradle
 	// TODO: as informações setadas no gradle não estão sendo impressas no log de arquivo
 	// TODO: se colocar um diretório vazio na instalação o instalador não está criando.. deveria!?!?
+	// TODO: Futuramente fazer o master que informa os ips e roda.. ai ele faz tipo um map reduce usando ssh
+	// 			usar https://plugins.gradle.org/plugin/org.hidetake.ssh ?!?!?!
+	// TODO: permitir rodar com sudo? no zaffari não usavamos, no tecnocred sim.. qual seria a melhor opção?
 	/*
 	 *  TODO(s):
 	 *  - Gradle

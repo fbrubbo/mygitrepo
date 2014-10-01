@@ -1,3 +1,7 @@
+plugins {
+	id "com.jfrog.bintray" version "0.6"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'groovy'
@@ -81,7 +85,7 @@ uploadArchives {
 }
 
 task wrapper (type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '2.2-20140930220016+0000'
 }
 
 
