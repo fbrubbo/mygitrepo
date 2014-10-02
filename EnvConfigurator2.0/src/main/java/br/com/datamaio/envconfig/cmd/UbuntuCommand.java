@@ -10,7 +10,7 @@ public class UbuntuCommand extends LinuxCommand {
 	
 	@Override
 	protected List<String> buildInstallCommand(String pack) {
-		return Arrays.asList(new String[] { "apt-get", "install", pack });
+		return Arrays.asList(new String[] { "apt-get", "-y", "install", pack });
 	}
 	
 	@Override
