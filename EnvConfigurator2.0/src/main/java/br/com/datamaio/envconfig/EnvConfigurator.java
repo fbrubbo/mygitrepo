@@ -49,6 +49,7 @@ public class EnvConfigurator {
 	// TODO: Futuramente fazer o master que informa os ips e roda.. ai ele faz tipo um map reduce usando ssh
 	// 			usar https://plugins.gradle.org/plugin/org.hidetake.ssh ?!?!?!
 	// TODO: permitir rodar com sudo? no zaffari não usavamos, no tecnocred sim.. qual seria a melhor opção?
+	//            colocar a prop usesudo=true. default=false na configuração
 	/*
 	 *  TODO(s):
 	 *  - Gradle

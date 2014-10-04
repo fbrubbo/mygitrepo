@@ -5,12 +5,10 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 
 public abstract class LinuxCommand extends Command {
@@ -32,25 +30,11 @@ public abstract class LinuxCommand extends Command {
 		}			
 	}
 	
-	public static void main(String[] args) throws IOException {
-	      Path path = Paths.get("/tmp");
-	      Set<PosixFilePermission> set = Files.getPosixFilePermissions(path);
-	      System.out.println("/tmp  : " + PosixFilePermissions.toString(set));
-	 
-	      path = Paths.get("/");
-	      set = Files.getPosixFilePermissions(path);
-	      System.out.println("/     : " + PosixFilePermissions.toString(set));
-	 
-	      path = Paths.get("/proc");
-	      set = Files.getPosixFilePermissions(path);
-	      System.out.println("/proc : " + PosixFilePermissions.toString(set));
-	   }
-	
-	public String chmod(String mode, String file) {
-		return chmod(mode, file, false);
+	public void chmod(String mode, String file) {
+		chmod(mode, file, false);
 	}
 
-	public String chmod(String mode, String file, boolean recursive) {
+	public void chmod(String mode, String file, boolean recursive) {
 		List<String> cmd = new ArrayList<String>();
 		cmd.add("chmod");
 		if (recursive) {
@@ -58,15 +42,13 @@ public abstract class LinuxCommand extends Command {
 		}
 		cmd.add(mode);
 		cmd.add(file);
-		String ret = run(cmd);
+		run(cmd);
 
 		if (file.endsWith(".sh")) {
 			// executa este cara apenas para garantir que se alguem salvou no windows
 			// este arquivo possa ser executado no Linux
 			dos2unix(file);
 		}
-
-		return ret;
 	}
 
 	public void dos2unix(String file) {
@@ -80,15 +62,15 @@ public abstract class LinuxCommand extends Command {
 		run(cmd, false);
 	}
 
-	public String chown(String user, String file) {
-		return chown(user, file, false);
+	public void chown(String user, String file) {
+		chown(user, file, false);
 	}
 
-	public String chown(String user, String file, boolean recursive) {
-		return chown(user, user, file, recursive);
+	public void chown(String user, String file, boolean recursive) {
+		chown(user, user, file, recursive);
 	}
 
-	public String chown(String user, String group, String file, boolean recursive) {
+	public void chown(String user, String group, String file, boolean recursive) {
 		List<String> cmd = new ArrayList<String>();
 		cmd.add("chown");
 		if (recursive) {
@@ -96,38 +78,37 @@ public abstract class LinuxCommand extends Command {
 		}
 		cmd.add(user + ":" + group);
 		cmd.add(file);
-		return run(cmd);
+		run(cmd);
 	}
 
-	public String groupadd(final String group) {
-		return groupadd(group, null);
+	public void groupadd(final String group) {
+		groupadd(group, null);
 	}
 
-	public String groupadd(final String group, final String options) {
-		return run("groupadd " + (options != null ? options : "-f") + " " + group);
+	public void groupadd(final String group, final String options) {
+		run("groupadd " + (options != null ? options : "-f") + " " + group);
 	}
 
-	public String useradd(final String user) {
-		return useradd(user, null);
+	public void useradd(final String user) {
+		useradd(user, null);
 	}
 
-	public String useradd(final String user, final String options) {
+	public void useradd(final String user, final String options) {
 		try {
-			String ret = run("id " + user, false);
+			run("id " + user, false);
 			LOGGER.info("Usuario ja existe. Nao sera criado novamente.");
-			return ret;
 		} catch (Exception e) {
 			LOGGER.info("Usuario nao existe. Criando ...");
-			return run("useradd " + (options != null ? options : "") + " " + user);
+			run("useradd " + (options != null ? options : "") + " " + user);
 		}
 	}
 
 	/**
 	 * OBS IMPORTANTE: Se o selinux estiver ligado este método não funciona.
 	 */
-	public String passwd(final String user, final String passwd) {
+	public void passwd(final String user, final String passwd) {
 		List<String> cmd = Arrays.asList("passwd", user);
-		return run(cmd, new Interaction() {
+		run(cmd, new Interaction() {
 			@Override
 			void execute(OutputStream out) throws Exception {
 				byte[] bytes = (passwd + "\n").getBytes();

@@ -38,21 +38,21 @@ public class WindowsCommand extends Command {
 	}
 	
 	public void install(String pack) {
-		throw new RuntimeException("Operacao 'install' Nao implementado para windows");
+		run(pack);
 	}
 
 	public void uninstall(String pack) {
-		throw new RuntimeException("Operacao 'install' Nao implementado para windows");
+		throw new RuntimeException("Function 'uninstall' not implemented for windows");
 	}
 
 	@Override
-	public String chmod(String mode, String file) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+	public void chmod(String mode, String file) {
+		// do nothing
 	}
 
 	@Override
-	public String chmod(String mode, String file, boolean recursive) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+	public void chmod(String mode, String file, boolean recursive) {
+		// do nothing
 	}
 
 	@Override
@@ -61,48 +61,48 @@ public class WindowsCommand extends Command {
 	}
 
 	@Override
-	public String chown(String user, String file) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+	public void chown(String user, String file) {
+		// do nothing
 	}
 
 	@Override
-	public String chown(String user, String file, boolean recursive) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+	public void chown(String user, String file, boolean recursive) {
+		// do nothing
 	}
 
 	@Override
-	public String chown(String user, String group, String file, boolean recursive) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+	public void chown(String user, String group, String file, boolean recursive) {
+		// do nothing
 	}
 	
 	@Override
-	public String ln(String file, String link) {
-		throw new RuntimeException("Operacao nao suportada no windows");
+	public void ln(String file, String link) {
+		// do nothing
 	}
 
 	@Override
-	public String groupadd(String group) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+	public void groupadd(String group) {
+		// do nothing
 	}
 
 	@Override
-	public String groupadd(String group, String options) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+	public void groupadd(String group, String options) {
+		// do nothing
 	}
 
 	@Override
-	public String useradd(String user) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+	public void useradd(String user) {
+		// do nothing
 	}
 
 	@Override
-	public String useradd(String user, String options) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+	public void useradd(String user, String options) {
+		// do nothing
 	}
 
 	@Override
-	public String passwd(String user, String passwd) {
-		throw new RuntimeException("Operacao Nao implementado para windows");
+	public void passwd(String user, String passwd) {
+		// do nothing
 	}
 
 	@Override

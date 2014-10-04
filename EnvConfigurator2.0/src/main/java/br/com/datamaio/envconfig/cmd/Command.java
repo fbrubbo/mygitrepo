@@ -91,21 +91,20 @@ public abstract class Command {
 	public abstract void unzip(String from, String toDir);		
 	public abstract void dos2unix(String file);
 	
-	public abstract String groupadd(final String group);
-	public abstract String groupadd(final String group, final String options);
-	public abstract String useradd(final String user);
-	public abstract String useradd(final String user, final String options);
-	public abstract String passwd(final String user, final String passwd);
+	public abstract void groupadd(final String group);
+	public abstract void groupadd(final String group, final String options);
+	public abstract void useradd(final String user);
+	public abstract void useradd(final String user, final String options);
+	public abstract void passwd(final String user, final String passwd);
 	
-	public abstract String chmod(String mode, String file);
-	public abstract String chmod(String mode, String file, boolean recursive);
-	public abstract String chown(String user, String file);
-	public abstract String chown(String user, String file, boolean recursive);
-	public abstract String chown(String user, String group, String file, boolean recursive);
+	public abstract void chmod(String mode, String file);
+	public abstract void chmod(String mode, String file, boolean recursive);
+	public abstract void chown(String user, String file);
+	public abstract void chown(String user, String file, boolean recursive);
+	public abstract void chown(String user, String group, String file, boolean recursive);
 
-	public String ln(final String link, final String targetFile) {
+	public void ln(final String link, final String targetFile) {
 		FileUtils.createSymbolicLink(Paths.get(link), Paths.get(targetFile));
-		return String.format("Link criado com sucesso: '%s' -> '%s'!", link, targetFile);
 	}	
 	
 	public boolean exists(String file){

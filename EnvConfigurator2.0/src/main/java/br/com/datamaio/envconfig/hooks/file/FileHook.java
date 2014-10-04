@@ -11,28 +11,28 @@ public abstract class FileHook extends Hook {
 	protected String src;
 	protected String target;
 	
-	protected String chmod(String mode) {
-		return chmod(mode, target);
+	protected void chmod(String mode) {
+		chmod(mode, target);
 	}
 	
-	protected String chmod(String mode, boolean recursive) {
-		return chmod(mode, target, recursive);
+	protected void chmod(String mode, boolean recursive) {
+		chmod(mode, target, recursive);
 	}
 	
 	protected void dos2unix() {
 		dos2unix(target);	
 	}
 	
-	protected String chown(String user) {
-		return chown(user, target);
+	protected void chown(String user) {
+		chown(user, target);
 	}
 	
-	protected String chown(String userAndGroup, boolean recursive) {
-		return chown(userAndGroup, target, recursive);
+	protected void chown(String userAndGroup, boolean recursive) {
+		chown(userAndGroup, target, recursive);
 	}
 	
-	protected String ln(String link) {
-		return ln(link, target);
+	protected void ln(String link) {
+		ln(link, target);
 	}
 		
 	protected void renameTo(String to) {

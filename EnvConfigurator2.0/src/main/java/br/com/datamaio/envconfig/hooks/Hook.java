@@ -70,52 +70,52 @@ public abstract class Hook extends Script {
 		return command.distribution();
 	}
 
-	public  void dos2unix(String file) {
+	public void dos2unix(String file) {
 		command.dos2unix(file);		
 	}
 
-	public String groupadd(final String group) {
-		return command.groupadd(group);
+	public void groupadd(final String group) {
+		command.groupadd(group);
 	}
 
-	public String groupadd(final String group, final String options) {
-		return command.groupadd(group, options);
+	public void groupadd(final String group, final String options) {
+		command.groupadd(group, options);
 	}
 
-	public String useradd(final String user) {
-		return command.useradd(user);
+	public void useradd(final String user) {
+		command.useradd(user);
 	}
 
-	public String useradd(final String user, final String options) {
-		return command.useradd(user, options);
+	public void useradd(final String user, final String options) {
+		command.useradd(user, options);
 	}
 
-	public String passwd(final String user, final String passwd) {
-		return command.passwd(user, passwd);
+	public void passwd(final String user, final String passwd) {
+		command.passwd(user, passwd);
 	}
 
-	public String chmod(String mode, String file) {
-		return command.chmod(mode, file);
+	public void chmod(String mode, String file) {
+		command.chmod(mode, file);
 	}
 
-	public String chmod(String mode, String file, boolean recursive) {
-		return command.chmod(mode, file, recursive);
+	public void chmod(String mode, String file, boolean recursive) {
+		command.chmod(mode, file, recursive);
 	}
 
-	public String chown(String user, String file) {
-		return command.chown(user, file);
+	public void chown(String user, String file) {
+		command.chown(user, file);
 	}
 
-	public String chown(String user, String file, boolean recursive) {
-		return command.chown(user, file, recursive);
+	public void chown(String user, String file, boolean recursive) {
+		command.chown(user, file, recursive);
 	}
 
-	public String chown(String user, String group, String file, boolean recursive) {
-		return command.chown(user, group, file, recursive);
+	public void chown(String user, String group, String file, boolean recursive) {
+		command.chown(user, group, file, recursive);
 	}
 
-	public String ln(final String link, final String targetFile) {
-		return command.ln(link, targetFile);
+	public void ln(final String link, final String targetFile) {
+		command.ln(link, targetFile);
 	}
 
 	public boolean exists(String file){

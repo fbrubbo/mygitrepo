@@ -2,8 +2,8 @@ package br.com.datamaio.envconfig.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.bundling.Zip;
-import org.gradle.api.tasks.wrapper.Wrapper;
+import org.gradle.api.tasks.bundling.Zip
+import org.gradle.api.tasks.wrapper.Wrapper
 
 class EnvConfigPlugin implements Plugin<Project> {
 
@@ -18,6 +18,9 @@ class EnvConfigPlugin implements Plugin<Project> {
         project.extensions.create("envconfig", EnvConfigExtension)
         project.envconfig.extensions.create("env", EnvNestedExtension)
         project.envconfig.extensions.create("install", InstallNestedExtension)		
+		project.envconfig.extensions.create("settings", SettingsNestedExtention)
+		project.envconfig.settings.extensions.create("linux", LinuxNestedExtention)
+		project.envconfig.settings.extensions.create("windows", WindowsNestedExtention)
 
 		// -- configure new tasks
 		project.task('envconfig', type:EnvConfigTask){

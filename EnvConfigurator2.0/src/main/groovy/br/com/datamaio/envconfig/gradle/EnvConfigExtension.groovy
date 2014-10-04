@@ -13,3 +13,13 @@ class InstallNestedExtension{
 	String config
 	String module
 }
+
+class SettingsNestedExtention{
+}
+
+class LinuxNestedExtention{
+	boolean usesudo=false
+}
+
+class WindowsNestedExtention{
+}
