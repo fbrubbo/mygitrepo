@@ -41,12 +41,12 @@ public class MyJob implements Job {
 	    final Long id = dataMap.getLong("id");
 	    final String nome = dataMap.getString("nome");
 
+		VoeGolCheck check = new SeleniumVoeGolCheck();  // new UrlConnVoeGolCheck();
 	    try {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
 						
 			LocalDate startDate = LocalDate.of(2014, 12, 11);
 			Period period = Period.ofMonths(3);			
-			VoeGolCheck check = new SeleniumVoeGolCheck();  // new UrlConnVoeGolCheck();
 
 			
 			// --- check digo ---
@@ -79,6 +79,8 @@ public class MyJob implements Job {
 		} catch (final Exception cause) {
 			sendToAndroid(cause);
 			throw new JobExecutionException(cause, false);
+		} finally {
+			check.tearDown();
 		}
 		
 	}
