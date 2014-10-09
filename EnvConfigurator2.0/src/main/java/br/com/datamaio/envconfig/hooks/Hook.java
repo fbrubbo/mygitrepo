@@ -116,10 +116,25 @@ public abstract class Hook extends Script {
 		command.chown(user, group, file, recursive);
 	}
 
-	public void ln(final String link, final String targetFile) {
-		command.ln(link, targetFile);
+	public Destination ln(final String linkFile, final String targetFile) {
+		return link(linkFile);
+	}
+	
+	public Destination link(final String linkFile) {
+		return new Destination() {
+			@Override
+			public void to(String targetFile) {
+				command.ln(linkFile, targetFile);				
+			}
+		};		
 	}
 
+
+	public boolean doNotExists(String file){
+		// TODO: do not work in the groovy dsl in if()
+		return !exists(file);
+	}
+	
 	public boolean exists(String file){
 		return command.exists(file);
 	}
@@ -132,8 +147,17 @@ public abstract class Hook extends Script {
 		command.mkdir(dir);
 	}
 
-	public void mv(String from, String to) {
-		command.mv(from, to);
+	public Destination mv(String from, String to) {
+		return move(from);
+	}
+	
+	public Destination move(String from) {
+		return new Destination() {
+			@Override
+			public void to(String to) {
+				command.mv(from, to);				
+			}
+		};		
 	}
 
 	public List<String> ls(String path) {
@@ -141,11 +165,24 @@ public abstract class Hook extends Script {
 	}
 
 	public void rm(String path) {
+		remove(path);
+	}
+	
+	public void remove(String path) {
 		command.rm(path);
 	}
-
-	public void cp(String from, String to) {
-		command.cp(from, to);
+	
+	public Destination cp(String from) {
+		return copy(from);
+	}
+	
+	public Destination copy(String from) {
+		return new Destination() {
+			@Override
+			public void to(String to) {
+				command.cp(from, to);				
+			}
+		};
 	}
 
 	// --- run ----
@@ -250,17 +287,53 @@ public abstract class Hook extends Script {
         
     // --- properties methods ---
     
-	protected void addTransientProperty(final String key, final Boolean value){
-		addTransientProperty(key, "" + value);
+	protected WithValue set(final String key){
+		return new WithValue() {
+			@Override
+			public void with(Double value) {
+				this.with(""+value);
+			}
+			
+			@Override
+			public void with(Integer value) {
+				this.with(""+value);
+			}
+			
+			@Override
+			public void with(Boolean value) {
+				this.with(""+value);
+			}
+			
+			@Override
+			public void with(String value) {
+				props.put(key, value);
+				transientProps.put(key, value);
+			}
+		};
 	}
 
-	protected void addTransientProperty(final String key, final String value){
-		props.put(key, value);
-		transientProps.put(key, value);
-	}
-
-	protected void addPersistentProperty(final String key, final String value){
-		props.put(key, value);
+	protected WithValue permanentSet(final String key){
+		return new WithValue() {
+			@Override
+			public void with(Double value) {
+				this.with(""+value);
+			}
+			
+			@Override
+			public void with(Integer value) {
+				this.with(""+value);
+			}
+			
+			@Override
+			public void with(Boolean value) {
+				this.with(""+value);
+			}
+			
+			@Override
+			public void with(String value) {
+				props.put(key, value);
+			}
+		};		
 	}
 
 	protected String get(final String key){
@@ -289,9 +362,14 @@ public abstract class Hook extends Script {
 		command.installFromLocalPath(path);
 	}
 	
-	protected void unzipDependency(String depName, String toDir) {
-		String from = resolveDependency(depName);
-		command.unzip(from, toDir);;
+	protected Destination unzipDependency(String depName) {
+		return new Destination() {			
+			@Override
+			public void to(String dir) {
+				String from = resolveDependency(depName);
+				command.unzip(from, dir);				
+			}
+		};
 	}
 	
     protected String resolveDependency(String name) {
@@ -303,7 +381,9 @@ public abstract class Hook extends Script {
     }
 	
     // --- services ---
-    protected void service(Map<String, String> m) {    	
+    
+    protected void service(Map<String, String> m) { 
+    	//TODO: validate the key.. must allow only ServiceAction strings
     	String action = m.keySet().iterator().next();    	
     	command.service(m.get(action), ServiceAction.valueOf(action));
     }
@@ -369,4 +449,14 @@ public abstract class Hook extends Script {
 		this.conf = conf;
 	}
 	
+	// ---- interfaces for dsl -----
+	interface Destination {
+		void to(String dir);
+	}
+	interface WithValue {
+		void with(String value);
+		void with(Boolean value);
+		void with(Integer value);
+		void with(Double value);
+	}
 }
