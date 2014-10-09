@@ -56,7 +56,7 @@ public class MyJob implements Job {
 			List<RoundTrip> trips = null;			
 			trips = check.checkDigo();
 			if(trips.size()>0) {
-				sendToAndroidFullDate(trips, "DIGO Caxias->Congonhas");
+				sendToAndroid(trips, "DIGO Caxias->Congonhas");
 			}
 			
 			
