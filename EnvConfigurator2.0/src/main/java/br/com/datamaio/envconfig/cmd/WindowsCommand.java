@@ -11,6 +11,12 @@ import br.com.datamaio.fwk.io.ZipUtils;
 public class WindowsCommand extends Command {
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
+	
+	public void service(String name, ServiceAction action){
+		throw new RuntimeException("Function 'service' not implemented for windows");
+	}
+
+
 	@Override
 	public void execute(String file) {
 		run(file);

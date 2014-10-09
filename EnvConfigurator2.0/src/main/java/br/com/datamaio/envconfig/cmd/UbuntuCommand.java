@@ -8,21 +8,22 @@ public class UbuntuCommand extends LinuxCommand {
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static final String DIST_NAME = "Ubuntu";
 	
+	public void uninstall(String pack) {
+		LOGGER.info("\t********** Removing package " + pack);
+		run( "apt-get -y purge " + pack);
+		run("apt-get -y autoremove");
+	}
+	
 	@Override
 	protected List<String> buildInstallCommand(String pack) {
 		return Arrays.asList(new String[] { "apt-get", "-y", "install", pack });
 	}
 	
-	@Override
-	protected List<String> buildUnistallCommand(String pack) {
-		return Arrays.asList(new String[] { "apt-get", "erase", pack });
-	}	
-	@Override
-	
+	@Override	
 	public void installFromLocalPath(String path) {
-		LOGGER.info("Instalando DEB File a partir de " + path + " ... ");
+		LOGGER.info("Installing DEB File from " + path + " ... ");
 		run("dpkg -i " + path);
-		LOGGER.info("DEB File instalado com sucesso! ");
+		LOGGER.info("DEB File successfully installed! ");
 	}
 	
 	@Override

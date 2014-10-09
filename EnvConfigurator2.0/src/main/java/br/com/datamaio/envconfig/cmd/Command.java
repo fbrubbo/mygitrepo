@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import br.com.datamaio.fwk.io.FileUtils;
@@ -82,6 +83,7 @@ public abstract class Command {
         return !isLinux();
     }
 
+	public abstract void service(String name, ServiceAction action);
 
 	public abstract String distribution();
 	public abstract void execute(String file);

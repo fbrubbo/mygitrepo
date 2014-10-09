@@ -43,18 +43,20 @@ public class MyJob implements Job {
 
 	    try {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
-			
-			BigDecimal threshold = new BigDecimal("710");
+						
 			LocalDate startDate = LocalDate.of(2014, 12, 11);
 			Period period = Period.ofMonths(3);			
 			VoeGolCheck check = new SeleniumVoeGolCheck();  // new UrlConnVoeGolCheck();
+
+			
+			// --- check digo ---
+			BigDecimal threshold = new BigDecimal("300");
 			check.setUp(threshold, startDate, period);
 			
-			// --- check natal ---
 			List<RoundTrip> trips = null;			
-			trips = check.checkNatal();
+			trips = check.checkDigo();
 			if(trips.size()>0) {
-				sendToAndroidFullDate(trips, "NATAL Congonhas->Caxias");
+				sendToAndroidFullDate(trips, "DIGO Caxias->Congonhas");
 			}
 			
 			

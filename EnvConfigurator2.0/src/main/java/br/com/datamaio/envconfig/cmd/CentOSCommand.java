@@ -8,14 +8,14 @@ public class CentOSCommand extends LinuxCommand {
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static final String DIST_NAME = "CentOS";
 	
-	@Override
-	protected List<String> buildInstallCommand(String pack) {
-		return Arrays.asList(new String[] { "yum", "-y", "install", pack });
+	public void uninstall(String pack) {
+		LOGGER.info("\t********** Removing package " + pack);
+		run("yum -y erase " +pack );
 	}
 	
 	@Override
-	protected List<String> buildUnistallCommand(String pack) {
-		return Arrays.asList(new String[] { "yum", "-y", "erase", pack });
+	protected List<String> buildInstallCommand(String pack) {
+		return Arrays.asList(new String[] { "yum", "-y", "install", pack });
 	}
 	
 	@Override

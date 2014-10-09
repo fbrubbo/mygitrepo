@@ -4,6 +4,7 @@ import groovy.lang.Script;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -21,6 +22,7 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
 import br.com.datamaio.envconfig.cmd.Command;
+import br.com.datamaio.envconfig.cmd.ServiceAction;
 import br.com.datamaio.envconfig.cmd.Command.Interaction;
 import br.com.datamaio.envconfig.conf.ConfEnvironments;
 import br.com.datamaio.envconfig.conf.Configuration;
@@ -271,7 +273,41 @@ public abstract class Hook extends Script {
         return props.get(key)!=null;
     }
 	
-    
+
+	// --- install methods ---
+	
+	public void install(String pack) {
+		command.install(pack);
+	}
+
+	public void uninstall(String pack) {
+		command.uninstall(pack);
+	}
+	
+	protected void installDependency(String depName) {
+		String path = resolveDependency(depName);
+		command.installFromLocalPath(path);
+	}
+	
+	protected void unzipDependency(String depName, String toDir) {
+		String from = resolveDependency(depName);
+		command.unzip(from, toDir);;
+	}
+	
+    protected String resolveDependency(String name) {
+    	Path file = conf.getDependency(name);
+    	if(file==null)
+    		throw new RuntimeException("Could not resolve dependency: " + name);
+    	
+    	return file.toString();
+    }
+	
+    // --- services ---
+    protected void service(Map<String, String> m) {    	
+    	String action = m.keySet().iterator().next();    	
+    	command.service(m.get(action), ServiceAction.valueOf(action));
+    }
+
 
 	// ------ private methods ------
 

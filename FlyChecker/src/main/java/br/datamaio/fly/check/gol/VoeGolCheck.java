@@ -55,6 +55,29 @@ public abstract class VoeGolCheck {
     public void tearDown(){
     }
     
+    public List<RoundTrip> checkDigo() throws Exception {
+    	List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
+				
+		Path logFile = buildLogFile("Digo_caxias2congonhas");
+		try (BufferedWriter report = Files.newBufferedWriter(logFile)) {
+			write(report, "--------- Searching Flyies PARA DIGO ---------");
+			
+			LocalDate dret = of(2014, 11, 16);
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 13), NIGHT, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 14), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 15), ANY, dret, ANY));
+			
+			dret = of(2014, 11, 23);
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 20), NIGHT, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 21), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 22), ANY, dret, ANY));
+
+			
+			write(report, "Finalizado com sucesso Agendamento para DIGO..");
+		} 
+		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
+	}
+    
     public List<RoundTrip> checkNatal() throws Exception {
     	List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
 				
@@ -137,10 +160,9 @@ public abstract class VoeGolCheck {
 				LocalDate monday = friday.with(next(DayOfWeek.MONDAY));
 
 				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, sunday, NIGHT));
-				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, monday, MORNING));
-
+//				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, monday, MORNING));
 				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, sunday, NIGHT));
-				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, monday, MORNING));
+//				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, monday, MORNING));
 
 				write(report, "\n");
 
@@ -167,10 +189,9 @@ public abstract class VoeGolCheck {
                 LocalDate monday    = friday.with(next(DayOfWeek.MONDAY));
 
                 tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, friday, NIGHT, sunday, AFTERNOON_OR_NIGHT));
-                tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, friday, NIGHT, monday, MORNING));
-
+//                tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, friday, NIGHT, monday, MORNING));
                 tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, saturday, MORNING, sunday, AFTERNOON_OR_NIGHT));
-                tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, saturday, MORNING, monday, MORNING));
+//                tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, saturday, MORNING, monday, MORNING));
 
                 write(writter, "\n");
 
@@ -193,25 +214,29 @@ public abstract class VoeGolCheck {
     public RoundTrip check(final BufferedWriter writter,  
     		final String from, final String to,
             final LocalDate ddep, final DayPeriod pdep,
-            final LocalDate dret, final DayPeriod pret) throws Exception {
-        
-        RoundTrip bestTrip = getBestRoundTripOption(from, to, ddep, pdep, dret, pret);
-        if (bestTrip==null) {
-            return null;
+            final LocalDate dret, final DayPeriod pret) {
+        try {
+	        RoundTrip bestTrip = getBestRoundTripOption(from, to, ddep, pdep, dret, pret);
+	        if (bestTrip==null) {
+	            return null;
+	        }
+	
+	        TripOption departure = bestTrip.getDeparture();
+	        TripOption returning = bestTrip.getReturning();
+	        write(writter, "==============================================================================================");
+	        write(writter, String.format("%s -> %s", from, to));
+	        Schedule sd = departure.getSchedule();
+	        Schedule sr = returning.getSchedule();
+	        write(writter, String.format("\tIDA     : %s dia %s (%s - %s): %s", ddep.getDayOfWeek(), ddep.format(DATE), sd.getTakeoffTime(), sd.getLandingTime(), departure));
+	        write(writter, String.format("\tVOLTA   : %s dia %s (%s - %s): %s", dret.getDayOfWeek(), dret.format(DATE), sr.getTakeoffTime(), sr.getLandingTime(), returning));
+	        BigDecimal totalValue = departure.getValue().add(returning.getValue());
+			write(writter, String.format("\t** TOTAL ** : %s", REAIS.format(totalValue) ));
+			
+			return totalValue.compareTo(threshold) <= 0 ? bestTrip : null;
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	return null;
         }
-
-        TripOption departure = bestTrip.getDeparture();
-        TripOption returning = bestTrip.getReturning();
-        write(writter, "==============================================================================================");
-        write(writter, String.format("%s -> %s", from, to));
-        Schedule sd = departure.getSchedule();
-        Schedule sr = returning.getSchedule();
-        write(writter, String.format("\tIDA     : %s dia %s (%s - %s): %s", ddep.getDayOfWeek(), ddep.format(DATE), sd.getTakeoffTime(), sd.getLandingTime(), departure));
-        write(writter, String.format("\tVOLTA   : %s dia %s (%s - %s): %s", dret.getDayOfWeek(), dret.format(DATE), sr.getTakeoffTime(), sr.getLandingTime(), returning));
-        BigDecimal totalValue = departure.getValue().add(returning.getValue());
-		write(writter, String.format("\t** TOTAL ** : %s", REAIS.format(totalValue) ));
-		
-		return totalValue.compareTo(threshold) <= 0 ? bestTrip : null;
     }
 	
     public abstract RoundTrip getBestRoundTripOption(String from, String to, LocalDate ddep, DayPeriod pdep, LocalDate dret, DayPeriod pret);

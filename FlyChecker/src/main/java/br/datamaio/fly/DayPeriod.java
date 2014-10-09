@@ -26,11 +26,17 @@ public enum DayPeriod {
     public String toString() {
         switch (this) {
             case MORNING:
-                return "manh�";
+                return "manhã";
             case AFTERNOON:
                 return "tarde";
             case NIGHT:
                 return "noite";
+			case AFTERNOON_OR_NIGHT:
+				return "tarde ou noite";
+			case ANY:
+				return "qualquer horário";
+			default:
+				break;
         }
         return super.toString();
     }

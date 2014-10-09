@@ -15,6 +15,10 @@ public abstract class LinuxCommand extends Command {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
+	public void service(String name, ServiceAction action){
+    	run("service " + name + " " + action);
+	}
+	
 	@Override
 	public void execute(String file) {
 		Path path = Paths.get(file);
@@ -96,9 +100,8 @@ public abstract class LinuxCommand extends Command {
 	public void useradd(final String user, final String options) {
 		try {
 			run("id " + user, false);
-			LOGGER.info("Usuario ja existe. Nao sera criado novamente.");
+			LOGGER.info("\tUser already exists. It will not be created again.");
 		} catch (Exception e) {
-			LOGGER.info("Usuario nao existe. Criando ...");
 			run("useradd " + (options != null ? options : "") + " " + user);
 		}
 	}
@@ -119,9 +122,8 @@ public abstract class LinuxCommand extends Command {
 	}
 	
 	public void unzip(String from, String toDir) {
-		LOGGER.info("Descompactando " + from + " para " + toDir + " ... ");
+		LOGGER.info("\tUnziping " + from + " para " + toDir + " ... ");
 		run("unzip -o " + from + " -d " + toDir);
-		LOGGER.info("Descompatacao concluida!");
 	}
 	
 
@@ -157,21 +159,11 @@ public abstract class LinuxCommand extends Command {
 
 	
 	public void install(String pack) {
-		LOGGER.info("\t********** Instalando pacote " + pack);
+		LOGGER.info("\t********** Installing package " + pack);
 		run(buildInstallCommand(pack));
-		LOGGER.info("\t********** Pacote " + pack + " instalado\n");
 	}
 
 	protected abstract List<String> buildInstallCommand(String pack);
 
 	
-	public void uninstall(String pack) {
-		LOGGER.info("\t********** Removendo pacote " + pack);
-		List<String> cmd = buildUnistallCommand(pack);
-		run(cmd, new Interaction());
-		LOGGER.info("\t********** Pacote " + pack + " removido\n");
-	}
-
-	protected abstract List<String> buildUnistallCommand(String pack);
-
 }

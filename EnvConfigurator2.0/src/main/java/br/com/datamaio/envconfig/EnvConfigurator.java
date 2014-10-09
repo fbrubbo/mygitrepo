@@ -38,6 +38,7 @@ import br.com.datamaio.fwk.io.FileUtils;
  * @author Fernando Rubbo
  */
 public class EnvConfigurator {
+	// TODO: acertar outros comandos que da para usar DSL. Por exemplo unzip(pack, toDir)
 	// TODO: WindowsCommand dar erro quando executa comando linux específico ou ele passa reto. Tipo chmod
 	// TODO: testes para tudo. testar todas as possibilidades de backup
 	// TODO: revisar tudo. rever todos TODOS
@@ -124,7 +125,8 @@ public class EnvConfigurator {
 					boolean exists = exists(target);
 					boolean pre = hook.pre();
 					if ( !exists ) {
-						LOGGER.info("\tFile " + target + " does not exists. Nothing to do.");
+						LOGGER.info("\tFile " + target + " does not exists.");
+						LOGGER.info("\tNothing to do!");
 					}
 					return exists && pre;
 				}
