@@ -72,6 +72,12 @@ public abstract class VoeGolCheck {
 			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 21), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 22), ANY, dret, ANY));
 
+			dret = of(2014, 10, 19);
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 10, 17), NIGHT, dret, ANY));
+			
+			dret = of(2014, 10, 26);
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 10, 24), NIGHT, dret, ANY));
+			
 			
 			write(report, "Finalizado com sucesso Agendamento para DIGO..");
 		} 

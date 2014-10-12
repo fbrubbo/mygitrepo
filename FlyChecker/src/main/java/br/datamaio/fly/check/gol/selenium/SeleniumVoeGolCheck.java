@@ -51,13 +51,14 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		BigDecimal threshold = new BigDecimal("350");
+		BigDecimal threshold = new BigDecimal("850");
 		LocalDate startDate = LocalDate.of(2014, 10, 9);
 		Period period = Period.ofWeeks(1);
 		
 		VoeGolCheck check = new SeleniumVoeGolCheck();  
 		check.setUp(threshold, startDate, period);
-		List<RoundTrip> trips = check.weekendCheckCongonhas2Caxias();
+//		List<RoundTrip> trips = check.weekendCheckCongonhas2Caxias();
+		List<RoundTrip> trips = check.checkDigo();
 		
 		DateTimeFormatter DATE = ofPattern("dd/MM/yyyy");
 		NumberFormat REAIS = DecimalFormat.getCurrencyInstance();

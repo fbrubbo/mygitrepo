@@ -84,6 +84,8 @@ public class SearchFly {
 			search(client);
 			Document doc = getPageContent(client);
 			
+			Thread.sleep(6000);
+			
 			ScheduleOptions departureSchedules = new ScheduleOptions();
 			departureSchedules.add(buildSchedules(doc, "ida", ddep));
 			TripOption bestDeparture = departureSchedules.getBestOption(pdep);

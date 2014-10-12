@@ -23,7 +23,7 @@ import org.quartz.JobExecutionException;
 import br.datamaio.fly.RoundTrip;
 import br.datamaio.fly.Schedule;
 import br.datamaio.fly.check.gol.VoeGolCheck;
-import br.datamaio.fly.check.gol.selenium.SeleniumVoeGolCheck;
+import br.datamaio.fly.check.gol.urlconn.UrlConnVoeGolCheck;
 import br.datamaio.fly.web.ApiKey;
 import br.datamaio.fly.web.SendAllMessagesServlet;
 
@@ -41,7 +41,7 @@ public class MyJob implements Job {
 	    final Long id = dataMap.getLong("id");
 	    final String nome = dataMap.getString("nome");
 
-		VoeGolCheck check = new SeleniumVoeGolCheck();  // new UrlConnVoeGolCheck();
+		VoeGolCheck check = new UrlConnVoeGolCheck(); // new SeleniumVoeGolCheck();  
 	    try {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
 						
