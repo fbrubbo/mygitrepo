@@ -30,4 +30,10 @@ public class UbuntuCommand extends LinuxCommand {
 	public String distribution() {
 		return DIST_NAME;
 	}
+
+	@Override
+	public void addRepository(String repository) {
+		run("add-apt-repository -y " + repository);
+		run("apt-get update");
+	}
 }

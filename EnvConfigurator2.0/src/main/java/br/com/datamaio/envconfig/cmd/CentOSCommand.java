@@ -29,4 +29,9 @@ public class CentOSCommand extends LinuxCommand {
 	public String distribution() {
 		return DIST_NAME;
 	}
+	
+	@Override
+	public void addRepository(String repository) {
+		throw new RuntimeException("Not Implemented!");
+	}
 }

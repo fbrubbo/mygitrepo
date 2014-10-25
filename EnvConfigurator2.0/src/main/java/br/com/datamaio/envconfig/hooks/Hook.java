@@ -348,6 +348,11 @@ public abstract class Hook extends Script {
 	
 
 	// --- install methods ---
+
+	// TODO: DSL => add "x" to linux repository
+	public void addRepository(String repository) {
+		command.addRepository(repository);
+	}
 	
 	public void install(String pack) {
 		command.install(pack);
@@ -357,11 +362,13 @@ public abstract class Hook extends Script {
 		command.uninstall(pack);
 	}
 	
+	// TODO: DSL => resolve and install dependency "x"
 	protected void installDependency(String depName) {
 		String path = resolveDependency(depName);
 		command.installFromLocalPath(path);
 	}
 	
+	// TODO: DSL => resolve and unzip dependency "x" to dir "y"
 	protected Destination unzipDependency(String depName) {
 		return new Destination() {			
 			@Override

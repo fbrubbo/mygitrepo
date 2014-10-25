@@ -123,4 +123,8 @@ public class WindowsCommand extends Command {
 		throw new RuntimeException("Operacao Nao implementado para windows");
 	}
 	
+	@Override
+	public void addRepository(String repository) {
+		throw new RuntimeException("Not Implemented!");
+	}
 }

@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import br.com.datamaio.fwk.io.FileUtils;
@@ -87,6 +86,7 @@ public abstract class Command {
 
 	public abstract String distribution();
 	public abstract void execute(String file);
+	public abstract void addRepository(String repository);
 	public abstract void install(String pack);
 	public abstract void installFromLocalPath(String path);
 	public abstract void uninstall(String pack);
