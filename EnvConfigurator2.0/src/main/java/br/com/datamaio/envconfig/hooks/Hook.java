@@ -363,6 +363,9 @@ public abstract class Hook extends Script {
 	}
 	
 	// TODO: DSL => resolve and install dependency "x"
+	// nova forma do gradle 2.2-rc de ler um arquivo de texto de dentro de uma dependencia
+	// config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, "path/to/archive/entry.txt")
+	// http://gradle.org/docs/release-candidate/dsl/org.gradle.api.resources.TextResourceFactory.html
 	protected void installDependency(String depName) {
 		String path = resolveDependency(depName);
 		command.installFromLocalPath(path);
