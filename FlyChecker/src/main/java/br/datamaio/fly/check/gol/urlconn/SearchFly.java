@@ -119,8 +119,11 @@ public class SearchFly {
 	}
 	
 	private Document getPageContent(CloseableHttpClient client) throws Exception {
-		HttpResponse r = client.execute(new HttpGet("http://compre2.voegol.com.br/Select2.aspx"));
-		return html2Dom(r.getEntity().getContent());
+		HttpResponse r = client.execute(new HttpGet("http://compre2.voegol.com.br/Search.aspx"));
+		InputStream content = r.getEntity().getContent();
+//		String str = IOUtils.readFully(content);
+//		System.out.println(str);
+		return html2Dom(content);
 	}
 
 	private void addParameters(HttpPost post) throws UnsupportedEncodingException {

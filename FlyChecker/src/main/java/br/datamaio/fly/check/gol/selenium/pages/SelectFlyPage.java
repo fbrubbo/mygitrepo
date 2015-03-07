@@ -150,4 +150,6 @@ public class SelectFlyPage {
     	Number value = NumberFormat.getCurrencyInstance(new Locale( "pt", "BR" )).parse("R$ 469,90");
 		System.out.println(value);
 	}
+
+
 }

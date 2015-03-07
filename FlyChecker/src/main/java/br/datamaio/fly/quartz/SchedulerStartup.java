@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebListener;
 import br.datamaio.fly.quartz.job.MyJob;
 
 /**
- * Inicia o quartz na inicializa��o do servidor
+ * Inicia o quartz na inicialização do servidor
  */
 @WebListener
 public class SchedulerStartup implements ServletContextListener {
@@ -27,7 +27,7 @@ public class SchedulerStartup implements ServletContextListener {
 		agen.setFrequency(Schedule.Frequency.PERIODIC);
 		agen.setName("Teste");
 		agen.setJobClass(MyJob.class);
-		agen.setCron("0 38 0,11,20 * * ? *");
+		agen.setCron("0 15 0,20,20 * * ? *");
 		agen.setFrom(LocalDateTime.now());
 		agen.setTo(LocalDateTime.now().plus(3, DAYS));
 		wrapper.rescheduleJob(agen);		

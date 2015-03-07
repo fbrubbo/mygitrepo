@@ -23,15 +23,22 @@ public class UrlConnVoeGolCheck extends VoeGolCheck {
 	}
 
 	public static void main(String[] args) throws Exception {
-		BigDecimal threshold = new BigDecimal("850");
-		LocalDate startDate = LocalDate.of(2014, 10, 9);
-		Period period = Period.ofWeeks(1);
+		BigDecimal threshold = new BigDecimal("300");
+		LocalDate startDate = LocalDate.of(2015, 1, 10);
+		Period period = Period.ofMonths(3);
 		
 		VoeGolCheck check = new UrlConnVoeGolCheck();  
 		check.setUp(threshold, startDate, period);
-//		List<RoundTrip> trips = check.weekendCheckCongonhas2Caxias();
-		List<RoundTrip> trips = check.checkDigo();
+		List<RoundTrip> trips = check.weekendCheckCongonhas2Caxias();
+//		List<RoundTrip> trips = check.checkDigo();
+		print(trips);
 		
+		trips = check.weekendCheckCongonhas2Caxias();
+		print(trips);
+		check.tearDown();
+	}
+
+	static void print(List<RoundTrip> trips) {
 		DateTimeFormatter DATE = ofPattern("dd/MM/yyyy");
 		NumberFormat REAIS = DecimalFormat.getCurrencyInstance();
 		StringBuilder builder = new StringBuilder();
@@ -50,7 +57,6 @@ public class UrlConnVoeGolCheck extends VoeGolCheck {
 						REAIS.format(totalValue))); 
 		}
 		System.out.println(builder.toString());
-		check.tearDown();
 	}
 	
 }

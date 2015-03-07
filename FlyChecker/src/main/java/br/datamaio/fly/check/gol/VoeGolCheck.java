@@ -168,9 +168,9 @@ public abstract class VoeGolCheck {
 				LocalDate monday = friday.with(next(DayOfWeek.MONDAY));
 
 				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, sunday, NIGHT));
-//				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, monday, MORNING));
-				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, sunday, NIGHT));
-//				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, monday, MORNING));
+				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, monday, MORNING));
+//				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, sunday, NIGHT));
+				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, monday, MORNING));
 
 				write(report, "\n");
 
