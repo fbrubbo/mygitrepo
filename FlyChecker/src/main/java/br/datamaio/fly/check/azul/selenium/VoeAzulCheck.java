@@ -40,8 +40,9 @@ import br.datamaio.fly.check.gol.selenium.SeleniumVoeGolCheck;
 public class VoeAzulCheck {
 	private static final Logger LOGGER = Logger.getLogger(VoeAzulCheck.class);
 	
-	private static final String CONGONHAS = "Viracopos";
+	private static final String VIRACOPOS = "Viracopos";
 	private static final String CAXIAS = "Caxias do Sul";
+	private static final String POA = "Porto Alegre";
 	private static final DateTimeFormatter DATE = ofPattern("dd/MM/yyyy");
 	private static final NumberFormat REAIS = DecimalFormat.getCurrencyInstance();
 	
@@ -82,8 +83,36 @@ public class VoeAzulCheck {
 				
 //				LocalDate lastSaturday = LocalDate.now().with(previous(SATURDAY));
 
-				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, sunday, NIGHT));
-				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, monday, MORNING));
+				tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, friday, AFTERNOON, sunday, NIGHT));
+				tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, friday, AFTERNOON, monday, MORNING));
+
+				write(report, "\n");
+
+				next = monday;
+			} while (next.compareTo(endDate) < 0);
+		}
+
+		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
+	}
+	
+	public List<RoundTrip> weekendCheckViracopos2poa() throws Exception {
+		List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
+
+		Path logFile = buildLogFile("viracopos2poa_");
+		try (BufferedWriter report = Files.newBufferedWriter(logFile)) {
+
+			write(report, String.format("Searching Flyies from '%s' to '%s' ", startDate.format(DATE), endDate.format(DATE)));
+
+			LocalDate next = startDate;
+			do {
+				LocalDate friday = next.with(next(DayOfWeek.FRIDAY));
+				LocalDate sunday = friday.with(next(DayOfWeek.SUNDAY));
+				LocalDate monday = friday.with(next(DayOfWeek.MONDAY));
+				
+//				LocalDate lastSaturday = LocalDate.now().with(previous(SATURDAY));
+
+				tripsWithGoodPrice.add(check(report, VIRACOPOS, POA, friday, AFTERNOON, sunday, NIGHT));
+				tripsWithGoodPrice.add(check(report, VIRACOPOS, POA, friday, AFTERNOON, monday, MORNING));
 
 				write(report, "\n");
 
@@ -146,15 +175,17 @@ public class VoeAzulCheck {
 	public static void main(String[] args) throws Exception {
 		System.setProperty("-Dlog4j.configuration", "log4j.properties");
 		BigDecimal threshold = new BigDecimal("300");
-		LocalDate startDate = LocalDate.now().plusDays(5);
+		LocalDate startDate = LocalDate.now().plusMonths(1);
 		Period period = Period.ofMonths(5);
 		
 		VoeAzulCheck check = new VoeAzulCheck();  
 		check.setUp(threshold, startDate, period);
 		List<RoundTrip> trips = check.weekendCheckViracopos2Caxias();
+//		List<RoundTrip> trips = check.weekendCheckViracopos2poa();
 		print(trips);
 		
 		check.tearDown();
+		driver.close();
 	}
 
 	static void print(List<RoundTrip> trips) {
