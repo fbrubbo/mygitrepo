@@ -24,7 +24,7 @@ import br.datamaio.fly.RoundTrip;
 import br.datamaio.fly.Schedule;
 import br.datamaio.fly.check.gol.VoeGolCheck;
 import br.datamaio.fly.check.gol.selenium.SeleniumVoeGolCheck;
-import br.datamaio.fly.web.SendAllMessagesServlet;
+import br.datamaio.fly.web.SendAllServlet;
 import br.datamaio.gcm.GcmApiKey;
 import br.datamaio.gcm.GcmSender;
 

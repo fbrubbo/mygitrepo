@@ -16,10 +16,6 @@
 package br.datamaio.fly.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -27,14 +23,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.android.gcm.server.Constants;
-import com.google.android.gcm.server.Message;
-import com.google.android.gcm.server.MulticastResult;
-import com.google.android.gcm.server.Result;
-import com.google.android.gcm.server.Sender;
-
-import br.datamaio.gcm.GcmApiKey;
-import br.datamaio.gcm.GcmDatastore;
+import br.datamaio.gcm.GcmSender;
 
 /**
  * Servlet that adds a new message to all registered devices.
@@ -43,7 +32,7 @@ import br.datamaio.gcm.GcmDatastore;
  */
 @WebServlet(value = "/sendAll")
 @SuppressWarnings("serial")
-public class SendAllMessagesServlet extends BaseServlet {
+public class SendAllServlet extends BaseServlet {
 
 
 	@Override
@@ -56,10 +45,8 @@ public class SendAllMessagesServlet extends BaseServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		String status = br.datamaio.gcm.GcmSender.send("FlyChecker Test", "This is only a test, ignore it!");
+		String status = GcmSender.send("FlyChecker Test", "This is only a test, ignore it!");
 		req.setAttribute(HomeServlet.ATTRIBUTE_STATUS, status.toString());
 		getServletContext().getRequestDispatcher("/home").forward(req, resp);
 	}
-
-	
 }

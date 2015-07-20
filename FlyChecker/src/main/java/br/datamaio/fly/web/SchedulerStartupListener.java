@@ -1,4 +1,4 @@
-package br.datamaio.fly.quartz;
+package br.datamaio.fly.web;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -8,17 +8,22 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import br.datamaio.fly.quartz.Schedule;
+import br.datamaio.fly.quartz.SchedulerWrapper;
 import br.datamaio.fly.quartz.job.MyJob;
 
 /**
  * Inicia o quartz na inicialização do servidor
  */
 @WebListener
-public class SchedulerStartup implements ServletContextListener {
-
+public class SchedulerStartupListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
+		System.out.println("========================================================================");
+		System.out.println("============== SchedulerStartupListener:contextInitialized =============");
+		System.out.println("========================================================================");
+		
 		SchedulerWrapper wrapper = SchedulerWrapper.get();
 		wrapper.start();
 		
@@ -27,7 +32,7 @@ public class SchedulerStartup implements ServletContextListener {
 		agen.setFrequency(Schedule.Frequency.PERIODIC);
 		agen.setName("Teste");
 		agen.setJobClass(MyJob.class);
-		agen.setCron("0 15 0,20,20 * * ? *");
+		agen.setCron("0 26 23 * * ? *");
 		agen.setFrom(LocalDateTime.now());
 		agen.setTo(LocalDateTime.now().plus(3, DAYS));
 		wrapper.rescheduleJob(agen);		
@@ -35,6 +40,10 @@ public class SchedulerStartup implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
+		System.out.println("========================================================================");
+		System.out.println("============== SchedulerStartupListener:contextDestroyed =============");
+		System.out.println("========================================================================");
+		
 		SchedulerWrapper wrapper = SchedulerWrapper.get();
 		wrapper.stop();
 	}
