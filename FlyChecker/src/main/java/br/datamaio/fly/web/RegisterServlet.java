@@ -20,6 +20,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.datamaio.gcm.GcmDatastore;
+
 /**
  * Servlet that registers a device, whose registration id is identified by
  * {@link #PARAMETER_REG_ID}.
@@ -39,7 +41,7 @@ public class RegisterServlet extends BaseServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException {
     String regId = getParameter(req, PARAMETER_REG_ID);
-    Datastore.register(regId);
+    GcmDatastore.register(regId);
     setSuccess(resp);
   }
 

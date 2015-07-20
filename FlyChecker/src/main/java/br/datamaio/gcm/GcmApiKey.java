@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.datamaio.fly.web;
+package br.datamaio.gcm;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ApiKey {
+public class GcmApiKey {
 
 	static final String ATTRIBUTE_ACCESS_KEY = "apiKey";
 	private static final String PATH = "/api.key";

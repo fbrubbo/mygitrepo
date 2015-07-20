@@ -1,6 +1,6 @@
 package br.datamaio.fly.quartz.validation;
 /**
- * Interface para agendamento períodico.
+ * Interface para agendamento periÃ³dico.
  */
 public interface Periodic {
 

@@ -94,58 +94,38 @@ public abstract class VoeGolCheck {
 			write(report, "--------- Searching Flyies PARA NATAL ---------");
 			
 			LocalDate dret = of(2016, 1, 2);
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 17), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 18), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 19), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 20), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 21), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));			
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 23), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 24), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 25), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 26), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 27), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));
+
 			
 			dret = of(2016, 1, 3);
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 17), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 18), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 19), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 20), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 21), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));						
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 23), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 24), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 25), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 26), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 27), ANY, dret, ANY));
-
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));
+			
 			dret = of(2016, 1, 4);
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 17), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 18), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 19), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 20), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 21), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));						
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 23), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 24), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 25), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 26), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 27), ANY, dret, ANY));
-
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));
+			
 			dret = of(2016, 1, 5);
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 17), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 18), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 19), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 20), ANY, dret, ANY));
 			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 21), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));						
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 23), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 24), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 25), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 26), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 27), ANY, dret, ANY));
-			dret = of(2016, 1, 6);
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 19), ANY, dret, MORNING));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 20), ANY, dret, MORNING));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 21), ANY, dret, MORNING));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 22), ANY, dret, MORNING));						
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 23), ANY, dret, MORNING));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 24), ANY, dret, MORNING));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 25), ANY, dret, MORNING));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 26), ANY, dret, MORNING));
-		
+			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));
+			
 			write(report, "Finalizado com sucesso Agendamento para NATAL..");
 		} 
 		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
@@ -167,7 +147,7 @@ public abstract class VoeGolCheck {
 				LocalDate monday = friday.with(next(DayOfWeek.MONDAY));
 
 				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, sunday, NIGHT));
-				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, monday, MORNING));
+//				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, monday, MORNING));
 //				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, sunday, NIGHT));
 				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, monday, MORNING));
 

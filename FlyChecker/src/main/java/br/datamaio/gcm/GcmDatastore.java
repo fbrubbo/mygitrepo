@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.datamaio.fly.web;
+package br.datamaio.gcm;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,15 +27,15 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-public final class Datastore {
+public final class GcmDatastore {
 
 	private static final List<String> IDS = new ArrayList<String>();
-	private static final Logger LOGGER = Logger.getLogger(Datastore.class);
+	private static final Logger LOGGER = Logger.getLogger(GcmDatastore.class);
 	static {
 		load();
 	}
 
-	private Datastore() {
+	private GcmDatastore() {
 		throw new UnsupportedOperationException();
 	}
 

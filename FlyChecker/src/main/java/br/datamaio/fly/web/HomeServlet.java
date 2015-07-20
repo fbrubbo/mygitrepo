@@ -23,6 +23,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.datamaio.gcm.GcmDatastore;
+
 /**
  * Servlet that adds display number of devices and button to send a message.
  * <p>
@@ -53,7 +55,7 @@ public class HomeServlet extends BaseServlet {
     if (status != null) {
       out.print(status);
     }
-    List<String> devices = Datastore.getDevices();
+    List<String> devices = GcmDatastore.getDevices();
     if (devices.isEmpty()) {
       out.print("<h2>No devices registered!</h2>");
     } else {

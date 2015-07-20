@@ -104,7 +104,7 @@ public class SearchFly {
 	}
 	
 	private CloseableHttpClient buildHttpClient() {
-		RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.BEST_MATCH).build();
+		RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.DEFAULT).build();
 		CookieStore cookieStore = new BasicCookieStore();
 		HttpClientContext context = HttpClientContext.create();
 		context.setCookieStore(cookieStore);

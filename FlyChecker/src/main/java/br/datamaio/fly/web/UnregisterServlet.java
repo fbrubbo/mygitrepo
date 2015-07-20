@@ -19,6 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.datamaio.gcm.GcmDatastore;
+
 /**
  * Servlet that unregisters a device, whose registration id is identified by
  * {@link #PARAMETER_REG_ID}.
@@ -36,7 +38,7 @@ public class UnregisterServlet extends BaseServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException {
     String regId = getParameter(req, PARAMETER_REG_ID);
-    Datastore.unregister(regId);
+    GcmDatastore.unregister(regId);
     setSuccess(resp);
   }
 

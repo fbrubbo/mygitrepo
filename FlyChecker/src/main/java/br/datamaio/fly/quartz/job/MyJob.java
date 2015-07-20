@@ -24,8 +24,9 @@ import br.datamaio.fly.RoundTrip;
 import br.datamaio.fly.Schedule;
 import br.datamaio.fly.check.gol.VoeGolCheck;
 import br.datamaio.fly.check.gol.selenium.SeleniumVoeGolCheck;
-import br.datamaio.fly.web.ApiKey;
 import br.datamaio.fly.web.SendAllMessagesServlet;
+import br.datamaio.gcm.GcmApiKey;
+import br.datamaio.gcm.GcmSender;
 
 import com.google.android.gcm.server.Sender;
 
@@ -90,7 +91,7 @@ public class MyJob implements Job {
 		PrintWriter pw = new PrintWriter(w);
 		e.printStackTrace(pw);
 		try {
-			SendAllMessagesServlet.send(getSender(), "Error Checking Tip: ", w.getBuffer().toString());
+			GcmSender.send("Error Checking Trip: ", w.getBuffer().toString());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -113,7 +114,7 @@ public class MyJob implements Job {
 						REAIS.format(totalValue))); 
 		}
 		LOGGER.info("Sending to androids: " + builder.toString());
-		SendAllMessagesServlet.send(getSender(), prefix, builder.toString());
+		GcmSender.send(prefix, builder.toString());
 	}	
 	
 	public void sendToAndroidFullDate(List<RoundTrip> trips, String prefix) throws IOException {
@@ -134,12 +135,6 @@ public class MyJob implements Job {
 						REAIS.format(totalValue))); 
 		}
 		LOGGER.info("Sending to androids: " + builder.toString());
-		SendAllMessagesServlet.send(getSender(), prefix, builder.toString());
-	}	
-	
-	private Sender getSender() {
-		// FIXME: melhorar isto.. agora é so para testar
-		return new Sender(new ApiKey().getKey());
-	}	
-	
+		GcmSender.send(prefix, builder.toString());
+	}			
 }

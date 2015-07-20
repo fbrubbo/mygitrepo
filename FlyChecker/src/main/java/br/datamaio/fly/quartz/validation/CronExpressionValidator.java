@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.quartz.CronExpression;
 
 /**
- * Validador da Anotação de CronException (veja {@link Cron})
+ * Validador da AnotaÃ§Ã£o de CronException (veja {@link Cron})
  *
  * ver: http://docs.oracle.com/cd/E12058_01/doc/doc.1014/e12030/cron_expressions.htm
  *

@@ -1,8 +1,10 @@
 package br.datamaio.fly.check.azul.selenium;
 
 import static br.datamaio.fly.DayPeriod.AFTERNOON;
+import static br.datamaio.fly.DayPeriod.ANY;
 import static br.datamaio.fly.DayPeriod.MORNING;
 import static br.datamaio.fly.DayPeriod.NIGHT;
+import static java.time.LocalDate.of;
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.time.temporal.TemporalAdjusters.next;
 
@@ -84,7 +86,7 @@ public class VoeAzulCheck {
 //				LocalDate lastSaturday = LocalDate.now().with(previous(SATURDAY));
 
 				tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, friday, AFTERNOON, sunday, NIGHT));
-				tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, friday, AFTERNOON, monday, MORNING));
+//				tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, friday, AFTERNOON, monday, MORNING));
 
 				write(report, "\n");
 
@@ -94,6 +96,50 @@ public class VoeAzulCheck {
 
 		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
+	
+    public List<RoundTrip> checkNatal() throws Exception {
+    	List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
+				
+		Path logFile = buildLogFile("NATAL_viracopos2caxias_");
+		try (BufferedWriter report = Files.newBufferedWriter(logFile)) {
+			write(report, "--------- Searching Flyies PARA NATAL ---------");
+			
+			LocalDate dret = of(2016, 1, 2);
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 17), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 18), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 19), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 20), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 21), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));
+			
+			dret = of(2016, 1, 3);
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 17), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 18), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 19), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 20), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 21), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));
+			
+			dret = of(2016, 1, 4);
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 17), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 18), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 19), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 20), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 21), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));
+			
+			dret = of(2016, 1, 5);
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 17), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 18), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 19), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 20), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 21), ANY, dret, ANY));
+			tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, of(2015, 12, 22), ANY, dret, ANY));
+			
+			write(report, "Finalizado com sucesso Agendamento para NATAL..");
+		} 
+		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
+	}	
 	
 	public List<RoundTrip> weekendCheckViracopos2poa() throws Exception {
 		List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
@@ -178,10 +224,15 @@ public class VoeAzulCheck {
 		LocalDate startDate = LocalDate.now().plusMonths(1);
 		Period period = Period.ofMonths(5);
 		
+
+		
 		VoeAzulCheck check = new VoeAzulCheck();  
 		check.setUp(threshold, startDate, period);
 		List<RoundTrip> trips = check.weekendCheckViracopos2Caxias();
 //		List<RoundTrip> trips = check.weekendCheckViracopos2poa();
+		print(trips);
+		
+		trips = check.checkNatal();
 		print(trips);
 		
 		check.tearDown();

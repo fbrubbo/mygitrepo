@@ -62,8 +62,9 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
 		List<RoundTrip> trips = check.weekendCheckCongonhas2Caxias();
 		print(trips);
 		
-//		trips = check.weekendCheckCaxias2Congonhas();
-//		print(trips);
+		trips = check.checkNatal();
+		print(trips);
+		
 		check.tearDown();
 	}
 
