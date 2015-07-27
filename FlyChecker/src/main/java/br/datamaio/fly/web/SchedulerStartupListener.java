@@ -32,7 +32,8 @@ public class SchedulerStartupListener implements ServletContextListener {
 		agen.setFrequency(Schedule.Frequency.PERIODIC);
 		agen.setName("Teste");
 		agen.setJobClass(MyJob.class);
-		agen.setCron("0 26 23 * * ? *");
+		String cron = System.getProperty("br.datamaio.fly.web.SchedulerStartupListener.cron", "0 26 23 * * ? *");
+		agen.setCron(cron);
 		agen.setFrom(LocalDateTime.now());
 		agen.setTo(LocalDateTime.now().plus(3, DAYS));
 		wrapper.rescheduleJob(agen);		

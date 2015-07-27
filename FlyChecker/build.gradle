@@ -19,7 +19,9 @@ dependencies {
 	embeddedJetty 'org.eclipse.jetty:jetty-servlet:+',
 	 		'org.eclipse.jetty:jetty-webapp:+',
 	 		'org.eclipse.jetty:jetty-jsp:+',
-	 		'org.eclipse.jetty:jetty-annotations:+'
+	 		'org.eclipse.jetty:jetty-annotations:+',
+	 		'args4j:args4j:+'
+	 		
 
     compile 'org.seleniumhq.selenium:selenium-java:+',
 			'org.quartz-scheduler:quartz:+',
@@ -50,18 +52,18 @@ war {
  	exclude "br/datamaio/"
  	
   	// sets the main class to run when the generate war be executed using 'java -jar'
- 	manifest { attributes 'Main-Class': 'com.embedded.JettyStarter' }
+ 	manifest { attributes 'Main-Class': 'com.embedded.JettyServer' }
 }
 
-task copyRegistredIds {    
+task copyResources {    
     doLast {   
         copy {            
-            from 'ids.data'
+            from 'ids.data', 'chromedriver'
             into 'build/libs'
         }
     }    
 }
-war.dependsOn copyRegistredIds
+war.dependsOn copyResources
 
 
 // Once you will need some basic api (servlet api, for example) for compilation, you need to add embeddedJetty dependencies for compilation

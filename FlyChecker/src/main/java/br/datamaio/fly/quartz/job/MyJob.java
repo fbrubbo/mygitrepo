@@ -46,8 +46,9 @@ public class MyJob implements Job {
 	    try {
 			LOGGER.info(String.format("Executando Agendamento '%s-%s' ..", id, nome));	
 						
-			LocalDate startDate = LocalDate.of(2015, 1, 10);
-			Period period = Period.ofMonths(4);			
+			
+			LocalDate startDate = LocalDate.now().plusDays(3);
+			Period period = Period.ofMonths(4);
 
 			
 //			// --- check digo ---
@@ -62,7 +63,7 @@ public class MyJob implements Job {
 			
 			
 			// --- check regular ---
-			BigDecimal threshold = new BigDecimal("300");
+			BigDecimal threshold = new BigDecimal("400");
 			check.setUp(threshold, startDate, period);
 			
 			List<RoundTrip> trips = check.weekendCheckCaxias2Congonhas();
