@@ -53,16 +53,17 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
 	
 	public static void main(String[] args) throws Exception {
 		System.setProperty("-Dlog4j.configuration", "log4j.properties");
-		BigDecimal threshold = new BigDecimal("300");
+		BigDecimal threshold = new BigDecimal("6000");
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		Period period = Period.ofMonths(4);
 		
 		VoeGolCheck check = new SeleniumVoeGolCheck();  
 		check.setUp(threshold, startDate, period);
-		List<RoundTrip> trips = check.weekendCheckCongonhas2Caxias();
+//		List<RoundTrip> trips = check.weekendCheckCongonhas2Caxias();
+		List<RoundTrip> trips = check.checkCaxiasCongonhas();		
 		print(trips);
 		
-		trips = check.checkNatal();
+//		trips = check.checkNatal();
 		print(trips);
 		
 		check.tearDown();

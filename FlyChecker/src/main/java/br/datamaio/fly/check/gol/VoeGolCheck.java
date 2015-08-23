@@ -55,33 +55,18 @@ public abstract class VoeGolCheck {
     public void tearDown(){
     }
     
-    public List<RoundTrip> checkDigo() throws Exception {
+    public List<RoundTrip> checkCaxiasCongonhas() throws Exception {
     	List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
 				
-		Path logFile = buildLogFile("Digo_caxias2congonhas");
+		Path logFile = buildLogFile("caxias2congonhas");
 		try (BufferedWriter report = Files.newBufferedWriter(logFile)) {
-			write(report, "--------- Searching Flyies PARA DIGO ---------");
+			write(report, "--------- Searching Flyies caxias 2 congonhas ---------");
 			
-			LocalDate dret = of(2014, 11, 16);
-			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 13), NIGHT, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 14), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 15), ANY, dret, ANY));
+			LocalDate dpart = of(2015, 9, 11);
+			LocalDate dret = of(2015, 9, 13);
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, dpart, NIGHT, dret, ANY));
 			
-			dret = of(2014, 11, 23);
-			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 20), NIGHT, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 21), ANY, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 11, 22), ANY, dret, ANY));
-
-			dret = of(2014, 10, 19);
-			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 10, 17), NIGHT, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 10, 17), NIGHT, dret, ANY));
-			
-			dret = of(2014, 10, 26);
-			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, of(2014, 10, 24), NIGHT, dret, ANY));
-			tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, of(2014, 10, 24), NIGHT, dret, ANY));
-			
-			
-			write(report, "Finalizado com sucesso Agendamento para DIGO..");
+			write(report, "Finalizado com sucesso..");
 		} 
 		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}

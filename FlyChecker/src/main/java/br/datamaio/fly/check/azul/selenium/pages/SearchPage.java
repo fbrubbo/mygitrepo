@@ -21,6 +21,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import br.datamaio.fly.RoundTrip;
@@ -55,10 +56,12 @@ public class SearchPage {
 
 	public SearchPage navigate() {
 		driver.get("http://www.voeazul.com.br");
+		
 		PageFactory.initElements(driver, this);
 		try {
-		WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='form estou']")));
-		el.click();
+			WebElement el = waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='content-painel']")));
+			Thread.sleep(6000);
+			el.click();
 		}catch(Exception e) {
 			System.out.println("IGRNIRE");
 		}
@@ -70,6 +73,7 @@ public class SearchPage {
 	}
 	
 	private SearchPage from(final String airportOrCity, int retries) {
+		
 		from.clear();
 		from.sendKeys(airportOrCity);
 		WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@id='divCombo1']/ul[@class='aeroporto']/ul/li")));

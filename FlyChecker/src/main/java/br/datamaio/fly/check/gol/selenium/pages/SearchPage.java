@@ -75,7 +75,9 @@ public class SearchPage {
 		from.clear();
 		from.sendKeys(airportOrCity);
 		try{
-			WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line origin']/span/div/div/ul/li")));
+			
+			//WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line origin']/span/div/div/ul/li")));
+			WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line origin']/div/div/div/ul/li[@class='holderActive']")));
 			el.click();
 			return this;
 		} catch (TimeoutException e) {
@@ -96,7 +98,8 @@ public class SearchPage {
 		to.clear();
 		to.sendKeys(airportOrCity);
 		try{
-			WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line destination']/span/div/div/ul/li")));
+			//WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line destination']/span/div/div/ul/li")));
+			WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line destination']/div/div/div/ul/li[@class='holderActive']")));
 			el.click();
 			return this;
 		} catch (TimeoutException e) {
@@ -112,7 +115,7 @@ public class SearchPage {
 	public SearchPage departure(final LocalDate date) {
 		departure = date;
 		String js = String.format("document.getElementById('ControlGroupSearchView_AvailabilitySearchInputSearchView_DropDownListMarketDay1').value='%s';"
-				+ "document.getElementById('ControlGroupSearchView_AvailabilitySearchInputSearchView_DropDownListMarketMonth1').value='%s';"
+				+ "document.getElementsByName('ControlGroupSearchView$AvailabilitySearchInputSearchView$DropDownListMarketMonth1')[0].value='%s';"
 				+ "document.getElementById('dateIda').value='%s';", date.format(DFday), date.format(DFmonth), date.format(DFbr));
 
 		executeScript(js);
@@ -126,7 +129,7 @@ public class SearchPage {
 
 		returning = date;
 		String js = String.format("document.getElementById('ControlGroupSearchView_AvailabilitySearchInputSearchView_DropDownListMarketDay2').value='%s';"
-				+ "document.getElementById('ControlGroupSearchView_AvailabilitySearchInputSearchView_DropDownListMarketMonth2').value='%s';"
+				+ "document.getElementsByName('ControlGroupSearchView$AvailabilitySearchInputSearchView$DropDownListMarketMonth2')[0].value='%s';"
 				+ "document.getElementById('dateVolta').value='%s';", date.format(DFday), date.format(DFmonth), date.format(DFbr));
 		executeScript(js);
 		return this;
@@ -138,8 +141,8 @@ public class SearchPage {
 
 		try {
 			// outra gambi porque a m* do site da gol tem dois ids iguais
-			java.util.List<WebElement> els = driver.findElements(By.id("ControlGroupSearchView_ButtonSubmit"));
-			WebElement buy = els.get(1);
+			java.util.List<WebElement> els = driver.findElements(By.name("ControlGroupSearchView$ButtonSubmit"));
+			WebElement buy = els.get(0);
 			waitUntil(elementToBeClickable(buy));
 			Thread.sleep(700);						// TODO: por algum motivo, o waituntil acima não é suficiente.. verificar porque
 			buy.click();

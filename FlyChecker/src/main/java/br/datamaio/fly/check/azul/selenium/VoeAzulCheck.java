@@ -169,6 +169,22 @@ public class VoeAzulCheck {
 		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
 	
+    public List<RoundTrip> checkViracoposCongonhas() throws Exception {
+    	List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
+				
+		Path logFile = buildLogFile("caxias2congonhas");
+		try (BufferedWriter report = Files.newBufferedWriter(logFile)) {
+			write(report, "--------- Searching Flyies caxias 2 congonhas ---------");
+			
+			LocalDate dpart = of(2015, 9, 11);
+			LocalDate dret = of(2015, 9, 13);
+			tripsWithGoodPrice.add(check(report, CAXIAS, VIRACOPOS, dpart, NIGHT, dret, ANY));	
+			
+			write(report, "Finalizado com sucesso..");
+		} 
+		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
+	}
+	
     protected void write(final BufferedWriter writter, final String msg) throws IOException {
     	LOGGER.info(msg);
         writter.write(msg);
@@ -228,12 +244,13 @@ public class VoeAzulCheck {
 		
 		VoeAzulCheck check = new VoeAzulCheck();  
 		check.setUp(threshold, startDate, period);
-		List<RoundTrip> trips = check.weekendCheckViracopos2Caxias();
+//		List<RoundTrip> trips = check.weekendCheckViracopos2Caxias();
 //		List<RoundTrip> trips = check.weekendCheckViracopos2poa();
+		List<RoundTrip> trips = check.checkViracoposCongonhas();
 		print(trips);
 		
-		trips = check.checkNatal();
-		print(trips);
+//		trips = check.checkNatal();
+//		print(trips);
 		
 		check.tearDown();
 		driver.close();

@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.Locale;
 
 import org.openqa.selenium.By;
@@ -14,7 +13,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import br.datamaio.fly.DayPeriod;
 import br.datamaio.fly.RoundTrip;
@@ -118,11 +119,13 @@ public class SelectFlyPage {
     }
 
     private List<Schedule> buildSchedules(final String trip, final LocalDate date) {
+    	waitUntil(ExpectedConditions.elementToBeClickable(By.className("lineTable")));
+    	
         final List<Schedule> schedules = new ArrayList<>();
         List<WebElement> lines = driver.findElements(By.xpath(String.format("/html//div[@id='%s']/div[@class='ContentTable']/div[@class='lineTable']", trip)));
         lines.forEach(line -> {
-            WebElement leftHeader = line.findElement(By.xpath("./div[contains(@class,'status')]"));
-            String flyNumber = leftHeader.findElement(By.xpath("./span[@class='titleAirplane']/div[@class='operatedBy']")).getText();
+            WebElement leftHeader = line.findElement(By.xpath("./div[contains(@class,'status')]"));            
+            String flyNumber = leftHeader.findElement(By.xpath("./span[@class='titleAirplane']/span[@class='operatedBy']")).getText();
             String takeofTime = leftHeader.findElement(By.xpath("./div[@class='scale']/div[@class='infoScale']/span[@class='timeGoing']")).getText();
             String landingTime = leftHeader.findElement(By.xpath("./div[@class='scale']/div[@class='infoScale']/span[@class='timeoutGoing']")).getText();
             Schedule s = new Schedule(flyNumber, date, LocalTime.parse(takeofTime), LocalTime.parse(landingTime));
@@ -151,5 +154,7 @@ public class SelectFlyPage {
 		System.out.println(value);
 	}
 
-
+	private WebElement waitUntil(final ExpectedCondition<WebElement> condition) {
+		return new WebDriverWait(driver, 30, 50).until(condition);
+	}
 }
