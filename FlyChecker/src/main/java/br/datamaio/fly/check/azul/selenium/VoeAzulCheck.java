@@ -36,8 +36,6 @@ import br.datamaio.fly.Schedule;
 import br.datamaio.fly.TripOption;
 import br.datamaio.fly.check.azul.selenium.pages.SearchPage;
 import br.datamaio.fly.check.azul.selenium.pages.SelectFlyPage;
-import br.datamaio.fly.check.gol.VoeGolCheck;
-import br.datamaio.fly.check.gol.selenium.SeleniumVoeGolCheck;
 
 public class VoeAzulCheck {
 	private static final Logger LOGGER = Logger.getLogger(VoeAzulCheck.class);
@@ -236,7 +234,7 @@ public class VoeAzulCheck {
 	
 	public static void main(String[] args) throws Exception {
 		System.setProperty("-Dlog4j.configuration", "log4j.properties");
-		BigDecimal threshold = new BigDecimal("300");
+		BigDecimal threshold = new BigDecimal("600");
 		LocalDate startDate = LocalDate.now().plusMonths(1);
 		Period period = Period.ofMonths(5);
 		
@@ -244,9 +242,9 @@ public class VoeAzulCheck {
 		
 		VoeAzulCheck check = new VoeAzulCheck();  
 		check.setUp(threshold, startDate, period);
-//		List<RoundTrip> trips = check.weekendCheckViracopos2Caxias();
+		List<RoundTrip> trips = check.weekendCheckViracopos2Caxias();
 //		List<RoundTrip> trips = check.weekendCheckViracopos2poa();
-		List<RoundTrip> trips = check.checkViracoposCongonhas();
+//		List<RoundTrip> trips = check.checkViracoposCongonhas();
 		print(trips);
 		
 //		trips = check.checkNatal();
@@ -261,18 +259,22 @@ public class VoeAzulCheck {
 		NumberFormat REAIS = DecimalFormat.getCurrencyInstance();
 		StringBuilder builder = new StringBuilder();
 		for (RoundTrip t : trips) {
-		    Schedule sd = t.getDeparture().getSchedule();
-		    Schedule sr = t.getReturning().getSchedule();
-		    
-		    LocalDate dDate = sd.getDate();
-			LocalDate rDate = sr.getDate();
-			BigDecimal totalValue = t.getDeparture().getValue().add(t.getReturning().getValue());
-			builder.append(builder.length()>0 ? "\n" : "")
-					.append(String.format("- Dia %s (%s - %s): %s", 
-						dDate.format(DATE), 
-						dDate.getDayOfWeek().toString().substring(0, 2), 
-						rDate.getDayOfWeek().toString().substring(0, 2), 
-						REAIS.format(totalValue))); 
+			try {
+			    Schedule sd = t.getDeparture().getSchedule();
+			    Schedule sr = t.getReturning().getSchedule();
+			    
+			    LocalDate dDate = sd.getDate();
+				LocalDate rDate = sr.getDate();
+				BigDecimal totalValue = t.getDeparture().getValue().add(t.getReturning().getValue());
+				builder.append(builder.length()>0 ? "\n" : "")
+						.append(String.format("- Dia %s (%s - %s): %s", 
+							dDate.format(DATE), 
+							dDate.getDayOfWeek().toString().substring(0, 2), 
+							rDate.getDayOfWeek().toString().substring(0, 2), 
+							REAIS.format(totalValue)));
+			} catch (Exception e) {
+				// here we may have a null pointer in the case we do not have promo info
+			}
 		}
 		System.out.println(builder.toString());
 	}

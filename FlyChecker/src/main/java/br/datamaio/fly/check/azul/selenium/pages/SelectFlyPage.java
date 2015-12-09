@@ -22,13 +22,18 @@ import br.datamaio.fly.TripOption;
 
 public class SelectFlyPage {
 
-	@FindBy(className = "lowestFarePriceLabelActive")
+	@FindBy(xpath="//td[@class='fareCol1 promo']/span[@class='farePrice']")
 	private  List<WebElement> options;
 	 WebDriver driver;
 
     public SelectFlyPage(final WebDriver driver) {
     	this.driver = driver;
-    	waitUntil(elementToBeClickable(By.xpath("//div[@class='lowestFarePriceLabelActive']")));
+    	try {
+    		waitUntil(elementToBeClickable(By.xpath("//td[@class='fareCol1 promo']/span[@class='farePrice']")));
+    	} catch (org.openqa.selenium.TimeoutException e) {
+    		System.out.println("No promo prices found!");
+    		// ignore
+    	}
         PageFactory.initElements(driver, this);
     }
     

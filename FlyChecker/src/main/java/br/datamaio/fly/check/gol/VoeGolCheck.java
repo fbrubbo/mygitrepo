@@ -62,9 +62,14 @@ public abstract class VoeGolCheck {
 		try (BufferedWriter report = Files.newBufferedWriter(logFile)) {
 			write(report, "--------- Searching Flyies caxias 2 congonhas ---------");
 			
-			LocalDate dpart = of(2015, 9, 11);
-			LocalDate dret = of(2015, 9, 13);
+			LocalDate dpart = of(2016, 11, 20);
+			LocalDate dret = of(2016, 11, 24);
 			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, dpart, NIGHT, dret, ANY));
+
+			dpart = of(2015, 11, 21);
+			dret = of(2015, 11, 24);
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, dpart, NIGHT, dret, ANY));
+
 			
 			write(report, "Finalizado com sucesso..");
 		} 

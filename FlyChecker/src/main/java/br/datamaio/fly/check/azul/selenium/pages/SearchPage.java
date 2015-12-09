@@ -3,17 +3,13 @@ package br.datamaio.fly.check.azul.selenium.pages;
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
-import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -23,11 +19,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import br.datamaio.fly.RoundTrip;
-import br.datamaio.fly.TripType;
-import br.datamaio.fly.check.gol.VoeGolCheck;
-import br.datamaio.fly.check.gol.selenium.SeleniumVoeGolCheck;
 
 public class SearchPage {
 	private static final Logger LOGGER = Logger.getLogger(SearchPage.class);
@@ -59,8 +50,7 @@ public class SearchPage {
 		
 		PageFactory.initElements(driver, this);
 		try {
-			WebElement el = waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='content-painel']")));
-			Thread.sleep(6000);
+			WebElement el = waitUntil(ExpectedConditions.elementToBeClickable(By.className("jq-transform-select-wrapper")));
 			el.click();
 		}catch(Exception e) {
 			System.out.println("IGRNIRE");
@@ -73,10 +63,9 @@ public class SearchPage {
 	}
 	
 	private SearchPage from(final String airportOrCity, int retries) {
-		
 		from.clear();
 		from.sendKeys(airportOrCity);
-		WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@id='divCombo1']/ul[@class='aeroporto']/ul/li")));
+		WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='box-select-aeroportos autocomplete']/div[@class='aeroportos-wrap']/div[@class='aeroportos-tabs']/div[@class='tab-aeroporto']/ul/li")));
 		el.click();
 		return this;
 	}
@@ -88,18 +77,20 @@ public class SearchPage {
 	public SearchPage to(final String airportOrCity, int retries) {
 		to.clear();
 		to.sendKeys(airportOrCity);
-		WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@id='divCombo2']/ul[@class='aeroporto']/ul/li")));
+		WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='box-select-aeroportos aeroportos-destino autocomplete destino']/div[@class='aeroportos-wrap']/div[@class='aeroportos-tabs']/div[@class='tab-aeroporto']/ul/li")));
 		el.click();
 		return this;
 	}
 
 	public SearchPage departure(final LocalDate date) {
+		fromDate.sendKeys("");
 		fromDate.sendKeys(date.format(DFbr));
 		clickInAnyElementButCurrentOne();
 		return this;
 	}
 
 	public SearchPage returning(final LocalDate date) {
+		toDate.sendKeys("");
 		toDate.sendKeys(date.format(DFbr));
 		clickInAnyElementButCurrentOne();
 		return this;
