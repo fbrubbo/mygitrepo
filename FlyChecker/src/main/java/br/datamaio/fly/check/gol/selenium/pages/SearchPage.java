@@ -37,6 +37,10 @@ public class SearchPage {
 	private WebElement to;
 	@FindBy(xpath = "/html/body[@class='BodySite']/form[@id='SkySales']")
 	private WebElement anyDiv;
+	@FindBy(id="promoCodeOpen")
+	private WebElement promoCodeLink;
+	@FindBy(id="ControlGroupSearchView_AvailabilitySearchInputSearchView_textBoxPromoCode")
+	private WebElement promoCodeInput;	
 
 
 	private TripType trip;
@@ -136,6 +140,23 @@ public class SearchPage {
 	}
 
 
+	public SearchPage withPromoCode(String codigoPromocional) {
+		if(!"".equals(codigoPromocional)) {
+			try {
+				this.promoCodeLink.click();
+			} catch (Exception e) {}	
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			this.promoCodeInput.clear();
+			this.promoCodeInput.sendKeys(codigoPromocional);
+		}
+		return this;
+	}
+	
 	public SelectFlyPage buy() {
 		clickInAnyElementButCurrentOne();		
 

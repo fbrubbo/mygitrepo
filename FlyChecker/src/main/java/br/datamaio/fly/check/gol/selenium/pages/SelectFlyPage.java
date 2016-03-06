@@ -29,7 +29,7 @@ public class SelectFlyPage {
     private final WebDriver driver;
     private final TripType trip;
     private final LocalDate departure;
-    private final LocalDate returning;
+    private final LocalDate returning;    
 
     private boolean buildDeparture = true;
     private final ScheduleOptions departureSchedules = new ScheduleOptions();
@@ -124,19 +124,19 @@ public class SelectFlyPage {
         final List<Schedule> schedules = new ArrayList<>();
         List<WebElement> lines = driver.findElements(By.xpath(String.format("/html//div[@id='%s']/div[@class='ContentTable']/div[@class='lineTable']", trip)));
         lines.forEach(line -> {
-            WebElement leftHeader = line.findElement(By.xpath("./div[contains(@class,'status')]"));            
-            String flyNumber = leftHeader.findElement(By.xpath("./span[@class='titleAirplane']/span[@class='operatedBy']")).getText();
-            String takeofTime = leftHeader.findElement(By.xpath("./div[@class='scale']/div[@class='infoScale']/span[@class='timeGoing']")).getText();
-            String landingTime = leftHeader.findElement(By.xpath("./div[@class='scale']/div[@class='infoScale']/span[@class='timeoutGoing']")).getText();
+            WebElement leftHeader = line.findElement(By.xpath(".//div[contains(@class,'status')]"));            
+            String flyNumber = leftHeader.findElement(By.xpath(".//span[@class='titleAirplane']/span[@class='operatedBy']")).getText();
+            String takeofTime = leftHeader.findElement(By.xpath(".//div[@class='scale']/div[@class='infoScale']/span[@class='timeGoing']/span[@class='hour']")).getText();
+            String landingTime = leftHeader.findElement(By.xpath(".//div[@class='scale']/div[@class='infoScale']/span[@class='timeoutGoing']/span[@class='hour']")).getText();
             Schedule s = new Schedule(flyNumber, date, LocalTime.parse(takeofTime), LocalTime.parse(landingTime));
             schedules.add(s);
-            List<WebElement> ops = line.findElements(By.xpath("./div[contains(@class,'taxa ')]"));
+            List<WebElement> ops = line.findElements(By.xpath(".//td[contains(@class,'taxa ')]"));
             ops.forEach(op -> {
                 try {
                     String type = op.getAttribute("class").substring(5);
-                    WebElement el = op.findElement(By.xpath("./div/strong[@class='fareValue']"));
+                    WebElement el = op.findElement(By.xpath("./div//span[@class='fareValue']"));
                     try {
-                        Number value = NumberFormat.getCurrencyInstance(new Locale( "pt", "BR" )).parse(el.getText());
+                        Number value = NumberFormat.getCurrencyInstance(new Locale( "pt", "BR" )).parse(el.getText().trim());
                         s.addOption(new TripOption(s, type, new BigDecimal(value.toString())));
                     } catch (Exception e) {
                         e.printStackTrace();

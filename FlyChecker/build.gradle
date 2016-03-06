@@ -77,5 +77,5 @@ eclipse {
 }
 
 wrapper {
-  	gradleVersion = '2.9'
+  	gradleVersion = '2.11'
 }

@@ -80,10 +80,12 @@ public class VoeAzulCheck {
 				LocalDate friday = next.with(next(DayOfWeek.FRIDAY));
 				LocalDate sunday = friday.with(next(DayOfWeek.SUNDAY));
 				LocalDate monday = friday.with(next(DayOfWeek.MONDAY));
+				LocalDate tuesday = friday.with(next(DayOfWeek.TUESDAY));
 				
 //				LocalDate lastSaturday = LocalDate.now().with(previous(SATURDAY));
 
-				tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, friday, AFTERNOON, sunday, NIGHT));
+				tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, friday, ANY, sunday, ANY));
+				tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, friday, ANY, tuesday, ANY));
 //				tripsWithGoodPrice.add(check(report, VIRACOPOS, CAXIAS, friday, AFTERNOON, monday, MORNING));
 
 				write(report, "\n");

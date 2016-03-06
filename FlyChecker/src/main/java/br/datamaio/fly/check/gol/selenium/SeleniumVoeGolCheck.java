@@ -41,11 +41,12 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
     }
     
 	public RoundTrip getBestRoundTripOption(final String from, final String to, final LocalDate ddep,
-			final DayPeriod pdep, final LocalDate dret, final DayPeriod pret) {
+			final DayPeriod pdep, final LocalDate dret, final DayPeriod pret, final String promoCode) {
 
 		SearchPage search = new SearchPage(driver).navigate()
 				.selectRoundTrip().from(from).to(to)
-				.departure(ddep).returning(dret);
+				.departure(ddep).returning(dret)
+				.withPromoCode(promoCode);
 		
 		SelectFlyPage selectFly = search.buy();
 		return selectFly.getBestRoundTripOption(pdep, pret);
@@ -53,8 +54,8 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
 	
 	public static void main(String[] args) throws Exception {
 		System.setProperty("-Dlog4j.configuration", "log4j.properties");
-		BigDecimal threshold = new BigDecimal("600");
-		LocalDate startDate = LocalDate.now().plusDays(35);
+		BigDecimal threshold = new BigDecimal("500");
+		LocalDate startDate = LocalDate.now().plusDays(20);
 		Period period = Period.ofMonths(4);
 		
 		VoeGolCheck check = new SeleniumVoeGolCheck();  

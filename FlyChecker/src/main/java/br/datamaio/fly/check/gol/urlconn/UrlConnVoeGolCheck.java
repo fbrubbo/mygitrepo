@@ -18,7 +18,8 @@ import br.datamaio.fly.check.gol.VoeGolCheck;
 public class UrlConnVoeGolCheck extends VoeGolCheck {
 
 	public RoundTrip getBestRoundTripOption(final String from, final String to, final LocalDate ddep,
-			final DayPeriod pdep, final LocalDate dret, final DayPeriod pret) {
+			final DayPeriod pdep, final LocalDate dret, final DayPeriod pret, String promoCode) {
+		// TODO: implement promo code
 		return new SearchFly(from, to, ddep, dret).getBestRoundTripOption(pdep, pret);
 	}
 

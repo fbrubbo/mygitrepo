@@ -65,7 +65,8 @@ public class SearchPage {
 	private SearchPage from(final String airportOrCity, int retries) {
 		from.clear();
 		from.sendKeys(airportOrCity);
-		WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='box-select-aeroportos autocomplete']/div[@class='aeroportos-wrap']/div[@class='aeroportos-tabs']/div[@class='tab-aeroporto']/ul/li")));
+//		WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='box-select-aeroportos autocomplete']/div[@class='aeroportos-wrap']/div[@class='aeroportos-tabs']/div[@class='tab-aeroporto']/ul/li")));
+		WebElement el = waitUntil(elementToBeClickable(By.xpath("//li[@class='display_box azul highlight hover']")));		
 		el.click();
 		return this;
 	}
@@ -77,7 +78,8 @@ public class SearchPage {
 	public SearchPage to(final String airportOrCity, int retries) {
 		to.clear();
 		to.sendKeys(airportOrCity);
-		WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='box-select-aeroportos aeroportos-destino autocomplete destino']/div[@class='aeroportos-wrap']/div[@class='aeroportos-tabs']/div[@class='tab-aeroporto']/ul/li")));
+		//WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='box-select-aeroportos aeroportos-destino autocomplete destino']/div[@class='aeroportos-wrap']/div[@class='aeroportos-tabs']/div[@class='tab-aeroporto']/ul/li")));
+		WebElement el = waitUntil(elementToBeClickable(By.xpath("//ul/li[@class='display_box azul  hover']")));
 		el.click();
 		return this;
 	}
