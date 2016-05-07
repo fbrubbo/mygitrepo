@@ -237,7 +237,7 @@ public class VoeAzulCheck {
 	public static void main(String[] args) throws Exception {
 		System.setProperty("-Dlog4j.configuration", "log4j.properties");
 		BigDecimal threshold = new BigDecimal("600");
-		LocalDate startDate = LocalDate.now().plusMonths(1);
+		LocalDate startDate = LocalDate.now().plusMonths(2);
 		Period period = Period.ofMonths(5);
 		
 

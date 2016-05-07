@@ -1,10 +1,12 @@
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'maven'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 version = '1.0'
 war.baseName = 'flychecker'
+mainClassName = "br.datamaio.fly.check.gol.selenium.SeleniumVoeGolCheck" //"br.datamaio.fly.check.azul.selenium.VoeAzulCheck"
 
 repositories {
     mavenCentral()
@@ -77,5 +79,18 @@ eclipse {
 }
 
 wrapper {
-  	gradleVersion = '2.11'
+  	gradleVersion = '2.13'
 }
+
+/*
+TODO
+distributions {
+    main {
+        contents {
+            from(createDocs) {
+                into "docs"
+            }
+        }
+    }
+}
+*/
