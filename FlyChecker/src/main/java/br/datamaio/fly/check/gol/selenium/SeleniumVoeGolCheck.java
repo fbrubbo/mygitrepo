@@ -55,7 +55,7 @@ public class SeleniumVoeGolCheck extends VoeGolCheck {
 	public static void main(String[] args) throws Exception {
 		System.setProperty("-Dlog4j.configuration", "log4j.properties");
 		BigDecimal threshold = new BigDecimal("500");
-		LocalDate startDate = LocalDate.now().plusDays(30);
+		LocalDate startDate = LocalDate.now().plusDays(45);
 		Period period = Period.ofMonths(4);
 		
 		VoeGolCheck check = new SeleniumVoeGolCheck();  

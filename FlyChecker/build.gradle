@@ -6,7 +6,12 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 version = '1.0'
 war.baseName = 'flychecker'
-mainClassName = "br.datamaio.fly.check.gol.selenium.SeleniumVoeGolCheck" //"br.datamaio.fly.check.azul.selenium.VoeAzulCheck"
+
+if (project.hasProperty('company') && "azul".equalsIgnoreCase(project.company) ) {
+	mainClassName = "br.datamaio.fly.check.azul.selenium.VoeAzulCheck"
+} else {
+	mainClassName = "br.datamaio.fly.check.gol.selenium.SeleniumVoeGolCheck"
+}
 
 repositories {
     mavenCentral()
@@ -82,15 +87,13 @@ wrapper {
   	gradleVersion = '2.13'
 }
 
-/*
-TODO
-distributions {
-    main {
-        contents {
-            from(createDocs) {
-                into "docs"
-            }
-        }
+distZip {
+    into(project.name+"-"+project.version + "/bin") {
+        from '.'
+        include 'chromedriver*'
     }
 }
-*/
+
+applicationDistribution.from("./chromedriver*") {
+    into "bin"
+}
