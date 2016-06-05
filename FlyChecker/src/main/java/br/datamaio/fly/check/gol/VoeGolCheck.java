@@ -66,11 +66,11 @@ public abstract class VoeGolCheck {
 			
 			LocalDate dpart = of(2016, 11, 20);
 			LocalDate dret = of(2016, 11, 24);
-			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, dpart, NIGHT, dret, ANY, PROMO_CODE));
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, dpart, ANY, dret, ANY, PROMO_CODE));
 
 			dpart = of(2015, 11, 21);
 			dret = of(2015, 11, 24);
-			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, dpart, NIGHT, dret, ANY, PROMO_CODE));
+			tripsWithGoodPrice.add(check(report, CAXIAS, CONGONHAS, dpart, ANY, dret, ANY, PROMO_CODE));
 
 			
 			write(report, "Finalizado com sucesso..");
@@ -138,10 +138,10 @@ public abstract class VoeGolCheck {
 				LocalDate sunday = friday.with(next(DayOfWeek.SUNDAY));
 				LocalDate monday = friday.with(next(DayOfWeek.MONDAY));
 
-				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, sunday, NIGHT, PROMO_CODE));
+				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, ANY, sunday, NIGHT, PROMO_CODE));
 //				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, friday, AFTERNOON, monday, MORNING, PROMO_CODE));
 //				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, sunday, NIGHT, PROMO_CODE));
-				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, MORNING, monday, ANY, PROMO_CODE));
+				tripsWithGoodPrice.add(check(report, CONGONHAS, CAXIAS, saturday, ANY, monday, ANY, PROMO_CODE));
 				
 //				tripsWithGoodPrice.add(check(report, CONGONHAS, POA, friday, AFTERNOON, sunday, NIGHT, PROMO_CODE));
 //				tripsWithGoodPrice.add(check(report, CONGONHAS, POA, saturday, MORNING, monday, MORNING, PROMO_CODE));				
@@ -170,9 +170,9 @@ public abstract class VoeGolCheck {
                 LocalDate sunday    = friday.with(next(DayOfWeek.SUNDAY));
                 LocalDate monday    = friday.with(next(DayOfWeek.MONDAY));
 
-                tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, friday, NIGHT, sunday, AFTERNOON_OR_NIGHT, PROMO_CODE));
+                tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, friday, ANY, sunday, ANY, PROMO_CODE));
 //                tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, friday, NIGHT, monday, MORNING, PROMO_CODE));
-                tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, saturday, MORNING, sunday, AFTERNOON_OR_NIGHT, PROMO_CODE));
+                tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, saturday, ANY, sunday, ANY, PROMO_CODE));
 //                tripsWithGoodPrice.add(check(writter, CAXIAS, CONGONHAS, saturday, MORNING, monday, MORNING, PROMO_CODE));
 
                 write(writter, "\n");

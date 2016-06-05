@@ -157,8 +157,8 @@ public class VoeAzulCheck {
 				
 //				LocalDate lastSaturday = LocalDate.now().with(previous(SATURDAY));
 
-				tripsWithGoodPrice.add(check(report, VIRACOPOS, POA, friday, AFTERNOON, sunday, NIGHT));
-				tripsWithGoodPrice.add(check(report, VIRACOPOS, POA, friday, AFTERNOON, monday, MORNING));
+				tripsWithGoodPrice.add(check(report, VIRACOPOS, POA, friday, ANY, sunday, NIGHT));
+				tripsWithGoodPrice.add(check(report, VIRACOPOS, POA, friday, ANY, monday, ANY));
 
 				write(report, "\n");
 
@@ -169,7 +169,7 @@ public class VoeAzulCheck {
 		return tripsWithGoodPrice.stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
 	
-    public List<RoundTrip> checkViracoposCongonhas() throws Exception {
+    public List<RoundTrip> checkCaxiasViracopos() throws Exception {
     	List<RoundTrip> tripsWithGoodPrice = new ArrayList<>();
 				
 		Path logFile = buildLogFile("caxias2congonhas");
@@ -178,7 +178,7 @@ public class VoeAzulCheck {
 			
 			LocalDate dpart = of(2015, 9, 11);
 			LocalDate dret = of(2015, 9, 13);
-			tripsWithGoodPrice.add(check(report, CAXIAS, VIRACOPOS, dpart, NIGHT, dret, ANY));	
+			tripsWithGoodPrice.add(check(report, CAXIAS, VIRACOPOS, dpart, ANY, dret, ANY));	
 			
 			write(report, "Finalizado com sucesso..");
 		} 
@@ -237,7 +237,7 @@ public class VoeAzulCheck {
 	public static void main(String[] args) throws Exception {
 		System.setProperty("-Dlog4j.configuration", "log4j.properties");
 		BigDecimal threshold = new BigDecimal("600");
-		LocalDate startDate = LocalDate.now().plusMonths(2);
+		LocalDate startDate = LocalDate.now().plusDays(7);
 		Period period = Period.ofMonths(5);
 		
 
