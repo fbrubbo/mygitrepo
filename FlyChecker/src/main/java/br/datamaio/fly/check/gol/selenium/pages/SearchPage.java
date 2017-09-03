@@ -37,7 +37,7 @@ public class SearchPage {
 	private WebElement to;
 	@FindBy(xpath = "/html/body[@class='BodySite']/form[@id='SkySales']")
 	private WebElement anyDiv;
-	@FindBy(id="promoCodeOpen")
+	@FindBy(id="boxMotorNew")
 	private WebElement promoCodeLink;
 	@FindBy(id="ControlGroupSearchView_AvailabilitySearchInputSearchView_textBoxPromoCode")
 	private WebElement promoCodeInput;	
@@ -81,7 +81,9 @@ public class SearchPage {
 		try{
 			
 			//WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line origin']/span/div/div/ul/li")));
-			WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line origin']/div/div/div/ul/li[@class='holderActive']")));
+			//WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line origin']/div/div/div/ul/li[@class='holderActive']")));
+			WebElement el = waitUntil(elementToBeClickable(By.xpath("//*[@id='depArrMotor']/div[1]/div/div[1]/div/div[1]/ul/li[@class='holderActive']")));
+			
 			el.click();
 			return this;
 		} catch (TimeoutException e) {
@@ -103,7 +105,8 @@ public class SearchPage {
 		to.sendKeys(airportOrCity);
 		try{
 			//WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line destination']/span/div/div/ul/li")));
-			WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line destination']/div/div/div/ul/li[@class='holderActive']")));
+			//WebElement el = waitUntil(elementToBeClickable(By.xpath("//div[@class='line destination']/div/div/div/ul/li[@class='holderActive']")));
+			WebElement el = waitUntil(elementToBeClickable(By.xpath("//*[@id='depArrMotor']/div[2]/div/div[1]/div/div[1]/ul/li[@class='holderActive']")));			
 			el.click();
 			return this;
 		} catch (TimeoutException e) {

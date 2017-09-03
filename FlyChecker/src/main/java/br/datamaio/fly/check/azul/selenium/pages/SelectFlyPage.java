@@ -22,14 +22,16 @@ import br.datamaio.fly.TripOption;
 
 public class SelectFlyPage {
 
-	@FindBy(xpath="//td[@class='fareCol1 promo']/span[@class='farePrice']")
-	private  List<WebElement> options;
-	 WebDriver driver;
+	@FindBy(xpath="//*[@id='box-depart-flights']/table/tbody/tr/td/div[1]/div[1]/span[@class='fare-price']")	
+	private  List<WebElement> options_depart;
+	@FindBy(xpath="//*[@id='box-return-flights']/table/tbody/tr/td/div[1]/div[1]/span[@class='fare-price']")	
+	private  List<WebElement> options_return;
+	WebDriver driver;
 
     public SelectFlyPage(final WebDriver driver) {
     	this.driver = driver;
     	try {
-    		waitUntil(elementToBeClickable(By.xpath("//td[@class='fareCol1 promo']/span[@class='farePrice']")));
+    		waitUntil(elementToBeClickable(By.xpath("//*[@id='box-depart-flights']/div[1]/div[1]/span")));
     	} catch (org.openqa.selenium.TimeoutException e) {
     		System.out.println("No promo prices found!");
     		// ignore
@@ -51,24 +53,28 @@ public class SelectFlyPage {
     }
     
     public TripOption getDepartureOption(){
-    	DecimalFormat df = new DecimalFormat ("#,##0.00", new DecimalFormatSymbols ( new Locale ("pt", "BR")));
+		List<WebElement> options = options_depart;    	
+		return getCheaperOption(options);
+    }
+    
+    public TripOption getReturningOption(){   	
+		return getCheaperOption(options_return);
+    }
+
+	private TripOption getCheaperOption(List<WebElement> options) {
+		DecimalFormat df = new DecimalFormat ("#,##0.00", new DecimalFormatSymbols ( new Locale ("pt", "BR")));
 		try {
-			Number n = df.parse(options.get(0).getText());
-	    	return new TripOption(new BigDecimal(n.toString()));
+			BigDecimal minor = new BigDecimal("999999.99");
+			for(int i=0; i<options.size(); i++){
+				BigDecimal n = new BigDecimal(df.parse(options.get(i).getText()).doubleValue());
+				if (n.compareTo(minor)<0) {
+					minor = n;
+				}
+			}
+	    	return new TripOption(minor);
 		} catch (ParseException e) {
 			throw new RuntimeException(e);
 		}
-    }
-
-    public TripOption getReturningOption(){
-    	DecimalFormat df = new DecimalFormat ("#,##0.00", new DecimalFormatSymbols ( new Locale ("pt", "BR")));
-		try {
-			Number n = df.parse(options.get(1).getText());
-	    	return new TripOption(new BigDecimal(n.toString()));
-		} catch (ParseException e) {
-			throw new RuntimeException(e);
-		}
-    }
-
+	}
 
 }
